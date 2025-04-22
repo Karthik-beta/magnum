@@ -1,0 +1,57 @@
+sudo docker run -d \
+    --name database_shind \
+    -e POSTGRES_USER=postgres \
+    -e POSTGRES_PASSWORD=password123 \
+    -p 5432:5432 \
+    --restart always \
+    postgres:alpine3.19
+
+
+to stop the container :
+sudo docker stop database_shind
+
+to start the container :
+sudo docker start database_shind
+
+Running Frontend :
+sudo docker run -d -p 80:80 --name shind --restart always karth1k/frontend_shind:latest
+
+Running Backend :
+sudo docker run -d -p 8000:8000 --name shind_b --restart always karth1k/backend_shind:latest
+
+frontend docker image :
+	build : 
+	docker build -t magnum_f:1 .
+	
+	tag :
+	docker tag magnum_f:1 karth1k/magnum_f
+
+	push :
+	docker push karth1k/magnum_f
+
+	consolidated :
+	docker build -t magnum_f:1 . && docker tag magnum_f:1 karth1k/magnum_f && docker push karth1k/magnum_f
+
+backend docker image :
+	build :
+	docker build -t magnum_b:1 .
+
+	tag :
+	docker tag magnum_b:1 karth1k/magnum_b
+
+	push :
+	docker push karth1k/magnum_b
+
+	cosolidated :
+	docker build -t magnum_b:1 . && docker tag magnum_b:1 karth1k/magnum_b && docker push karth1k/magnum_b
+
+consolidated command :
+	docker compose pull && docker compose down & docker compose up -d
+
+remove container :
+	sudo docker rm -f shind_b
+	sudo docker rm -f shind
+
+delete image :
+	sudo docker rmi -f karth1k/backend_shind
+	sudo docker rmi -f karth1k/frontend_shind

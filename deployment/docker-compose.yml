@@ -1,0 +1,66 @@
+name: Magnum
+
+services:
+  django:
+    image: karth1k/magnum_b
+    container_name: backend
+    ports:
+      - "8000:8000"
+    restart: always
+    environment:
+      - ENVIRONMENT=production
+      - DEBUG=True
+      - SECRET_KEY='}Z(=*+t(]sdsdc!&&-"!sdsdvsdv-.serdffgpO{*/q8/IFkx)'
+      - ALLOWED_HOSTS=*
+      - DATABASE_HOST=192.168.2.149
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=lt
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=password123
+    depends_on:
+      - postgres
+      - redis
+
+  frontend:
+    image: karth1k/magnum_f
+    container_name: frontend
+    ports:
+      - "4200:80"
+      - "443:443"
+    restart: always
+    depends_on:
+      - django
+
+  postgres:
+    image: postgres:17
+    container_name: database
+    environment:
+      POSTGRES_DB: lt
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+    volumes:
+      - magnum_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    restart: always
+    volumes:
+      - magnum_production_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  magnum_postgres_data: {}
+  magnum_production_redis_data: {}
