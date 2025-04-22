@@ -1,0 +1,315 @@
+<div class="grid" *ngIf="showElements === 'true'">
+    <div class="col-12 lg:col-6 xl:col-3 4k:p-6">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3 4k:text-3xl">Plant</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="plant" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-industry text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3 4k:text-3xl">Shopfloor</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-building text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3 4k:text-3xl">Assembly Line</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-cogs text-cyan-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3 4k:text-3xl">Machine ID</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="machine_id" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-cog text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="card" *ngIf="showElements === 'true'">
+    <div class="flex justify-content-center">
+        <app-shift></app-shift>
+    </div>
+    <div class="flex justify-content-center">
+        <app-time></app-time>
+    </div>
+    <p-chart type="bar" [data]="barChart" [options]="barOptions"></p-chart>
+</div>
+
+
+
+
+
+
+
+<!-- <div class="grid">
+    <div class="col-12">
+        <div class="card mb-3">
+            <p-table #dt1 [value]="AssemblylineWiseDataStatic" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm p-datatable-gridlines 4k:text-3xl" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'clamp(0.875rem, 1vw, 1.5rem)' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>#</th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Plant
+                                <p-columnFilter type="text" field="name" display="menu" placeholder="Search by Plant"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Shopfloor
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Assembly Line
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Date
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Shift
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.plant }}</td>
+                        <td>{{ item.shopfloor }}</td>
+                        <td>{{ item.assemblyline }}</td>
+                        <td>{{ currentDate | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ currentShift }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div> -->
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card mb-3">
+            <p-table #dt1 [value]="shopfloorStatus" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="false" styleClass="p-datatable-lg p-datatable-gridlines 4k:text-3xl" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'clamp(0.875rem, 1vw, 1.5rem)' }">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+
+                        <div class="flex justify-content-center flex-column sm:flex-row">
+                           <span class="block text-900 text-xl font-large">Line: SSL Workstation - 001</span>
+                        </div>
+
+                        <div class="flex justify-content-center align-items-center">
+                            <span class="clock font-bold text-900 block">{{ currentDate | date: 'dd-MM-yyyy => HH : mm : ss':'Asia/Kolkata'  }}</span>
+                        </div>
+
+                        <div class="flex justify-content-center flex-column sm:flex-row">
+                            <span class="block text-900 text-xl font-large">Shift GS, 08:00 - 06:00</span>
+                        </div>
+
+                        <div>
+                            <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2 ml-1"></p-splitButton>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: auto; font-size:large; font-weight: bold;">
+                            <div class="flex justify-content-between align-items-center">
+                                Time
+                            </div>
+                        </th>
+                        <th style="min-width: auto; font-size:large; font-weight: bold;">
+                            <div class="flex justify-content-between align-items-center">
+                                On Hours (HH:MM)
+                            </div>
+                        </th>
+                        <th style="min-width: auto; font-size:large; font-weight: bold;">
+                            <div class="flex justify-content-between align-items-center">
+                                Idle Hours (HH:MM)
+                            </div>
+                        </th>
+                        <th style="min-width: auto; font-size:large; font-weight: bold;">
+                            <div class="flex justify-content-between align-items-center">
+                                Production Count
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr class="font-bold font-large">
+                        <td>{{ item.time_range }}</td>
+                        <td>{{ item.on_time }}</td>
+                        <td>{{ item.idle_time }}</td>
+                        <td>{{ item.production_count }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr class="font-bold" style="font-size:x-large; font-weight: bold;">
+                        <td>Total</td>
+                        <td>{{ totalOnTime }}</td>
+                        <td>{{ totalIdleTime }}</td>
+                        <td>{{ totalProductionCount }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Snippet -->
+<p-dialog header="Input Download Date" [(visible)]="exportDisplay" [modal]="true" [style]="{ width: '25vw', height: '10vw' }" [draggable]="false" [resizable]="false">
+
+    <div class="mt-3 grid align-items-center">
+        <div class="col-8">
+            <!-- <p-calendar [(ngModel)]="selectedDate" [showIcon]="true"  /> -->
+            <input type="date" [(ngModel)]="selectedDate" id="date" name="date">
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-success" (click)="exportExcel()">Download</button>
+        </div>
+    </div>
+</p-dialog>
+
+
+
+
+
+<!-- Modal Snippet -->
+<p-dialog header="Input Assemblyline Data" [(visible)]="display" [modal]="true" [style]="{ width: '75vw', height: '50vw' }" [draggable]="false" [resizable]="false">
+
+    <!-- <span class="p-float-label">
+        <p-inputNumber id="mc_on_hours" [(ngModel)]="plant" [showButtons]="true" inputId="stacked" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+        <label for="mc_on_hours">M/C On Hours</label>
+    </span> -->
+
+    <div class="col-12">
+
+        <p-divider align="center">
+            <span class="p-tag">First Spell</span>
+            <!-- <span class="p-tag">{{ stage.stage_no }}</span> -->
+        </p-divider>
+
+        <div class="col-12 grid flex justify-content-between mt-2">
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="mc_on_hours" [(ngModel)]="plant" [showButtons]="true" inputId="stacked" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+                    <label for="mc_on_hours">M/C On Hours</label>
+                </span>
+            </div>
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="mc_idle_hours" [(ngModel)]="mc_idle_hours" [showButtons]="true" inputId="stacked" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+                    <label for="mc_idle_hours">M/C Idle Hours</label>
+                </span>
+            </div>
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="actual" [(ngModel)]="actual" [showButtons]="true" inputId="stacked" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+                    <label for="actual">Actual</label>
+                </span>
+            </div>
+
+            </div>
+
+            <div class="col-12 grid flex justify-content-between mt-2">
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="target" [(ngModel)]="target" [showButtons]="true" inputId="stacked" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+                    <label for="target">Target</label>
+                </span>
+            </div>
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="kWh" [(ngModel)]="kWh" [showButtons]="true" inputId="stacked" [step]="0.25" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" inputId="horizontal" buttonLayout="horizontal"> </p-inputNumber>
+                    <label for="kWh">kW-h</label>
+                </span>
+            </div>
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="performance" [(ngModel)]="performance" [disabled]="true" [showButtons]="false" inputId="stacked"> </p-inputNumber>
+                    <label for="performance">Performance</label>
+                </span>
+            </div>
+
+            <div>
+                <span class="p-float-label">
+                    <p-inputNumber id="gap" [(ngModel)]="gap" [disabled]="true" [showButtons]="false" inputId="stacked"> </p-inputNumber>
+                    <label for="gap">Gap</label>
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+</p-dialog>

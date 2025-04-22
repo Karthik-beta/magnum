@@ -1,0 +1,34 @@
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">DAILY ANALYSIS</h5>
+            <p-chart type="pie" [data]="pieMonthData" [options]="pieMonthOptions"></p-chart>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card flex flex-column align-items-center">
+            <h5 class="text-left w-full">WEEKLY ANALYSIS</h5>
+            <p-chart type="pie" [data]="pieMonthData" [options]="pieMonthOptions"></p-chart>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card text-900 flex flex-column align-items-center">
+            <h5 class="text-left w-full">MONTHLY ANALYSIS</h5>
+            <p-chart type="pie" [data]="pieMonthData" [options]="pieMonthOptions"></p-chart>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="col-12 lg:col-12 xl:col-12">
+        <h5>MONTHLY BREAKDOWNS</h5>
+        <p-chart type="bar" [data]="barData2" [options]="barOptions2"></p-chart>
+    </div>
+</div>
+
+<div class="card">
+    <div class="col-12 lg:col-12 xl:col-12">
+        <h5>MONTHWISE ANALYSIS</h5>
+        <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+    </div>
+</div>

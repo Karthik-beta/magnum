@@ -1,0 +1,229 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Planned</span>
+            <div class="text-900 font-medium text-xl">{{ planned }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-calendar-check text-blue-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">24 new </span><span class="text-500">since last visit</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order in Process</span>
+            <div class="text-900 font-medium text-xl">{{ processing }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-rotate text-orange-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">%52+ </span><span class="text-500">since last week</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order Completed</span>
+            <div class="text-900 font-medium text-xl">{{ completed }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-check-circle text-cyan-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">520  </span><span class="text-500">newly registered</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Transactions Today</span>
+            <div class="text-900 font-medium text-xl">{{ transaction_today }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-exchange-alt text-purple-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">85 </span><span class="text-500">responded</span> -->
+      </div>
+    </div>
+</div>
+
+
+
+
+<!-- <div class="col-12 text-900"> -->
+<div class="card" *ngIf="productionPlanList && productionPlanList.length > 0">
+    <p-table [value]="productionPlanList" class="p-datatable-sm" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': '20rem', 'font-size': 'x-small', 'color': 'black' }" [rows]="rows">
+        <ng-template pTemplate="header">
+          <tr class="text-size header-row" [ngStyle]="{'font-weight': 'bold', 'color': 'black'}">
+            <th>JOB ID</th>
+            <th>EMPLOYEE ID</th>
+            <th>PRODUCT ID</th>
+            <th>PRODUCT TARGET(HH:MM:SS)</th>
+            <th>DRAWING NO</th>
+            <th>CUSTOMER</th>
+            <th>PO NO & DATE</th>
+            <th>ORDER QUANTITY</th>
+            <th>REQUIRED HOURS (HH:MM)</th>
+            <th>PLANNED ASSIGNED DATE</th>
+            <th>PRODUCTION EXPECTED DATE</th>
+            <!-- <th style="background-color: teal;">PLANNED</th>
+            <th style="background-color: rebeccapurple;">PROCESSING</th>
+            <th style="background-color: rgb(128, 187, 39);">EXPECTED COMPLETE DATE</th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+          <tr class="text-size data-row" [ngStyle]="{'color': 'black'}">
+            <!-- <td>1</td> -->
+            <td>{{ item.job_id }}</td>
+            <td>{{ item.employee_id }}</td>
+            <td>{{ item.product_id }}</td>
+            <td>{{ item.product_target }}</td>
+            <td>{{ item.drawing_no }}</td>
+            <td>{{ item.customer }}</td>
+            <td>{{ item.po_no }}</td>
+            <!-- <td>{{ item.batch_no }}</td> -->
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.required_time }}</td>
+            <td>{{ item.assigned_date }}</td>
+            <td>{{ item.expected_date }}</td>
+            <!-- <td style="background-color: teal; width:7%">{{ item.planned_date }}</td>
+            <td style="background-color: rebeccapurple; width:7%">{{ item.processing_date }}</td>
+            <td style="background-color: rgb(128, 187, 39); width:7%">{{ item.completed_date }}</td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+<!-- </div> -->
+
+
+
+
+
+<!-- <div class="col-auto text-900"> -->
+    <div class="card" *ngIf="slotList && slotList.length > 0">
+        <p-table [value]="slotList" class="p-datatable-sm" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': '20rem', 'font-size': 'x-small', 'color': 'black' }" [rows]="rows">
+            <ng-template pTemplate="header">
+              <tr class="text-size header-row" [ngStyle]="{'font-weight': 'bold', 'color': 'black'}">
+                <th scope="col">DATE</th>
+                <th scope="col">SHIFT FS</th>
+                <th scope="col">SHIFT SS</th>
+                <!-- <th scope="col">SHIFT C</th> -->
+                <th scope="col">PLANNED HOURS</th>
+                <th scope="col">PLANNED PRODUCTION</th>
+                <th scope="col">REMAINING HOURS</th>
+                <th scope="col">BALANCE PRODUCTION</th>
+                <th scope="col">MANAGER</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr class="text-size data-row" [ngStyle]="{'color': 'black'}">
+                <td>{{ item.date }}</td>
+                <td>
+                    <label class="checkbox-container">
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                    </label>
+                    <span class="time-range ml-1">{{ item.shift_a }}</span>
+                </td>
+                <td>
+                    <label class="checkbox-container">
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                    </label>
+                    <span class="time-range ml-1">{{ item.shift_b }}</span>
+                </td>
+                <!-- <td>
+                    <label class="checkbox-container">
+                    <input type="checkbox" checked>
+                    <span class="checkmark"></span>
+                    </label>
+                    <span class="time-range ml-1">{{ item.shift_c }}</span>
+                </td> -->
+                <td>{{ item.planned_hours }}</td>
+                <td>{{ item.planned_production }}</td>
+                <td>{{ item.remaining_hours }}</td>
+                <td>{{ item.balance_production }}</td>
+                <td>{{ item.manager }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+    </div>
+<!-- </div> -->
+
+
+
+
+
+
+
+
+<div class="card text-900" [ngStyle]="{padding: '3em'}">
+    <div class="grid justify-content-between">
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>JOBWORK : </h6>
+            <p-dropdown [options]="openJobList" [(ngModel)]="selectedJobWork" optionLabel="job_id" (onChange)="onJobSelected($event)" placeholder="Select a Jobwork"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>COMPANY : </h6>
+            <p-dropdown [options]="companies" [(ngModel)]="selected_company" optionLabel="name" placeholder="Select Company"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>PLANT : </h6>
+            <p-dropdown [options]="plant" [autoDisplayFirst]="true" [(ngModel)]="selected_plant" optionLabel="name" placeholder="Select Plant"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>SHOPFLOOR : </h6>
+            <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" [(ngModel)]="selected_shopfloor" optionLabel="name" placeholder="Select Shopfloor"></p-dropdown>
+        </div>
+    <!-- </div> -->
+    <!-- <div class="grid justify-content-between mt-3"> -->
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>ASSEMBLY LINE : </h6>
+            <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" [(ngModel)]="selected_assemblyline" optionLabel="name" placeholder="Select Assembly Line"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <div>
+                <h6>MACHINE ID : </h6>
+                <p-dropdown [options]="machineList" (onChange)="onMachineSelected($event)" [autoDisplayFirst]="true" [(ngModel)]="selected_machineid" optionLabel="name" placeholder="Select Machine ID"></p-dropdown>
+            </div>
+            <small id="username-help">{{ blockedDatesMessage }}</small>
+        </div>
+
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>START DATE : </h6>
+            <p-calendar [showTime]="false" [showIcon]="true" (onSelect)="onDateSelect($event)" dateFormat="yy-mm-dd">
+                <ng-template pTemplate="date" let-date>
+                    <!-- <span [ngStyle]="{textDecoration: (date.day < 21 && date.day > 10) ? 'line-through' : 'inherit'}">{{date.day}}</span> -->
+                    <span [ngStyle]="getStyleForDate({ year: yourYear, month: yourMonth, day: date.day })">{{date.day}}</span>
+                </ng-template>
+            </p-calendar>
+            <!-- <p-calendar [showTime]="true" [showIcon]="true" (onSelect)="onDateSelect($event)" dateFormat="yy-mm-dd" inputId="icon"></p-calendar> -->
+        </div>
+
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>START SHIFT : </h6>
+            <p-dropdown [options]="shifts" [autoDisplayFirst]="true" [(ngModel)]="selected_shift" optionLabel="name" placeholder="Select Shift"></p-dropdown>
+        </div>
+    </div>
+    <div class="create-button mt-3">
+        <p-toast></p-toast>
+        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+    <!-- <p-button (click)="confirm1($event)" icon="pi pi-check" label="Confirm"></p-button> -->
+        <button pButton pRipple icon="fa-solid fa-floppy-disk" label="Save" (click)="confirmSave()" class="p-button-success"></button>
+    </div>
+</div>
+
+
+
+
+

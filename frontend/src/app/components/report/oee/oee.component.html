@@ -1,0 +1,197 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Plant</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="plant" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-industry text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Shopfloor</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-building text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Assembly Line</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-cogs text-cyan-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Machine ID</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="machine_id" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-cog text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- <div class="grid justify-content-center">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0" style="background-color: #ee6b6e;">
+            <div class="flex justify-content-between">
+                <div>
+                    <h5 class="block text-900 font-medium mb-3">Open Alerts</h5>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <div class="text-900 font-medium text-xl">{{ total_open_alerts }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0" style="background-color: #45b6fe;">
+            <div class="flex justify-content-between">
+                <div>
+                    <h5 class="block text-900 font-medium mb-3">Closed Alerts</h5>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <div class="text-900 font-medium text-xl">{{ total_closed_alerts }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+<!-- <div class="grid justify-content-center">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Open Alerts</span>
+                    <div class="text-900 font-medium text-xl">{{ total_open_alerts }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-circle-exclamation text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Closed Alerts</span>
+                    <div class="text-900 font-medium text-xl">{{ total_closed_alerts }}</div>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="fas fa-circle-check text-green-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+
+<!-- <div class="grid">
+    <div class="col-12">
+        <div class="card mb-0">
+            <div class="flex justify-content-between">
+                <div>
+                    <span class="block text-900 font-medium mb-3">Plant</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="plant" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div>
+                    <span class="block text-900 font-medium mb-3">Shopfloor</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div>
+                    <span class="block text-900 font-medium mb-3">Assembly Line</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+                <div>
+                    <span class="block text-900 font-medium mb-3">Machine ID</span>
+                    <div class="text-900 font-medium text-xl">
+                        <p-dropdown [options]="machine_id" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+
+
+<div class="card">
+    <p-chart type="bar" [data]="barChart" [options]="barOptions"></p-chart>
+</div>
+
+
+<div class="card">
+    <h6 class="text-800 font-bold">Shift FS : 06:00 to 14:00</h6>
+    <p-chart type="bar" [data]="bar1Chart" [options]="bar1Options"></p-chart>
+    <p-chart type="bar" [data]="bar2Chart" [options]="bar2Options"></p-chart>
+</div>
+
+<div class="card">
+    <h6 class="text-800 font-bold">Shift SS : 14:00 to 22:00</h6>
+    <p-chart type="bar" [data]="bar1Chart" [options]="bar1Options"></p-chart>
+    <p-chart type="bar" [data]="bar2Chart" [options]="bar2Options"></p-chart>
+</div>
+
+<div class="card">
+    <h6 class="text-800 font-bold">Shift NS : 22:00 to 06:00</h6>
+    <p-chart type="bar" [data]="bar1Chart" [options]="bar1Options"></p-chart>
+    <p-chart type="bar" [data]="bar2Chart" [options]="bar2Options"></p-chart>
+</div>

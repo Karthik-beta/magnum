@@ -1,0 +1,86 @@
+<div class="card">
+
+    <p-table #dt1 [value]="shiftList" dataKey="id" [lazy]="true" [globalFilterFields]="['id','country.name','representative.name','status']"
+    [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="scroll" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
+    <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-column sm:flex-row">
+            <div>
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                <!-- <button pButton label="Download" class="p-button-primary mb-2 ml-1 mr-1" icon="pi pi-download" (click)="downloadAndonData()"></button> -->
+                <!-- <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2 ml-1 mr-1"></p-splitButton> -->
+            </div>
+            <span class="p-input-icon-left mb-2">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>SHIFT</th>
+          <th>SHIFT START</th>
+          <th>SHIFT END</th>
+          <!-- <th>LUNCH START</th>
+          <th>LUNCH END</th> -->
+          <th>LUNCH TIME START</th>
+          <th>LUNCH TIME END</th>
+          <th>TEA 1 START</th>
+          <th>TEA 1 END</th>
+          <th>TEA 2 START</th>
+          <th>TEA 2 END</th>
+          <th>TEA 3 START</th>
+          <th>TEA 3 END</th>
+          <th>MACHINE CLEANING START TIME</th>
+          <th>MACHINE CLEANING END TIME</th>
+          <th>SPELL CLEANING DOWNTIME</th>
+          <th>TOTAL HOURS</th>
+          <th>OPTIONS</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item>
+        <tr>
+            <td>{{ item.shift_name }}</td>
+            <td>{{ item.shift_start_time }}</td>
+            <td>{{ item.shift_end_time }}</td>
+            <!-- <td>{{ item.lunch_start }}</td>
+            <td>{{ item.lunch_end }}</td> -->
+            <td>{{ item.lunch_break_start }}</td>
+            <td>{{ item.lunch_break_end }}</td>
+            <td>{{ item.tea_break_1_start }}</td>
+            <td>{{ item.tea_break_1_end }}</td>
+            <td>{{ item.tea_break_2_start }}</td>
+            <td>{{ item.tea_break_2_end }}</td>
+            <td>{{ item.tea_break_3_start }}</td>
+            <td>{{ item.tea_break_3_end }}</td>
+            <td>{{ item.cleaning_start_time }}</td>
+            <td>{{ item.cleaning_end_time }}</td>
+            <td>{{ item.spell_downtime }}</td>
+            <td>{{ item.total_working_hours }}</td>
+            <td>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-success mr-2">
+                        <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-info mr-2">
+                        <i class="fa-solid fa-eye"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger mr-2">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No Data found.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+        <tr>
+            <td colspan="8">Loading data. Please wait.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+
+</div>

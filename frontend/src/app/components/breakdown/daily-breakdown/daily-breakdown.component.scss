@@ -1,0 +1,69 @@
+.container {
+    padding: 20px;
+  }
+
+  .main-card {
+    background-color: #f8f9fa; /* Light grey background */
+    border-radius: 8px;
+  }
+
+  .chart-card .p-card-header {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+  }
+
+  .chart-card .p-card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .breakdown-category-header {
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .breakdown-category-list {
+    list-style-type: disc;
+    padding-left: 20px;
+  }
+
+  .grid-cards {
+    padding: 10px;
+  }
+
+  .metric-card {
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .metric-card .p-card-header {
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+    border-bottom: none; /* Remove header border */
+    background: none; /* Remove header background */
+    color: white; /* Ensure text color is white */
+  }
+  .metric-card .p-card-body {
+    padding: 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .metric-label {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: white; /* Ensure text color is white */
+    margin-bottom: 0.5em;
+  }
+  .metric-value {
+    font-size: 2em;
+    font-weight: bold;
+    color: white;
+  }

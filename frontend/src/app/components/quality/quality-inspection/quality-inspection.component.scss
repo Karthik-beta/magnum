@@ -1,0 +1,30 @@
+.quality-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.quality-badge {
+    &.accept {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.reject {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.rework {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.scrap {
+        background: #ECCFFF;
+        color: #694382;
+    }
+}

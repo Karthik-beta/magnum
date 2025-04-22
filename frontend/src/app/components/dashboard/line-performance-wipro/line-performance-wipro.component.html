@@ -1,0 +1,134 @@
+<div class="card">
+    <!-- Workstation Info Section -->
+    <div class="workstation-info">
+        <div class="flex justify-content-center align-items-center">
+            <span class="clock font-bold text-medium text-900 block">
+                {{ currentDate | date: 'dd-MM-yyyy => HH : mm : ss':'Asia/Kolkata' }}
+            </span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Line: Wipro Workstation - 00 - 001</span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="grid-container">
+        <!-- Cards Section (80%) -->
+        <div class="cards-container">
+            <div class="card-inheritance" style="background-color: rgb(96, 172, 202);">
+                <span class="text-900 text-white text-xl">Daily Plan vs Actual</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #45b6fe;">
+                <span class="text-900 text-white text-xl">Job Work / Lot : 12345 / HJY6788</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #ee6b6e;">
+                <span class="text-900 text-white text-xl">Project / PO Number : ABB / FGHHH34566</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #80e57c;">
+                <span class="text-900 text-white text-xl">Line / Assigned Workstation: SSL / 5</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #969039;">
+                <span class="text-900 text-white text-xl">Total Order/Assign Date : 250000 / 01-04-2025</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #f0a500;">
+                <span class="text-900 text-white text-xl">Pending Order/Est Date : 250000 / 01-04-2025</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Bottom cards (display only the selected one) -->
+<div class="card">
+
+    <div class="grid flex p-fluid mt-1 mb-1">
+        <div class="field col-3">
+            <span class="p-float-label">
+                <p-dropdown
+                [options]="lines"
+                optionLabel="name"
+                class="p-inputtext-sm"
+                placeholder="Select Assembly Line"></p-dropdown>
+                <label for="database_type">Assembly Line</label>
+            </span>
+        </div>
+
+        <div class="field col-3">
+            <span class="p-float-label">
+                <p-dropdown
+                [options]="workstations"
+                optionLabel="name"
+                class="p-inputtext-sm"
+                placeholder="Select Workstation"></p-dropdown>
+                <label for="database_type">Workstation</label>
+            </span>
+        </div>
+    </div>
+
+    <div class="grid flex" style="overflow-x: auto; flex-wrap: nowrap;">
+        <div class="col-6" *ngFor="let machine of [1,2,3,4,5]" style="flex-shrink: 0;">
+            <div class="col-12 grid flex">
+                <div class="grid flex justify-content-between align-items-center" style="display: flex; justify-content: space-between; width: 100%;">
+                    <div class="p-fluid" style="flex: 1; justify-content: center; margin-left: 1.5rem">
+                        <span class="text-900 text-black font-bold text-medium">Workstation: {{ machine | number: '3.0-0' }}</span>
+                    </div>
+
+                    <div class="p-fluid" style="flex: 1; display: flex; justify-content: start;">
+                        <span class="p-float-label">
+                            <input type="text" id="name" pInputText [(ngModel)]="search" class="p-inputtext-sm"/>
+                            <label for="name">Search</label>
+                        </span>
+                    </div>
+
+                    <div class="p-fluid flex justify-content-end align-items-center gap-2">
+                        <span class="block text-900 font-medium"><img src="assets/demo/images/animatedicons/gears.gif" alt="Gears animation" width="20" height="20">Status <span class="p-tag ml-2"><i class="fa-solid fa-arrow-up-right-from-square" style="color: white; cursor: pointer;" (click)="navigateToMachineDetails(machine.machine_id)"></i></span></span>
+                        <div class="status-bubble green"></div>
+                    </div>
+                </div>
+            </div>
+            <p-table #dt1 [value]="tableData" dataKey="id" [scrollable]="true"
+            [scrollable]="true"
+            scrollHeight="400px" [rowHover]="true" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Serial No</th>
+                        <th>Lot No</th>
+                        <th>Product Code</th>
+                        <th>Pick-up Area</th>
+                        <th>Workstation</th>
+                        <th>Drop Area</th>
+                        <th>Actual</th>
+                        <th>Cycle-Time</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.serialNo }}</td>
+                        <td>{{ item.lotNo }}</td>
+                        <td>{{ item.productCode }}</td>
+                        <td>{{ item.pickup }}</td>
+                        <td>{{ item.workstation }}</td>
+                        <td>{{ item.dropoff }}</td>
+                        <td>{{ item.actual }}</td>
+                        <td>{{ item.cycleTime }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</div>

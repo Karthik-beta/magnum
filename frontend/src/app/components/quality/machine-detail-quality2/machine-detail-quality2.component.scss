@@ -1,0 +1,34 @@
+.state-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+
+.state-badge {
+    &.state-ACTIVE {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.state-BREAKDOWN {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.state-IDLE {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.order-returned {
+        background: #ECCFFF;
+        color: #694382;
+    }
+}
+.nav-click {
+    cursor: pointer;
+}

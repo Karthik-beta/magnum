@@ -1,0 +1,90 @@
+.scrollable-cards {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+}
+
+
+.card-body {
+    padding: 0em;
+    margin: 0em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-key {
+    font-weight: bold;
+}
+
+.card-value {
+    margin-left: 0.5em;
+}
+
+.card-content {
+    background-color: burlywood;
+    // padding: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    // border-radius: 10px;
+}
+
+.card:nth-child(7n+1) .card-content {
+    background-color: burlywood;
+}
+
+.card:nth-child(7n+2) .card-content {
+    background-color: #ccc;
+}
+
+.card:nth-child(7n+3) .card-content {
+    background-color: rgb(133, 124, 190);
+}
+
+.card:nth-child(7n+4) .card-content {
+    background-color: rgb(66, 97, 66);
+}
+
+.card:nth-child(7n+5) .card-content {
+    background-color: rgb(195, 223, 195);
+}
+
+.card:nth-child(7n+6) .card-content {
+    background-color: rgb(202, 202, 180);
+}
+
+.card:nth-child(7n+7) .card-content {
+    background-color: gainsboro;
+}
+
+
+
+/* and so on for as many cards as you have */
+
+
+.scrollable-div {
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.scrollable-div::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, and Opera */
+}
+
+
+@keyframes cardScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+}
+
+.alert-card {
+    animation: cardScroll 20s linear infinite; /* Adjust the animation duration as per your preference */
+    display: inline-block;
+    margin: 1em;
+}

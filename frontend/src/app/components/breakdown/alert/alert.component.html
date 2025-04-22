@@ -1,0 +1,124 @@
+<div class="grid">
+    <div class="col-12 lg:col-12 xl:col-12">
+        <div class="grid justify-content-center">
+            <div class="col-12 lg:col-6 xl:col-4">
+                <div class="card shadow mb-0">
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-800 font-large">ALERT TODAY</span>
+                            <h4 class="card-title text-900 text-bold">{{ today_open_alerts }}</h4>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="fas fa-calendar-day text-cyan-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-4">
+                <div class="card shadow mb-0">
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-800 font-large">ALERT OPEN</span>
+                            <h4 class="card-title text-900 text-bold">{{ total_open_alerts }}</h4>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="fas fa-circle-exclamation text-orange-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 lg:col-6 xl:col-4">
+                <div class="card shadow mb-0">
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-800 font-large">ACK/CLOSURE</span>
+                            <h4 class="card-title text-900 text-bold">{{ total_acknowledge_alerts }}</h4>
+                        </div>
+                        <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                            <i class="fas fa-circle-check text-green-500 text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-12 lg:col-4 xl:col-3">
+        <div class="card">
+            <div class="flex justify-content-center">
+                <div>
+                    <img *ngIf="total_open_alerts > 0" src="assets/layout/images/red.gif" alt="" width="100%" height="100%">
+                    <img *ngIf="total_open_alerts <= 0" src="assets/layout/images/green.gif" alt="" width="100%">
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+
+<div class="grid justify-content-center">
+    <div class="col-12 lg:col-4 xl:col-3" *ngFor="let card of alertCards">
+        <div class="card">
+            <div class="card mb-0" [ngStyle]="{ 'background-color': card.bgColor }" style="background-color: #CD5C5D;">
+                <div class="flex justify-content-between">
+                    <div class="flex align-items-center">
+                        <span class="block text-900 font-medium mr-2">{{ card.title }}</span>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <!-- <div class="font-medium text-xl">{{ total_engineering_alerts }}</div> -->
+                        <div class="font-medium text-xl">{{ card.count }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-content-center mt-2">
+                <div>
+                    <img *ngIf="card.count > 0" src="assets/layout/images/red.gif" alt="" width="100%" height="100%">
+                    <img *ngIf="card.count <= 0" src="assets/layout/images/green.gif" alt="" width="100%" height="100%">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="card">
+    <p-table [value]="AndonOpenAlertsList" class="p-datatable-sm text-900" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'x-small', 'color': 'black' }">
+        <ng-template pTemplate="header">
+          <tr class="text-size header-row" [ngStyle]="{'font-weight': 'bold', 'width': 'auto'}">
+            <th>#</th>
+            <th>Ticket ID</th>
+            <th>Company</th>
+            <th>Location</th>
+            <th>Shopfloor</th>
+            <th>Assembly Line</th>
+            <th>Sub-Assembly Line</th>
+            <th>Machine Id</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Alert Shift</th>
+            <th>Andon Alert</th>
+            <th>Andon Acknowledge</th>
+            <th>Andon Resolved</th>
+            <th>Total Breakdown</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataItem let-i="rowIndex">
+          <tr class="text-size data-row text-900" [ngStyle]="{'color': 'black', 'width': 'auto'}">
+            <td>{{ i + 1 }}</td>
+            <td>{{ dataItem.id }}</td>
+            <td>{{ dataItem.company }}</td>
+            <td>{{ dataItem.location }}</td>
+            <td>{{ dataItem.shopfloor }}</td>
+            <td>{{ dataItem.assemblyline }}</td>
+            <td></td>
+            <td>{{ dataItem.machineId }}</td>
+            <td>{{ dataItem.category }}</td>
+            <td>{{ dataItem.sub_category }}</td>
+            <td>{{ dataItem.alert_shift }}</td>
+            <td>{{ dataItem.andon_alerts | slice:0:19 }}</td>
+            <td>{{ dataItem.andon_acknowledge | slice:0:19 }}</td>
+            <td>{{ dataItem.andon_resolved | slice:0:19 }}</td>
+            <td>{{ calculateTotalTime(dataItem.andon_alerts) }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+</div> -->

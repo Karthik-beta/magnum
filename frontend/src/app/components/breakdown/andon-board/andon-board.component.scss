@@ -1,0 +1,55 @@
+.timeline-container {
+    font-family: sans-serif;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 10px;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+
+  .header, .footer {
+    background-color: #4682B4; /* SteelBlue */
+    color: white;
+    padding: 8px 15px;
+    text-align: center;
+    font-weight: bold;
+    // margin-bottom: 10px;
+  }
+
+  .footer {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .content {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .y-axis-label {
+    background-color: #4682B4;
+    color: white;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+    font-weight: bold;
+    padding: 10px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    white-space: nowrap;
+  }
+
+  .chart-area {
+    flex-grow: 1;
+    position: relative;
+    overflow-y: auto;
+    // min-height: 1300px; /* Ensure chart area has some height */
+  }
+
+  /* Use ng-deep carefully or preferably define styles globally */
+  :host ::ng-deep .p-chart {
+     height: 800px !important; /* Force height, adjust as needed */
+     width: 100% !important;
+  }

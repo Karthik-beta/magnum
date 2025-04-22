@@ -1,0 +1,221 @@
+<div class="card" *ngIf="showElements === 'true'">
+    <div class="container-fluid col-12 mb-0">
+        <div class="grid mb-0">
+            <div class="col-md-12 mb-0">
+                <div class="title justify-content-center">
+                    <div class="col-auto">
+                        <app-shift></app-shift>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-10 lg:col-8 xl:col-10 mb-0">
+                        <p-chart type="bar" [data]="barChart" [options]="barOptions"></p-chart>
+                    </div>
+                    <div class="col-2 lg:col-4 xl:col-2 gif-card mb-0">
+                        <img src="assets/layout/images/green.gif" alt="" width="99%" height="70px">
+                    </div>
+                </div>
+                <p-chart type="bar" [data]="bar2Chart" [options]="bar2Options"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="card mb-3">
+
+
+    <!-- <div class="col-12 flex justify-content-center align-items-center">
+        <h4>SAEL Solar Mfg. Private Limited <img src="assets/layout/images/sael.png" class="ml-6" alt="logo" width="20%" height="30%"></h4>
+    </div> -->
+
+    <div class="mb-2">
+
+        <p-table #dt1 [value]="AssemblylineWiseData" dataKey="id" styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'small'}">
+
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <p-selectButton [options]="stateOptions" [(ngModel)]="showElements" optionLabel="label" optionValue="value"></p-selectButton>
+
+                    <div class="flex justify-content-center align-items-center">
+                        <div class="flex justify-content-center align-items-center">
+                            <span class="clock font-bold text-900 block">{{ currentDate | date: 'HH : mm : ss':'Asia/Kolkata'  }}</span>
+                            <!-- <p class="text-900 block font-bold font-large text-xl">
+                                {{ currentDate | date: 'HH : mm : ss':'Asia/Kolkata'  }}
+                            </p> -->
+                        </div>
+                        <div>
+                            <p class="text-red-600 block font-bold text-sm">
+                                <!-- {{ currentDate | date:'dd/MM/yyyy' }} -->
+                            </p>
+                        </div>
+                    </div>
+
+                    <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2"></p-splitButton>
+
+                    <!-- <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full" />
+                    </span> -->
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Plant
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Shopfloor
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Assembly Line
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Sub-Assemblyline
+                        </div>
+                    </th>
+                    <!-- <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Product ID
+                        </div>
+                    </th> -->
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Date
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Shift
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>{{ item.plant }}</td>
+                    <td>{{ item.shopfloor }}</td>
+                    <td>{{ item.assemblyline }}</td>
+                    <td>Sub-Assemblyline - 1</td>
+                    <!-- <td>{{ item.product_id }}</td> -->
+                    <!-- <td>{{ item.date_production }}</td> -->
+                    <td>{{ currentDate | date:'yyyy-MM-dd' }}</td>
+                    <td>{{ currentShift }}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="14">No Data found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="14">Loading data. Please wait.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+
+    </div>
+
+    <p-table [value]="AssemblyLineList" class="p-datatable-sm text-900" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'small', 'font-weight': 'bold', 'color': 'black' }">
+        <!-- <ng-template pTemplate="caption">
+            <div class="flex justify-content-between flex-column sm:flex-row">
+                <div class="d-flex align-items-center">
+                    <p-selectButton [options]="stateOptions" [(ngModel)]="showElements" optionLabel="label" optionValue="value"></p-selectButton>
+                    <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary ml-1"></p-splitButton>
+                </div>
+            </div>
+        </ng-template> -->
+        <ng-template pTemplate="header">
+          <tr class="text-size header-row">
+            <th scope="col">Stage No</th>
+            <th scope="col">Machine ID</th>
+            <th scope="col">Product ID</th>
+            <th scope="col">M/C On Time</th>
+            <th scope="col">M/C Idle Time</th>
+            <th scope="col">M/C Status</th>
+            <th scope="col">Actual</th>
+            <th scope="col">Shift Target</th>
+            <th scope="col">Performance</th>
+            <th scope="col">Gap</th>
+            <th scope="col">kW-h</th>
+            <th scope="col">Sauld</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataItem>
+          <tr class="text-size data-row text-900">
+            <td>{{ dataItem.stage_no }}</td>
+            <!-- <td>{{ dataItem.stage }}</td> -->
+            <td>MVD Shearing Machine</td>
+            <td>PB Walkway</td>
+            <!-- <td style="width: auto;">{{ dataItem.mc_on_hours }}</td> -->
+            <td style="width: auto;">{{ totalOnTime }}</td>
+            <!-- <td style="width: auto">{{ dataItem.mc_idle_hours }}</td> -->
+            <td>{{ totalIdleTime }}</td>
+            <!-- <td [class]="'stat-badge stat-' + status ">
+                <ng-container *ngIf="status === 'R'; else idleStatus">{{ 'Active' }}</ng-container>
+                <ng-template #idleStatus>{{ 'Idle' }}</ng-template>
+            </td> -->
+            <td>
+                <span [class]="'stat-badge stat-' + status">{{ status }}</span>
+            </td>
+            <!-- <td>{{ dataItem.actual }}</td> -->
+            <td>{{ totalActual }}</td>
+            <td>{{ dataItem.target}}</td>
+            <!-- <td [ngStyle]="getBackgroundColorStyle(dataItem.performance)">{{ dataItem.performance }} %</td> -->
+            <td [ngStyle]="getBackgroundColorStyle(averagePerformance)">{{ averagePerformance }} %</td>
+            <!-- <td [ngStyle]="getBackgroundColorStyleForGap(dataItem.gap)">{{ dataItem.gap }}</td> -->
+            <td [ngStyle]="getBackgroundColorStyleForGap(gap)">{{ totalGapNumber }}</td>
+            <td>{{ dataItem.current }}</td>
+            <td style="padding: 0em">
+                <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-info" (click)="editClick(dataItem)" (click)="display=true" pTooltip="Edit" tooltipPosition="bottom">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <!-- <button class="p-link layout-topbar-button mr-2"  (click)="editClick(dataItem)" (click)="display=true" pTooltip="Edit" tooltipPosition="bottom">
+                        <i class="pi pi-pencil"></i>
+                    </button> -->
+                    <!-- <button pButton pRipple icon="pi pi-pencil" (click)="editClick(dataItem)" (click)="display=true" class="p-button-info p-button-sm" style="margin: 0em; white-space: nowrap;"></button> -->
+                    <!-- <button type="button" class="btn btn-sm btn-info mr-1" data-toggle="modal" data-target="#staticBackdrop" (click)="editClick(dataItem)" data-backdrop="static"><i class="bi bi-pencil-square"></i></button> -->
+                </div>
+                </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+</div>
+
+
+
+
+
+
+
+<!-- Modal Snippet -->
+<p-toast></p-toast>
+<p-dialog header="Edit" [(visible)]="display" [modal]="true" showEffect="fade" [draggable]="false" [style]="{width: '50vw'}" [breakpoints]="{'960px': '75vw'}">
+    <ng-template pTemplate="content">
+        <app-add-edit-solo-assemblyline [prodassembly]="prodassembly" (prodAssemblyAdded)="prodAssemblyAdded()"></app-add-edit-solo-assemblyline>
+    </ng-template>
+    <!-- <ng-template pTemplate="footer">
+        <button pButton icon="fa-solid fa-x" (click)="closeClick()" (click)="display=false" label="Close" class="p-button-outlined"></button>
+        <button pButton icon="fa-solid fa-floppy-disk" (click)="addProductionPlan()" *ngIf="prodplan.employee_id == null" label="Save" class="p-button-success"></button>
+        <button pButton icon="fa-solid fa-pencil" (click)="updateProductionPlan()" *ngIf="prodplan.employee_id!= null" label="Update" class="p-button-info"></button>
+    </ng-template> -->
+</p-dialog>

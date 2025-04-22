@@ -1,0 +1,101 @@
+.container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    font-family: sans-serif; /* Or your preferred font */
+  }
+
+  .header-card .p-card-header {
+    background-color: black;
+    color: orange;
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 1em;
+  }
+
+  .header-card .p-card-body {
+    padding: 0; /* Remove default card body padding */
+    background-color: black; /* Match background to image */
+    color: white; /* Default text color */
+  }
+
+  .status-bar {
+    // padding: 1em 0;
+    padding-bottom: 1em;
+    border-bottom: 2px solid white;
+    margin-bottom: 1em;
+  }
+
+  .status-item {
+    padding: 0.5em 1em;
+    color: white;
+    font-weight: bold;
+    font-size: x-large;
+    text-align: center;
+    margin-right: 5px;
+    border-radius: 5px;
+    min-width: 100px; /* Adjust as needed */
+  }
+  .status-item:last-child {
+    margin-right: 0;
+  }
+
+  .main-line-bar {
+    padding-bottom: 1em;
+    border-bottom: 2px solid white;
+    margin-bottom: 1em;
+  }
+
+  .main-line-label {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  .station-number {
+    // background-color: #dfdddd;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    padding: 0.5em;
+  }
+
+  .labels-column {
+    padding-right: 1em;
+  }
+
+  .label-item {
+    padding: 0.5em 0;
+    font-weight: bold;
+    margin-bottom: 0.5em; /* Spacing between labels */
+  }
+  .label-item:last-child {
+    margin-bottom: 0;
+  }
+
+
+  .grid-display {
+    /* No specific styles needed here, layout is handled by PrimeFlex grid */
+  }
+
+  .grid-cell {
+    height: 30px; /* Adjust cell height */
+    width: 50px;  /* Adjust cell width */
+    // border: 1px solid black; /* Optional cell border */
+    box-sizing: border-box; /* Include border in width/height */
+    margin: 2px; /* Spacing between cells */
+    border-radius: 5px;
+  }
+
+  /* Status Colors */
+  .green { background-color: green; }
+  .red { background-color: red; }
+  .yellow { background-color: yellow; }
+  .blue { background-color: blue; }
+  .indigo { background-color: indigo; }

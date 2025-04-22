@@ -1,0 +1,177 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Planned</span>
+            <div class="text-900 font-medium text-xl">1</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-calendar-check text-blue-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order in Process</span>
+            <div class="text-900 font-medium text-xl">2</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-rotate text-orange-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order Completed</span>
+            <div class="text-900 font-medium text-xl">1</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-check-circle text-cyan-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Transactions Today</span>
+            <div class="text-900 font-medium text-xl">3</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-exchange-alt text-purple-500 text-xl"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="col-auto text-900"> -->
+    <div class="card" *ngIf="productionPlanList && productionPlanList.length > 0">
+        <p-table [value]="productionPlanList" class="p-datatable-sm" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': '20rem', 'font-size': 'x-small', 'color': 'black' }">
+            <ng-template pTemplate="header">
+              <tr class="text-size header-row" [ngStyle]="{'font-weight': 'bold', 'color': 'black'}">
+                <th>JOB ID</th>
+                <th>EMPLOYEE ID</th>
+                <th>PRODUCT ID</th>
+                <th>PRODUCT TARGET(HH:MM:SS)</th>
+                <th>DRAWING NO</th>
+                <th>CUSTOMER</th>
+                <th>PO NO & DATE</th>
+                <th>ORDER QUANTITY</th>
+                <th>REQUIRED HOURS (HH:MM)</th>
+                <th>PLANNED ASSIGNED DATE</th>
+                <th>PRODUCTION EXPECTED DATE</th>
+                <th>PLANNED</th>
+                <th>PROCESSING</th>
+                <th>EXPECTED COMPLETE DATE</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+              <tr class="text-size data-row" [ngStyle]="{'color': 'black'}">
+                <td>{{ item.job_id }}</td>
+                <td>{{ item.employee_id }}</td>
+                <td>{{ item.product_id }}</td>
+                <td>{{ item.product_target }}</td>
+                <td>{{ item.drawing_no }}</td>
+                <td>{{ item.customer }}</td>
+                <td>{{ item.po_no }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.required_time }}</td>
+                <td>{{ item.assigned_date }}</td>
+                <td>{{ item.expected_date }}</td>
+                <td>{{ item.planned_date }}</td>
+                <td>{{ item.processing_date }}</td>
+                <td>{{ item.completed_date }}</td>
+              </tr>
+            </ng-template>
+        </p-table>
+    </div>
+<!-- </div> -->
+
+
+
+
+
+
+<div class="card text-900" [ngStyle]="{padding: '3em'}">
+    <div class="grid justify-content-between">
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>JOBWORK : </h6>
+            <p-dropdown [options]="openJobList" [(ngModel)]="selectedJobWork" optionLabel="job_id" (onChange)="onJobSelected($event)" placeholder="Select a Jobwork"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>QC INSPECTOR : </h6>
+            <p-dropdown [options]="companies" [(ngModel)]="selected_company" optionLabel="name" placeholder="Select Company"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>SHOPFLOOR : </h6>
+            <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" [(ngModel)]="selected_shopfloor" optionLabel="name" placeholder="Select Shopfloor"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>ASSEMBLY LINE : </h6>
+            <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" [(ngModel)]="selected_assemblyline" optionLabel="name" placeholder="Select Assembly Line"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>MACHINE ID : </h6>
+            <p-dropdown [options]="machine_id" [autoDisplayFirst]="true" [(ngModel)]="selected_machineid" optionLabel="name" placeholder="Select Machine ID"></p-dropdown>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-4">
+            <h6>SHIFT : </h6>
+            <p-dropdown [options]="shifts" [autoDisplayFirst]="true" [(ngModel)]="selected_shift" optionLabel="name" placeholder="Select Shift"></p-dropdown>
+        </div>
+    </div>
+</div>
+
+
+<div class="card text-900" [ngStyle]="{padding: '3em'}">
+    <div class="grid justify-content-center">
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>QC Acceptance :</h6>
+            <input pInputText id="username" [disabled]="true" [(ngModel)]="acceptance" />
+            <small id="username-help">Current Acceptance Value.</small>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>TOLERANCE :</h6>
+            <input pInputText id="username" [disabled]="true" [(ngModel)]="tolerance" />
+            <small id="username-help">Current Tolerance Value.</small>
+        </div>
+    </div>
+    <div class="grid justify-content-between">
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>M/C PASS :</h6>
+            <p-inputNumber inputId="integeronly" placeholder="Enter"> </p-inputNumber>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>REWORK :</h6>
+            <p-inputNumber inputId="integeronly" placeholder="Enter"> </p-inputNumber>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>REJECT :</h6>
+            <p-inputNumber inputId="integeronly" placeholder="Enter"> </p-inputNumber>
+        </div>
+        <div class="field col-auto md:col-auto lg:col-3">
+            <h6>QC PASSED :</h6>
+            <p-inputNumber inputId="integeronly" placeholder="Enter"> </p-inputNumber>
+        </div>
+    </div>
+    <div class="create-button mt-3">
+        <button pButton pRipple icon="fa-solid fa-floppy-disk" label="Save" (click)="addLineMachineConfigSlot()" class="p-button-success"></button>
+    </div>
+</div>

@@ -1,0 +1,363 @@
+<app-prod-stats></app-prod-stats>
+
+
+
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card mb-3">
+            <p-table #dt1 [value]="AssemblylineWiseData" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm p-datatable-gridlines" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'small'}">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-column sm:flex-row">
+                        <!-- <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button> -->
+                        <div class="d-flex align-items-center">
+                            <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                            <p-selectButton [options]="stateOptions" class="mb-2 ml-1 mr-1" [(ngModel)]="showElements" optionLabel="label" optionValue="value"></p-selectButton>
+                            <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2"></p-splitButton>
+                          </div>
+                        <span class="p-input-icon-left mb-2">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Plant
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Shopfloor
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Assembly Line
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Machine ID
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Product ID
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Date
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Shift
+                            </div>
+                        </th>
+                        <th>
+                            Accept
+                        </th>
+                        <th>
+                            Rework
+                        </th>
+                        <th>
+                            Reject
+                        </th>
+                        <th>
+                            Break/Scrap
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.plant }}</td>
+                        <td>{{ item.shopfloor }}</td>
+                        <td>{{ item.assemblyline }}</td>
+                        <td>{{ item.machine_id }}</td>
+                        <td>{{ item.product_id }}</td>
+                        <td>{{ currentDate | date:'yyyy-MM-dd' }}</td>
+                        <td>{{ currentShift }}</td>
+                        <td>
+                            <span [class]="'quality-badge accept'">{{ acceptCount }}</span>
+                        </td>
+                        <td>
+                            <span [class]="'quality-badge rework'">{{ reworkCount }}</span>
+                        </td>
+                        <td>
+                            <span [class]="'quality-badge reject'">{{ rejectCount }}</span>
+                        </td>
+                        <td>
+                            <span [class]="'quality-badge scrap'">{{ scrapCount }}</span>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+
+
+
+            <p-table #dt1 [value]="AssemblylineWiseData" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm p-datatable-gridlines mt-3" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'small'}">
+                <ng-template pTemplate="header">
+                    <tr style="white-space: nowrap;">
+                        <th>#</th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Date Time
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Shift
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Product ID
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Serial No.
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Visual Done By
+                            </div>
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Approved By
+                            </div>
+                        </th>
+                        <th>
+                            Cleaning Required
+                        </th>
+                        <th>
+                            Cleaning Done
+                        </th>
+                        <th>
+                            Uncleared Modules
+                        </th>
+                        <th>
+                            Inspection Paramenter
+                        </th>
+                        <th style="min-width: auto">
+                            <div class="flex justify-content-between align-items-center">
+                                Defect Name
+                            </div>
+                        </th>
+                        <th>
+                            Defect Code
+                        </th>
+                        <th>
+                            Defect Size
+                        </th>
+                        <th>
+                            Defect Location
+                        </th>
+                        <th>
+                            Final Result
+                        </th>
+                        <th>
+                            Remarks
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <!-- <tr style="white-space: nowrap;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ currentDate }}</td>
+                        <td>{{ currentShift }}</td>
+                        <td>{{ product_id }}</td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Dhananjay</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Raman Singh</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;" (change)="updateDefectRow()">
+                                <option value="" disabled selected>-Select-</option>
+                                <option *ngFor="let item of defectTypeList">{{ item.parameter_name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select  *ngIf="defect_row" class="form-control" placeholder="Select Options" style="font-size: small;" [(ngModel)]="defect_no" (change)="updateSelectedDefectNo()">
+                                <option value="" disabled selected>-Select-</option>
+                                <option *ngFor="let item of defectTypeList" [value]="item.defect_name">{{ item.defect_name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            {{ defect_no }}
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;" [(ngModel)]="selectedOption">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Accept</option>
+                                <option>Rework</option>
+                                <option>Reject</option>
+                                <option>Break</option>
+                                <option>Scrap</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-save" size="small" severity="success" (click)="incrementRowNumber()"></p-button>
+                        </td>
+                    </tr> -->
+
+
+
+
+                    <tr *ngFor="let row of rowsArray; let i = index" style="white-space: nowrap;">
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ currentDate }}</td>
+                        <td>{{ currentShift }}</td>
+                        <td>{{ product_id }}</td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Dhananjay</option>
+                            </select>
+                            <!-- <p-dropdown [options]="inspector" optionLabel="name" [showClear]="false" placeholder="Select"></p-dropdown> -->
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Raman Singh</option>
+                            </select>
+                            <!-- <p-dropdown [options]="incharge" optionLabel="name" [showClear]="false" placeholder="Select"></p-dropdown> -->
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Y</option>
+                                <option>N</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>0</option>
+                                <option>1</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;" (change)="updateDefectRow()">
+                                <option value="" disabled selected>-Select-</option>
+                                <option *ngFor="let item of defectTypeList">{{ item.parameter_name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            <select  *ngIf="defect_row" class="form-control" placeholder="Select Options" style="font-size: small;" [(ngModel)]="defect_no" (change)="updateSelectedDefectNo()">
+                                <option value="" disabled selected>-Select-</option>
+                                <option *ngFor="let item of defectTypeList" [value]="item.defect_name">{{ item.defect_name }}</option>
+                            </select>
+                        </td>
+                        <td>
+                            {{ defect_no }}
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <select class="form-control" placeholder="Select Options" style="font-size: small;" [(ngModel)]="selectedOptions[i]">
+                                <option value="" disabled selected>-Select-</option>
+                                <option>Accept</option>
+                                <option>Rework</option>
+                                <option>Reject</option>
+                                <option>Break</option>
+                                <option>Scrap</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" pInputText />
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-save" size="small" severity="success" (click)="incrementRowNumber()"></p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

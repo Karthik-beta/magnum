@@ -1,0 +1,161 @@
+<div class="card title-card-with-time">
+
+
+            <h2 class="text-800 font-bold text-xl lg:text-2xl">Welcome to Cafeteria</h2>
+
+            <div class="col">
+                <p-dropdown [options]="employees" [(ngModel)]="selectedEmp" (ngModelChange)="onEmployeeSelect()" optionLabel="name" [showClear]="false" placeholder="Select a City"></p-dropdown>
+            </div>
+
+    <!-- <h4 class="text-800 font-bold text-xl lg:text-xl">Current Limit : ₹ 2000 /-</h4> -->
+    <div class="col-12 grid student-details" *ngIf="selectedEmployeeDetails">
+        <div class="col">
+            <span class="text-800 font-bold text-lg lg:text-lg">Student ID : {{ selectedEmployeeDetails.id }}</span>
+        </div>
+        <div class="col">
+            <span class="text-800 font-bold text-lg lg:text-lg">Name : {{ selectedEmployeeDetails.name }}</span>
+        </div>
+        <div class="col">
+            <span class="text-800 font-bold text-lg lg:text-lg">Department : {{ selectedEmployeeDetails.department }}</span>
+        </div>
+        <div class="col">
+            <span class="text-800 font-bold text-lg lg:text-lg">Section : {{ selectedEmployeeDetails.section }}</span>
+        </div>
+        <div class="col">
+            <span class="text-800 font-bold text-lg lg:text-lg">Currency Limit : {{ selectedEmployeeDetails.currency }}</span>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+<div class="grid">
+
+    <div class="col-12 lg:col-6 xl:col-8">
+
+        <div class="scroll-container" style="max-height: 100vh; overflow-y: auto;">
+            <div class="grid">
+                <div class="col-12 lg:col-6 xl:col-4" *ngFor="let item of foodItems">
+
+                <div class="card mb-0 text-center clickable-item" (click)="addToCart(item)">
+                    <div class="flex justify-content-center align-items-center">
+                        <img src="assets/demo/images/food/{{ item.image }}.jpg" width="180em" height="150em" style="vertical-align: top"/>
+                    </div>
+                    <span class="text-800 font-bold text-xl lg:text-xl text-center">{{ item.name }}</span>
+                    <div class="col-12 mb-0">
+                        <span class="price-badge price-tag">₹ {{ item.price }} /-</span>
+                    </div>
+                    <!-- <div>
+                        <p-button label="Add" icon="pi pi-plus" size="small" ></p-button>
+                    </div> -->
+                </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-4 lg:col-6 xl:col-4">
+
+        <div class="card flex justify-content-center align-items-center">
+
+            <div class="justify-content-between">
+
+                <!-- Display selected items -->
+                <table>
+                    <tr *ngFor="let selectedItem of selectedItems; let i = index" class="col-12 justify-content-between" style="width:100%;">
+                        <td class="col-4">
+                          <span class="text-800 font-bold text-lg lg:text-lg">{{ selectedItem.name }}</span>
+                        </td>
+                        <td class="col-4">
+                          <div class="grid align-items-center">
+                            <div>
+                                <i class="fa-solid fa-minus mr-2 clickable-item" (click)="removeItem(i)"></i>
+                            </div>
+                            <div>
+                              <span class="text-800 font-bold text-lg lg:text-lg text-center">{{ selectedItem.quantity }}</span>
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-plus ml-2 clickable-item"  (click)="increaseQuantity(i)"></i>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="col-4">
+                          <span class="text-800 justify-content-center font-bold text-lg lg:text-lg">
+                            ₹ {{ selectedItem.price * selectedItem.quantity }}
+                          </span>
+                        </td>
+                      </tr>
+
+                      <p-toast></p-toast>
+                        <p-confirmDialog [style]="{width: '50vw'}"></p-confirmDialog>
+                      <!-- Display total -->
+                      <tr class="col-12 clickable-item" style="width:100%; background-color: aquamarine; border-radius: 10px;" (click)="confirmPay()">
+                        <td class="col-4">
+                          <span class="text-800 font-bold text-lg lg:text-lg text-center">Pay Now</span>
+                        </td>
+                        <td class="col-4"></td>
+                        <td class="col-4" style="align-items: center; vertical-align: middle;">
+                          <span class="text-800 justify-content-center font-bold text-lg lg:text-lg">₹ {{ value }}</span>
+                        </td>
+                      </tr>
+                </table>
+
+                <!-- <tr class="col-12" style="width:100%;">
+                    <td class="col-4">
+                        <span class="text-800 font-bold text-lg lg:text-lg text-center">Veg Spring Roll</span>
+                    </td>
+                    <td class="col-4">
+                        <div class="grid align-items-center">
+                            <div><i class="fa-solid fa-minus mr-2"></i></div>
+                            <div class="square-box"><span class="text-800 font-bold text-lg lg:text-lg text-center">1</span></div>
+                            <div><i class="fa-solid fa-plus ml-2"></i></div>
+                        </div>
+                    </td>
+                    <td class="col-4">
+                        <span class="text-800 justify-content-center font-bold text-lg lg:text-lg">₹ 90</span>
+                    </td>
+                </tr>
+
+                <tr class="col-12" style="width:100%;">
+                    <td class="col-4">
+                        <span class="text-800 font-bold text-lg lg:text-lg text-center">Dosa</span>
+                    </td>
+                    <td class="col-4">
+                        <div class="grid align-items-center">
+                            <div><i class="fa-solid fa-minus mr-2"></i></div>
+                            <div class="square-box"><span class="text-800 font-bold text-lg lg:text-lg text-center">1</span></div>
+                            <div><i class="fa-solid fa-plus ml-2"></i></div>
+                        </div>
+                    </td>
+                    <td class="col-4">
+                        <span class="text-800 justify-content-center font-bold text-lg lg:text-lg">₹ 100</span>
+                    </td>
+                </tr>
+
+                <tr class="col-12" style="width:100%; background-color: aquamarine;">
+                    <td class="col-4">
+                        <span class="text-800 font-bold text-lg lg:text-lg text-center">Pay Now</span>
+                    </td>
+                    <td class="col-4">
+
+                    </td>
+                    <td class="col-4" style="align-items: center; vertical-align: middle;">
+                        <span class="text-800 justify-content-center font-bold text-lg lg:text-lg">₹ 190</span>
+                    </td>
+                </tr> -->
+
+            </div>
+
+        </div>
+        </div>
+
+</div>
+
+
+

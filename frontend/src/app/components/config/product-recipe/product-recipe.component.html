@@ -1,0 +1,223 @@
+<div class="card">
+
+    <p-table #dt1 [value]="productreceipeList" dataKey="id" [lazy]="true" [loading]="loading" [globalFilterFields]="['id','country.name','representative.name','status']"
+    [rowHover]="false" styleClass="p-datatable-sm p-datatable-gridlines" responsiveLayout="scroll" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
+    <ng-template pTemplate="caption">
+        <div class="flex justify-content-between flex-column sm:flex-row">
+            <div>
+                <button pButton label="Clear" class="p-button-outlined mb-2" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+                <button pButton icon="fa-solid fa-plus" label="Add" (click)="display=true" class="p-button-primary mb-2 ml-1 mr-1"></button>
+                <!-- <button pButton label="Download" class="p-button-primary mb-2 ml-1 mr-1" icon="pi pi-download" (click)="downloadAndonData()"></button> -->
+                <!-- <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2 ml-1 mr-1"></p-splitButton> -->
+            </div>
+            <span class="p-input-icon-left mb-2">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full"/>
+            </span>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th>#</th>
+            <th>
+                Product ID
+                <p-columnFilter type="text" field="id" display="menu" placeholder="Search by Ticket ID"></p-columnFilter>
+            </th>
+            <th>
+                Stages
+            </th>
+            <th>
+                Stage Name
+            </th>
+            <th>
+                Target/Unit
+            </th>
+            <th>
+                Target/Minute
+            </th>
+            <th>
+                Target/Hour
+            </th>
+            <th>
+                Skill Matrix
+            </th>
+            <th>QC Check Type</th>
+            <th>QC Acceptance</th>
+            <th>Tolerance</th>
+            <th>
+                Options
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-item let-i="rowIndex">
+        <ng-container *ngFor="let stage of item.stages; let j = index" [ngStyle]="{'white-space' : 'nowrap'}">
+            <tr>
+                <ng-container *ngIf="j === 0; else emptyCell">
+                    <td [attr.rowspan]="item.stages.length">{{ i + 1 }}</td>
+                    <td [attr.rowspan]="item.stages.length">{{ item.product_name }}</td>
+                </ng-container>
+                <!-- <ng-template #emptyCell>
+                    Empty cells for rowspan effect
+                    <td></td>
+                    <td></td>
+                </ng-template> -->
+                    <td>{{ stage.stage_no }}</td>
+                    <td>{{ stage.stage }}</td>
+                    <td>{{ stage.target_per_unit }}</td>
+                    <td>{{ stage.units_per_minute }}</td>
+                    <td>{{ stage.units_per_hour }}</td>
+                    <td>{{ stage.skill_matrix }}</td>
+                    <td>{{ stage.QC_check_type }}</td>
+                    <td>{{ stage.QC_acceptance }}</td>
+                    <td>{{ stage.tolerance }}</td>
+                <ng-container *ngIf="j === 0; else emptyCell">
+                    <td [attr.rowspan]="item.stages.length">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-sm btn-info mr-1" (click)="display=true" data-toggle="modal" data-target="#staticBackdrop" data-backdrop="static">
+                                <i class="pi pi-pencil"></i>
+                            </button>
+                            <!-- <button class="p-link layout-topbar-button mr-2" (click)="display=true" pTooltip="Edit" tooltipPosition="bottom">
+                                <i class="pi pi-pencil"></i>
+                            </button> -->
+                            <button type="button" class="btn btn-sm btn-success mr-1" (click)="display=true" data-toggle="modal" data-target="#staticBackdrop" data-backdrop="static">
+                                <i class="pi pi-eye"></i>
+                            </button>
+                            <!-- <button type="button" class="p-link layout-topbar-button mr-2" (click)="display=true" pTooltip="View" tooltipPosition="bottom">
+                                <i class="pi pi-eye"></i>
+                            </button> -->
+                            <button type="button" class="btn btn-sm btn-danger mr-1" data-toggle="modal" data-target="#staticBackdrop" data-backdrop="static">
+                                <i class="pi pi-trash"></i>
+                            </button>
+                            <!-- <button type="button" class="p-link layout-topbar-button" (click)="display=true" pTooltip="Delete" tooltipPosition="bottom">
+                                <i class="pi pi-trash"></i>
+                            </button> -->
+                            <!-- <p-button icon="pi pi-pencil" class="mr-2" (click)="display=true"></p-button>
+                            <p-button icon="pi pi-eye" class="mr-2" severity="help"></p-button>
+                            <p-button icon="pi pi-trash" severity="danger"></p-button> -->
+                        </div>
+                    </td>
+                </ng-container>
+            </tr>
+        </ng-container>
+        <!-- <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ item.product_Name }}</td>
+            <td>{{ item.stages }}</td>
+            <td>{{ item.target_per_unit }}</td>
+            <td>{{ item.units_per_minute }}</td>
+            <td>{{ item.units_per_hour }}</td>
+            <td>{{ item.skill_matrix }}</td>
+            <td>Screw Gauge</td>
+            <td>{{ item.QC_acceptance }}</td>
+            <td>{{ item.tolerance }}</td>
+            <td>
+                <div class="d-flex justify-content-center">
+                    <p-button icon="pi pi-pencil" class="mr-2"></p-button>
+                    <p-button icon="pi pi-eye" class="mr-2" severity="help"></p-button>
+                    <p-button icon="pi pi-trash" severity="danger"></p-button>
+                </div>
+            </td>
+        </tr> -->
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="8">No Data found.</td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="loadingbody">
+        <tr>
+            <td colspan="8">Loading data. Please wait.</td>
+        </tr>
+    </ng-template>
+    </p-table>
+
+</div>
+
+
+
+
+<!-- Modal Snippet -->
+<p-dialog header="Edit Product Receipe" [(visible)]="display" [modal]="true" [style]="{ width: '75vw', height: '50vw' }" [draggable]="false" [resizable]="false">
+
+    <div>
+        <div class="col-12 flex justify-content-center">
+            <div class="col-4">
+                <p-dropdown optionLabel="name" [options]="productList" (onChange)="onProductSelected($event)" [showClear]="false" placeholder="Select Product ID"></p-dropdown>
+            </div>
+            <div class="col-4">
+                <span class="p-float-label">
+                <p-inputNumber inputId="integeronly" id="stages_count" [disabled]="true" [(ngModel)]="stages"> </p-inputNumber>
+                <label class="text-800 text-lg font-bold mr-1" for="stages_count">No of Stages : </label>
+                <!-- <input id="disabled-input" type="text" pInputText [disabled]="true" [(ngModel)]="stages" /> -->
+                </span>
+            </div>
+        </div>
+        <div class="col-12" *ngFor="let stage of stagesArray; let i = index; last as isLast">
+            <div class="justify-content-between" [ngClass]="{'invalid-form': !isFormValid}">
+                <p-divider align="center">
+                    <span class="p-tag">Stage {{ i + 1 }}</span>
+                </p-divider>
+                <div class="col-12 grid flex justify-content-between">
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'stage_' + i" [(ngModel)]="stage.stage" />
+                            <label [for]="'stage_' + i">Stage Name</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <p-inputMask mask="99:99:99"  [id]="'target_per_unit_' + i" [(ngModel)]="stage.target_per_unit" (ngModelChange)="updateUnits(stage.target_per_unit, i)"></p-inputMask>
+                            <!-- <input pInputText mask="99:99:99" [id]="'target_per_unit_' + i" [(ngModel)]="stage.target_per_unit" /> -->
+                            <label [for]="'target_per_unit_' + i">Target/Unit (HH:MM:SS)</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'units_per_minute_' + i" [(ngModel)]="stage.units_per_minute" />
+                            <label [for]="'units_per_minute_' + i">Units/Minute</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'units_per_hour_' + i" [(ngModel)]="stage.units_per_hour" />
+                            <label [for]="'units_per_hour_' + i">Units/Hour</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-12 grid flex justify-content-between mt-1">
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'skill_matrix_' + i" [(ngModel)]="stage.skill_matrix" />
+                            <label [for]="'skill_matrix_' + i">Skill Matrix</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'QC_check_type_' + i" [(ngModel)]="stage.QC_check_type" />
+                            <label [for]="'QC_check_type_' + i">QC Check Type</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'QC_acceptance_' + i" [(ngModel)]="stage.QC_acceptance" />
+                            <label [for]="'QC_acceptance_' + i">QC Acceptance</label>
+                        </span>
+                    </div>
+                    <div>
+                        <span class="p-float-label">
+                            <input pInputText [id]="'tolerance_' + i" [(ngModel)]="stage.tolerance" />
+                            <label [for]="'tolerance_' + i">Tolerance</label>
+                        </span>
+                    </div>
+                </div>
+                <p-divider type="solid" *ngIf="isLast"></p-divider>
+            </div>
+        </div>
+
+        <div class="col-12 flex justify-content-end" *ngIf="saveButton">
+            <button pButton pRipple icon="fa-solid fa-floppy-disk" (click)="saveForm()" label="Save"class="p-button-success"></button>
+        </div>
+
+    </div>
+
+</p-dialog>

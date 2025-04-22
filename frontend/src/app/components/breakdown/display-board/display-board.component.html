@@ -1,0 +1,42 @@
+<div class="card">
+
+    <!-- Status Indicators -->
+    <div class="col-12 md:col-12 lg:col-12 status-bar">
+        <div class="grid">
+          <div class="col-fixed status-item" *ngFor="let status of statuses" [style]="{'background-color': status.color}">
+            {{status.label}} : {{status.count}}
+          </div>
+          <div class="flex justify-content-center align-items-center col-6 md:col-6 lg:col-6">
+            <span class="font-bold text-5xl text-900 block">Breakdown Andon Display Board</span>
+          </div>
+        </div>
+    </div>
+
+    <!-- SSL MAIN LINE Label and Station Numbers -->
+    <div class="col-12 md:col-12 lg:col-12 main-line-bar">
+        <div class="grid">
+            <div class="col-fixed main-line-label">SSL MAIN LINE</div>
+            <div class="col station-number" *ngFor="let station of stations">
+                {{station}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Labels and Grid -->
+    <div class="col-12 md:col-12 lg:col-12 grid-container">
+        <div class="grid">
+            <div class="col-fixed labels-column">
+            <div class="label-item" *ngFor="let label of labels">{{label}}</div>
+        </div>
+        <div class="col grid-display">
+            <div class="grid">
+                <div class="col-12" *ngFor="let rowData of gridData">
+                    <div class="grid">
+                        <div class="col-fixed grid-label-placeholder"></div> <!-- Placeholder for label alignment -->
+                        <div class="col grid-cell" *ngFor="let status of rowData.status" [ngClass]="status"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

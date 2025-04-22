@@ -1,0 +1,642 @@
+<div class="card">
+    <!-- Workstation Info Section -->
+    <div class="workstation-info">
+        <div class="flex justify-content-center align-items-center">
+            <span class="clock font-bold text-medium text-900 block">
+                {{ currentDate | date: 'dd-MM-yyyy => HH : mm : ss':'Asia/Kolkata' }}
+            </span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Shopfloor: 00{{ shopfloorID }} Line - 00{{ workstationId }}</span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
+        </div>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="grid-container">
+        <!-- Cards Section (80%) -->
+        <div class="cards-container">
+            <div class="card-inheritance" style="background-color: rgb(96, 172, 202);" (click)="selectCard('Daily Plan vs Actual')">
+                <span class="text-900 text-white text-xl">Daily Plan vs Actual</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #45b6fe;" (click)="selectCard('Andon Call Help')">
+                <span class="text-900 text-white text-xl">Andon Call Help</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #ee6b6e;" (click)="selectCard('Production Transaction')">
+                <span class="text-900 text-white text-xl">Production Transaction</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #80e57c;" (click)="selectCard('Breakdown Transaction')">
+                <span class="text-900 text-white text-xl">Breakdown Transaction</span>
+            </div>
+            <div class="card-inheritance" style="background-color: #969039;" (click)="selectCard('Analysis')">
+                <span class="text-900 text-white text-xl">Analysis</span>
+            </div>
+        </div>
+
+        <!-- Image Section (Max 15-18%) -->
+        <div class="image-container">
+            <div>
+                <img src="assets/layout/images/green.gif" alt="Status" class="status-image">
+            </div>
+            <div>
+                <ng-container *ngIf="lotNo || productCode">
+                    <ng-container *ngIf="lotNo == productCode; else notMatched">
+                        <p-tag severity="success" value="Matched"></p-tag>
+                    </ng-container>
+                    <ng-template #notMatched>
+                        <p-tag severity="danger" value="Not Matched"></p-tag>
+                    </ng-template>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Bottom cards (display only the selected one) -->
+<div class="card" *ngIf="selectedCard === 'Daily Plan vs Actual'">
+    <div class="grid flex">
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="barCode" class="p-inputtext-sm"/>
+                <label for="name">Scan Barcode</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="lotNo" class="p-inputtext-sm"/>
+                <label for="name">Lot No</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="productCode" class="p-inputtext-sm"/>
+                <label for="name">Product Code</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="search" class="p-inputtext-sm"/>
+                <label for="name">Search</label>
+            </span>
+        </div>
+    </div>
+
+
+
+    <div class="grid flex justify-content-center">
+        <div class="col-6">
+            <p-table #dt1 [value]="tableData" dataKey="id" [scrollable]="true"
+            [scrollable]="true"
+            scrollHeight="400px" [rowHover]="true" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Serial No</th>
+                        <th>Lot No</th>
+                        <th>Product Code</th>
+                        <th>Serial Number</th>
+                        <th>Actual</th>
+                        <th>Cycle-Time</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.serialNo }}</td>
+                        <td>{{ item.lotNo }}</td>
+                        <td>{{ item.productCode }}</td>
+                        <td>{{ item.serial_no }}</td>
+                        <td>{{ item.actual }}</td>
+                        <td>{{ item.cycleTime }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="col-6">
+            <p-table #dt1 [value]="dummyStaticRow" dataKey="id" [rowHover]="false" styleClass="p-datatable-sm"  [tableStyle]="{ 'min-width': 'auto' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Shift</th>
+                        <th>M/C on</th>
+                        <th>M/C Idle</th>
+                        <th>Plan</th>
+                        <th>Actual</th>
+                        <th>Performance</th>
+                        <th>Gap</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.shift }}</td>
+                        <td>{{ item.mcOn }}</td>
+                        <td>{{ item.mcIdle }}</td>
+                        <td>{{ item.plan }}</td>
+                        <td>{{ item.actual }}</td>
+                        <td style="min-width: auto; white-space: nowrap;">
+                            <p-progressBar [value]="item.performance" [showValue]="true" [style]="{'color': 'green', 'font-size': 'small'}"></p-progressBar>
+                        </td>
+                        <td [ngStyle]="getBackgroundColorStyleForGap(item.gap)">
+                            {{ item.gap }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+</div>
+
+<div class="card" *ngIf="selectedCard === 'Andon Call Help'">
+
+    <div>
+        <div class="grid flex col-12">
+            <div class="col-3">
+                <button pButton label="Operator" severity="info" class="p-button-info" (click)="selectRole('Operator')"></button>
+            </div>
+            <div class="col-3">
+                <button pButton label="Team Leader" severity="help" class="p-button-help" (click)="selectRole('Team Leader')"></button>
+            </div>
+            <div class="col-3">
+                <button pButton label="Acknowledge" severity="warning" class="p-button-warning" icon="fa-solid fa-handshake" (click)="selectRole('Acknowledge')"></button>
+            </div>
+            <div class="col-3">
+                <button pButton label="Resolved" severity="sucess" class="p-button-success" icon="fa-solid fa-circle-check" (click)="selectRole('Resolved')"></button>
+            </div>
+        </div>
+    </div>
+
+    <p-table #dt1 [value]="dummyList" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'font-size': 'small' }" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
+        <ng-template pTemplate="header">
+            <tr style="white-space: nowrap;">
+                <ng-container *ngFor="let col of columnDefinitions">
+                    <th *ngIf="isVisible(col)" style="min-width: auto">
+                      <div class="flex justify-content-between align-items-center">
+                        {{ col.header }}
+                      </div>
+                    </th>
+                  </ng-container>
+              </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-i="rowIndex">
+            <tr style="white-space: nowrap;">
+                <ng-container *ngFor="let col of columnDefinitions; let colIndex = index">
+                    <td *ngIf="isVisible(col)">
+                  <ng-container [ngSwitch]="col.type">
+
+                    <ng-container *ngSwitchCase="'index'">
+                      {{ i + 1 }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'icon'">
+                      <div class="flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-power-off text-green-500 text-xl"></i>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'text'">
+                      {{ item[col.field] }}
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'machineId'">
+                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                            style="font-size: small;" [(ngModel)]="item.machineId">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let option of col.options">{{ option }}</option>
+                        </select>
+                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'category'">
+                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                            style="font-size: small;" [(ngModel)]="item.category">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let option of col.options">{{ option }}</option>
+                        </select>
+                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'resolution'">
+                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                            style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let option of col.options">{{ option }}</option>
+                        </select>
+                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'raiseAlert'">
+                        <button *ngIf="isoperator() && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
+                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                                (click)="onNewIssue(item)"></button>
+                        <p  *ngIf="item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
+                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'andonAlert'">
+                        <button *ngIf="isTeamLeader() && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
+                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                                (click)="onAndonAlert(item)"></button>
+                        <p  *ngIf="item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
+                            {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'button'">
+                      <div class="">
+                        <!-- <button *ngIf="col.field === 'raiseAlert' && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
+                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                                (click)="onNewIssue(item)"></button>
+
+                        <p *ngIf="col.field === 'raiseAlert' && item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
+                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p> -->
+
+                        <!-- <button *ngIf="col.field === 'andonAlert' && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
+                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                                (click)="onAndonAlert(item)"></button>
+
+                        <p *ngIf="col.field === 'andonAlert' && item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
+                          {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p> -->
+
+                        <button *ngIf="col.field === 'andonAcknowledge' && item.acknowledgeButton && !item.andonAcknowledgeCompleted" pButton label="Acknowledge" severity="warning"
+                                class="p-button-warning" icon="fa-solid fa-handshake"
+                                (click)="onAndonAcknowledge(item)"></button>
+                        <p *ngIf="col.field === 'andonAcknowledge' && item.andonAcknowledgeCompleted">[EMPNAME, ID] <br>
+                          {{ getFormattedTimestamp(item.andonAcknowledgeTimestamp) }}
+                        </p>
+
+                        <button *ngIf="col.field === 'andonResolved' && item.resolvedButton && !item.andonResolvedCompleted" pButton label="Resolved" severity="success"
+                                class="p-button-success" icon="fa-solid fa-circle-check"
+                                (click)="onAndonResolved(item)"></button>
+                        <p class="timestamp" *ngIf="col.field === 'andonResolved' && item.andonResolvedCompleted">[EMPNAME, ID] <br>
+                          {{ getFormattedTimestamp(item.andonResolvedTimestamp) }}
+                        </p>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchCase="'counter'">
+                      <div *ngIf="item.counterDisplay">
+                        <span [class]="'alert-badge status-breakdown'">{{ item.counter }}</span>
+                      </div>
+                    </ng-container>
+
+                    <ng-container *ngSwitchDefault>
+                      {{ item[col.field] }}  <!-- Default: Just display the field -->
+                    </ng-container>
+
+                  </ng-container>
+                </td>
+                </ng-container>
+              </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="15">No Data found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="15">Loading data. Please wait.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<div class="card" *ngIf="selectedCard === 'Production Transaction'">
+
+    <div>
+        <p-table #dt1 [value]="shopfloorStatus" dataKey="id" [rows]="10" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm p-datatable-gridlines" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Time
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            On Hours (HH:MM)
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Idle Hours (HH:MM)
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Planned
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Actual
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Performance
+                        </div>
+                    </th>
+                    <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Gap
+                        </div>
+                    </th>
+                    <!-- <th style="min-width: auto;">
+                        <div class="flex justify-content-between align-items-center">
+                            Sauld
+                        </div>
+                    </th> -->
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                    <td>{{ item.time_range }}</td>
+                    <td>{{ item.on_time }}</td>
+                    <td>{{ item.idle_time }}</td>
+                    <td>{{ item.production_count }}</td>
+                    <td>{{ item.actual }}</td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        <p-progressBar [value]="item.performance" [showValue]="true" [style]="{'color': 'green', 'font-size': 'small'}"></p-progressBar>
+                    </td>
+                    <td [ngStyle]="getBackgroundColorStyleForGap(item.gap)">
+                        {{ item.gap }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="14">No Data found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="14">Loading data. Please wait.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+</div>
+
+<div class="card" *ngIf="selectedCard === 'Breakdown Transaction'">
+
+    <div class="grid">
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0" style="background-color: skyblue">
+                <div class="flex justify-content-between">
+                    <div>
+                        <h5 class="block text-900 font-sm mb-3">Today</h5>
+                        <!-- <span class="block text-900 font-medium">Today</span> -->
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <div class="text-900 font-sm text-xl">1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0" style="background-color: #ee6b6e;">
+                <div class="flex justify-content-between">
+                    <div>
+                        <h5 class="block text-900 font-sm mb-3">Open</h5>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <div class="text-900 font-sm text-xl">0</div>
+                    </div>
+                </div>
+                <!-- <span class="text-green-500 font-medium">%52+ </span>
+                <span class="text-500">since last week</span> -->
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0" style="background-color: #45b6fe;">
+                <div class="flex justify-content-between">
+                    <div>
+                        <h5 class="block text-900 font-sm mb-3">Ack/Closure</h5>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <div class="text-900 font-sm text-xl">0</div>
+                    </div>
+                </div>
+                <!-- <span class="text-green-500 font-medium">520  </span>
+                <span class="text-500">newly registered</span> -->
+            </div>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <div class="card mb-0" style="background-color: #80e57c;">
+                <div class="flex justify-content-between">
+                    <div>
+                        <h5 class="block text-900 font-sm mb-3">All</h5>
+                    </div>
+                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                        <div class="text-900 font-sm text-xl">0</div>
+                    </div>
+                </div>
+                <!-- <span class="text-green-500 font-medium">85 </span>
+                <span class="text-500">responded</span> -->
+            </div>
+        </div>
+    </div>
+
+    <p-table #dt1 [value]="dummyList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        #
+                        <!-- <p-columnFilter type="text" field="name" display="menu" placeholder="Search by name"></p-columnFilter> -->
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Ticket ID
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Company
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Location
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Shopfloor
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Assembly Line
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Workstation
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Breakdown Reason
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Alert Shift
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Raise Alert
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Andon Alert
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Andon Acknowledge
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Andon Resolved
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Resolution
+                    </div>
+                </th>
+                <th style="min-width: auto">
+                    <div class="flex justify-content-between align-items-center">
+                        Total Breakdown
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-log let-i="rowIndex">
+            <tr>
+                <td>
+                    {{ i + 1}}
+                </td>
+                <td>
+                    {{ log.id }}
+                </td>
+                <td>
+                    {{ log.company }}
+                </td>
+                <td>
+                    {{ log.plant }}
+                </td>
+                <td>
+                    {{ log.shopfloor }}
+                </td>
+                <td>
+                    {{ log.assemblyline }}
+                </td>
+                <td>
+                    {{ log.machineId }}
+                </td>
+                <td>
+                    {{ log.category }}
+                </td>
+                <td>
+                    {{ log.alertShift }}
+                </td>
+                <td>
+                    {{ getFormattedTimestamp(log.andonNewIssueTimestamp) }}
+                </td>
+                <td>
+                    {{ getFormattedTimestamp(log.andonAlertTimestamp) }}
+                </td>
+                <td>
+                    {{ getFormattedTimestamp(log.andonAcknowledgeTimestamp) }}
+                </td>
+                <td>
+                    {{ getFormattedTimestamp(log.andonResolvedTimestamp) }}
+                </td>
+                <!-- <td>
+                    {{ log.counter }}
+                </td> -->
+                <td>
+                    {{ log.resolution }}
+                </td>
+                <td>
+                    {{ log.counter }}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="15">No Data found.</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="15">Loading data. Please wait.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</div>
+
+<div class="card" *ngIf="selectedCard === 'Analysis'">
+
+    <div class="grid flex justify-content-between">
+        <div class="col-12 lg:col-6 xl:col-3">
+            <h5>Planned vs Actual</h5>
+            <p-chart type="bar" [data]="barData3" [options]="barOptions3"></p-chart>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <h5>Running vs Breakdown</h5>
+            <p-chart type="doughnut" [data]="barData2" [options]="barOptions2"></p-chart>
+        </div>
+        <div class="col-12 lg:col-6 xl:col-3">
+            <h5>Breakdown Reason</h5>
+            <p-chart type="bar" [data]="barData4" [options]="barOptions4"></p-chart>
+        </div>
+        <!-- <div class="col-12 lg:col-6 xl:col-3">
+            <div class="flex justify-content-between">
+                <div class="">
+                    <h5>Quality</h5>
+                </div>
+                <div class="">
+                    <span [class]="'oee-badge ' + getStatusClass(80)">OEE : 80%</span>
+                </div>
+            </div>
+            <p-chart type="pie" [data]="data3" [options]="options3"></p-chart>
+        </div> -->
+    </div>
+
+</div>

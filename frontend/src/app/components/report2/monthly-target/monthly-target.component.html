@@ -1,0 +1,120 @@
+<div class="">
+    <div class="card col-12 mb-3 flex justify-content-center align-items-center">
+        <h4>SAEL Solar Mfg. Private Limited <img src="assets/layout/images/sael.png" class="ml-6" alt="logo" width="20%" height="30%"></h4>
+    </div>
+</div>
+
+<div class="grid">
+
+    <div class="col-12 lg:col-6 xl:col-6">
+        <div class="card">
+            <h5>Target vs Production</h5>
+            <p-chart type="bar" [data]="data" [options]="options"></p-chart>
+            <div>
+                <p-table [value]="testList" styleClass="p-datatable-sm p-datatable-gridlines">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Total Target</th>
+                            <th>{{ totalTarget }}</th>
+                        </tr>
+                        <tr>
+                            <th>Total Production</th>
+                            <th>{{ totalProduction }}</th>
+                        </tr>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="body">
+                        <tr>
+                            <td>1000</td>
+                            <td>0</td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 lg:col-6 xl:col-6">
+        <div class="card">
+            <h5>Working Shifts</h5>
+            <p-chart type="bar" [data]="data2" [options]="options2"></p-chart>
+
+            <div>
+                <p-table [value]="testList" styleClass="p-datatable-sm p-datatable-gridlines">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Total Working Hours</th>
+                            <th>61</th>
+                        </tr>
+                    </ng-template>
+                    <!-- <ng-template pTemplate="body">
+                        <tr>
+                            <td>1000</td>
+                            <td>0</td>
+                        </tr>
+                    </ng-template> -->
+                </p-table>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="mb-3">
+    <div class="card">
+
+        <p-table [value]="testList" styleClass="p-datatable-sm p-datatable-gridlines">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Today's Asking Rate/Shift </th>
+                    <th>{{ todayRate }}</th>
+                </tr>
+                <tr>
+                    <th>Days Completed</th>
+                    <th>{{ daysCompleted }}</th>
+                </tr>
+                <tr>
+                    <th>Holidays</th>
+                    <th>{{ holidays }}</th>
+                </tr>
+            </ng-template>
+            <!-- <ng-template pTemplate="body">
+                <tr>
+                    <td>1000</td>
+                    <td>0</td>
+                </tr>
+            </ng-template> -->
+        </p-table>
+
+    </div>
+</div>
+
+
+
+
+<div class="card">
+
+    <!-- <p-table [value]="testList" styleClass="p-datatable-gridlines" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Name</th>
+                <th>Virpal Singh</th>
+                <th>Raman Singh</th>
+                <th>Mukesh Kori</th>
+                <th>Anil kumar</th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td style="font-weight: bolder;">{{ item.test1 }}</td>
+                <td>{{ item.test2 }}</td>
+                <td>{{ item.test3 }}</td>
+                <td>{{ item.test4 }}</td>
+                <td>{{ item.test5 }}</td>
+                <td style="font-weight: bolder;">{{ item.test6 }}</td>
+            </tr>
+        </ng-template>
+    </p-table> -->
+
+</div>

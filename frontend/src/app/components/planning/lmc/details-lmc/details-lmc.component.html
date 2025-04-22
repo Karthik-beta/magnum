@@ -1,0 +1,50 @@
+    <!-- <div class="col-auto text-900"> -->
+        <div class="card">
+            <p-table [value]="slotList" class="p-datatable-sm" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': '20rem', 'font-size': 'x-small', 'color': 'black' }">
+                <ng-template pTemplate="header">
+                  <tr class="text-size header-row" [ngStyle]="{'font-weight': 'bold', 'color': 'black'}">
+                    <th scope="col">DATE</th>
+                    <th scope="col">SHIFT A</th>
+                    <th scope="col">SHIFT B</th>
+                    <!-- <th scope="col">SHIFT C</th> -->
+                    <th scope="col">PLANNED HOURS</th>
+                    <th scope="col">PLANNED PRODUCTION</th>
+                    <th scope="col">REMAINING HOURS</th>
+                    <th scope="col">BALANCE PRODUCTION</th>
+                    <th scope="col">MANAGER</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                  <tr class="text-size data-row" [ngStyle]="{'color': 'black'}">
+                    <td>{{ item.date }}</td>
+                    <td>
+                        <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        </label>
+                        <span class="time-range ml-1">{{ item.shift_a }}</span>
+                    </td>
+                    <td>
+                        <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        </label>
+                        <span class="time-range ml-1">{{ item.shift_b }}</span>
+                    </td>
+                    <!-- <td>
+                        <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        </label>
+                        <span class="time-range ml-1">{{ item.shift_c }}</span>
+                    </td> -->
+                    <td>{{ item.planned_hours }}</td>
+                    <td>{{ item.planned_production }}</td>
+                    <td>{{ item.remaining_hours }}</td>
+                    <td>{{ item.balance_production }}</td>
+                    <td>{{ item.manager }}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+        </div>
+    <!-- </div> -->

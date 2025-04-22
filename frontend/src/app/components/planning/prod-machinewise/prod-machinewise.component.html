@@ -1,0 +1,245 @@
+<div class="card" *ngIf="showElements === 'true'">
+    <div class="container-fluid col-12 mb-0">
+        <div class="grid mb-0">
+            <div class="col-md-12 mb-0">
+                <div class="title justify-content-center">
+                    <div class="col-auto">
+                        <app-shift></app-shift>
+                    </div>
+                </div>
+                <div class="grid">
+                    <div class="col-10 lg:col-8 xl:col-10 mb-0">
+                        <p-chart type="bar" [data]="barChart" [options]="barOptions"></p-chart>
+                    </div>
+                    <div class="col-2 lg:col-4 xl:col-2 gif-card mb-0">
+                        <img src="assets/layout/images/green.gif" alt="" width="99%" height="70px">
+                    </div>
+                </div>
+                <p-chart type="bar" [data]="bar2Chart" [options]="bar2Options"></p-chart>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="card mb-3">
+
+    <!-- <div class="flex justify-content-center font-medium">
+        <h6 class="block text-600 font-bold">{{ currentDate | date:'dd/MM/yyyy' }}</h6>
+    </div>
+    <div class="flex justify-content-center font-large ">
+        <div class="grid justify-content-center">
+            <h4 class="text-800 block font-bold">
+                {{ currentDate | date: 'HH:mm:ss':'Asia/Kolkata'  }}
+                <span style="font-size: small;">{{ currentDate | date: 'a':'Asia/Kolkata' }}</span>
+            </h4>
+        </div>
+    </div> -->
+
+
+
+
+    <div class="mb-2">
+        <p-table #dt1 [value]="singleMachineList" dataKey="id" styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex justify-content-between flex-column sm:flex-row">
+
+                    <p-selectButton [options]="stateOptions" [(ngModel)]="showElements" optionLabel="label" optionValue="value"></p-selectButton>
+
+                    <div class="flex justify-content-center align-items-center">
+                        <div class="flex justify-content-center align-items-center">
+                            <span class="clock font-bold text-900 block">{{ currentDate | date: 'HH : mm : ss':'Asia/Kolkata'  }}</span>
+                            <!-- <p class="text-900 block font-bold font-large text-xl">
+                                {{ currentDate | date: 'HH : mm : ss':'Asia/Kolkata'  }}
+                            </p> -->
+                        </div>
+                        <div>
+                            <p class="text-red-600 block font-bold text-sm">
+                                <!-- {{ currentDate | date:'dd/MM/yyyy' }} -->
+                            </p>
+                        </div>
+                    </div>
+
+                    <p-splitButton icon="pi pi-bars" [model]="items" styleClass="p-button-primary mb-2"></p-splitButton>
+
+                    <!-- <span class="p-input-icon-left mb-2">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" #filter (input)="onGlobalFilter(dt1, $event)" placeholder="Search Keyword" class="w-full" />
+                    </span> -->
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Plant
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Shopfloor
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Assemblyline
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Machine ID
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Status
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Date
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Current Shift
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Total On Time
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Total Idle Time
+                        </div>
+                    </th>
+                    <th>
+                        Total Production
+                    </th>
+                    <th>
+                        Total Target
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Overall Performance
+                        </div>
+                    </th>
+                    <th style="min-width: auto">
+                        <div class="flex justify-content-between align-items-center">
+                            Overall Gap
+                        </div>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ item.plant }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ item.shopfloor }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ item.assemblyline }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        <img src="assets/demo/images/machines/milling-machine.jpg" width="32" style="vertical-align: middle"/>
+                        <span class="image-text ml-2">{{ item.machine_id }}</span>
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        <span [class]="'stat-badge stat-' + getStatusClass(status)">{{ status }}</span>
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ currentDate | date }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ currentShift }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ totalOnTime }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ totalIdleTime }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ totalActual }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        {{ totalTarget }}
+                    </td>
+                    <td style="min-width: auto; white-space: nowrap;">
+                        <p-progressBar [value]="averagePerformance" [showValue]="true" [style]="{'color': 'green', 'font-size': 'small'}"></p-progressBar>
+                    </td>
+                    <td [ngStyle]="getBackgroundColorStyleForGap(totalGapNumber)">
+                        {{ totalGapNumber }}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="8">No machines found.</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="loadingbody">
+                <tr>
+                    <td colspan="8">Loading machine data. Please wait.</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+
+
+
+    <p-table [value]="machineWiseDataList" class="p-datatable-sm text-900" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'min-width': 'auto', 'font-size': 'small', 'font-weight': 'bold', 'color': 'black' }" [rows]="rows">
+        <ng-template pTemplate="header">
+          <tr class="text-size header-row">
+            <th scope="col">Product ID</th>
+            <th acope="col">Lot/Batch</th>
+            <th scope="col">Shift </th>
+            <th scope="col">M/C On Hours</th>
+            <th scope="col">M/C Idle Hours</th>
+            <th scope="col">M/C Idle Reason</th>
+            <th scope="col">M/C Break</th>
+            <th scope="col">Actual</th>
+            <th scope="col">Target</th>
+            <th scope="col">Performance</th>
+            <th scope="col">Gap</th>
+            <th scope="col">kW-h</th>
+            <th scope="col">Sauld</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-dataItem>
+          <tr class="text-size data-row text-900">
+            <td>PB Walkway</td>
+            <td>TEST</td>
+            <td>{{ dataItem.time }}</td>
+            <td style="width: auto;">{{ dataItem.on_time | number: '1.2-2' }}</td>
+            <td style="width: auto;">{{ dataItem.idle_time | number: '1.2-2' }}</td>
+            <td></td>
+            <td></td>
+            <td>{{ dataItem.actual }}</td>
+            <td>{{ dataItem.target}}</td>
+            <td [ngStyle]="getBackgroundColorStyle(dataItem.performance)">{{ dataItem.performance }} %</td>
+            <td [ngStyle]="getBackgroundColorStyleForGap(dataItem.gap)">{{ dataItem.gap }}</td>
+            <td style="width: auto"></td>
+            <td style="padding: 0em">
+                <div class="col d-flex justify-content-center">
+                    <button type="button" class="btn btn-sm btn-info" (click)="editClick(dataItem)" (click)="display=true" pTooltip="Edit" tooltipPosition="bottom">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+</div>

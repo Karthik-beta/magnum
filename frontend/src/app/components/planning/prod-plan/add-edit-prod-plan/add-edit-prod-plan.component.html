@@ -1,0 +1,53 @@
+<div class="text-900" [ngStyle]="{padding: '1em'}">
+<div class="grid justify-content-between">
+    <div class="field col-auto lg:col-3 xl:col-auto">
+        <h6>PRODUCT ID : </h6>
+        <!-- <p-dropdown inputId="dropdown" optionLabel="name"></p-dropdown> -->
+        <p-dropdown [options]="productList" [(ngModel)]="product_id" [autoDisplayFirst]="true" optionLabel="label" placeholder="Select"></p-dropdown>
+    </div>
+    <div class="field col-auto lg:col-3 xl:col-auto">
+        <h6>CUSTOMER : </h6>
+        <!-- <p-dropdown inputId="dropdown" optionLabel="name"></p-dropdown> -->
+        <p-dropdown [options]="customers" [(ngModel)]="customer" [autoDisplayFirst]="true" optionLabel="label" placeholder="Select"></p-dropdown>
+    </div>
+    <div class="field col-auto lg:col-3 xl:col-auto">
+        <h6>PO NO : </h6>
+        <!-- <p-dropdown inputId="dropdown" optionLabel="name"></p-dropdown> -->
+        <p-dropdown [options]="poNoList" [(ngModel)]="po_no" [autoDisplayFirst]="true" optionLabel="label" placeholder="Select"></p-dropdown>
+    </div>
+    <div class="field col-auto lg:col-3 xl:col-auto">
+        <h6>BATCH NO : </h6>
+        <!-- <p-dropdown inputId="dropdown" optionLabel="name"></p-dropdown> -->
+        <p-dropdown [options]="batchList" [(ngModel)]="batch_no" [autoDisplayFirst]="true" optionLabel="label" placeholder="Select"></p-dropdown>
+    </div>
+    <div class="field col-auto lg:col-6 xl:col-auto">
+        <h6>ORDER QUANTITY : </h6>
+        <p-inputNumber mode="decimal" [(ngModel)]="quantity" [showButtons]="true" [min]="0" ></p-inputNumber>
+    </div>
+    <div class="field col-auto lg:col-6 xl:col-auto">
+        <h6>PRODUCTION EXPECTED DATE : </h6>
+        <!-- <p-calendar [showIcon]="true" [(ngModel)]="expected_date" inputId="icon" [showWeek]="true"></p-calendar> -->
+        <input type="date" pInputText [(ngModel)]="expected_date" />
+    </div>
+        <!-- Add other input fields as needed -->
+</div>
+</div>
+
+
+
+  <!-- <div class="d-flex justify-content-end">
+    <button id="closeButton" type="button" class="btn btn-secondary mr-2 mt-2" data-dismiss="modal">Close</button>
+    <button (click)="addProductionPlan()" *ngIf="prodplan.employee_id == null" class="btn btn-success mt-2">
+      <i class="pi pi-save"></i> Save </button>
+    <button (click)="updateProductionPlan()" *ngIf="prodplan.employee_id!= null" class="btn btn-success mt-2">
+      <i class="pi pi-pencil"></i> Update </button>
+  </div> -->
+
+
+
+
+
+  <div class="d-flex justify-content-end">
+    <button pButton icon="fa-solid fa-floppy-disk" (click)="addProductionPlan()" *ngIf="prodplan.employee_id == null"label="Save" class="p-button-success"></button>
+    <button pButton icon="fa-solid fa-pencil" (click)="updateProductionPlan()" *ngIf="prodplan.employee_id!= null" label="Update" class="p-button-info"></button>
+</div>

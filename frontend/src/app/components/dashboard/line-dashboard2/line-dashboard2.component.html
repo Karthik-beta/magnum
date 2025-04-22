@@ -1,0 +1,169 @@
+<div class="card">
+
+    <div class="workstation-info">
+        <div class="flex justify-content-center align-items-center">
+            <span class="clock font-bold text-medium text-900 block">
+                {{ currentDate | date: 'dd-MM-yyyy => HH : mm : ss':'Asia/Kolkata' }}
+            </span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Line: SSL Workstation - 001</span>
+        </div>
+        <div class="flex justify-content-center flex-column sm:flex-row">
+            <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
+        </div>
+    </div>
+</div>
+
+<div class="scroll-wrapper">
+    <div class="machine-grid">
+
+        <div class="col-3 col-auto" *ngFor="let machine of machineList">
+            <div class="card">
+
+                <div class="">
+                    <p-divider align="left">
+                        <img src="assets/demo/images/machines/milling-machine.jpg" width="32" style="vertical-align: middle"/>
+                        <span class="p-tag">{{ machine.channel }}</span>
+                    </p-divider>
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium"><img src="assets/demo/images/animatedicons/gears.gif" alt="Gears animation" width="20" height="20">Status <span class="p-tag ml-2"><i class="fa-solid fa-arrow-up-right-from-square" style="color: white; cursor: pointer;" (click)="navigateToMachineDetails(machine.machine_id)"></i></span></span>
+                        </div>
+                        <div>
+                            <div class="status-bubble" [ngClass]="{'green': !machine.health, 'red': machine.health}"></div>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-bold"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">AE</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium alert-badge status-orange">{{ machine.ae }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-bold"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">PE</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium alert-badge status-yellow">{{ machine.pe }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-bold"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">QE</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium alert-badge status-green">{{ machine.qe }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-bold"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">OEE</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium alert-badge" [ngClass]="getOeeStatusClass(machine.oee)">{{ machine.oee }}%</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium text-xl"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">On Time</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.total_on_time }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium text-xl"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">Idle Time</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.total_idle_time }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium text-xl"><img src="assets/demo/images/animatedicons/clock.gif" alt="Gears animation" width="20" height="20">Breaktime</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.breakdown_time }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium text-xl"><img src="assets/demo/images/animatedicons/alert.gif" alt="Gears animation" width="20" height="20">Production Count</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.prodCount }}</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium text-xl"><img src="assets/demo/images/animatedicons/alert.gif" alt="Gears animation" width="20" height="20">Production Target</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.prodTarget }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium"><img src="assets/demo/images/animatedicons/alert.gif" alt="Gears animation" width="20" height="20">Rejection</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.rejection }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium"><img src="assets/demo/images/animatedicons/alert.gif" alt="Gears animation" width="20" height="20">Operator</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.operator }}</span>
+                        </div>
+                    </div>
+
+                    <p-divider />
+
+                    <div class="flex justify-content-between">
+                        <div>
+                            <span class="block text-900 font-medium"><img src="assets/demo/images/animatedicons/alert.gif" alt="Gears animation" width="20" height="20">Job Work</span>
+                        </div>
+                        <div>
+                            <span class="block text-900 font-medium">{{ machine.job_work }}</span>
+                        </div>
+                    </div>
+
+                    <p-chart type="bar" [data]="bar1Chart" [options]="bar1Options"></p-chart>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

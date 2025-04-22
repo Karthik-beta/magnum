@@ -1,0 +1,31 @@
+.appearance-badge {
+    border-radius: var(--border-radius);
+    padding: .25em;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.appearance-badge {
+    &.light-blue {
+        background: #B3E5FC;
+        // border-color: #23547B;
+        color: #23547B;
+    }
+
+    &.dark-blue {
+        background: #2A323D;
+        color: #B3E5FC;
+    }
+
+    &.light-purple {
+        background: #ECCFFF;
+        color: #694382;
+    }
+
+    &.dark-purple {
+        background: #2A323D;
+        color: #ECCFFF;
+    }
+}

@@ -1,0 +1,97 @@
+.status-bubble {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.workstation-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.alert-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+    gap: 5px;
+    display: flex;
+}
+
+.alert-badge {
+    &.status-green {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-red {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-blue {
+        background: #6366f1;
+        color: #ffffff;
+    }
+
+    &.status-yellow {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+
+    &.status-orange {
+        background: #FFB74D;
+        color: #E65100;
+    }
+}
+
+.clock {
+    font-size: 2rem;
+    font-family: 'digital-7', sans-serif;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.clock-body {
+    display: flex;
+    font-family: 'digital-7', sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    border: 5px solid grey;
+    padding: 4px;
+}
+
+.scroll-wrapper {
+    overflow-x: auto;
+    padding-bottom: 1rem; // Optional spacing
+  }
+
+  .machine-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem; // spacing between cards
+  }
+
+  .card {
+    min-width: 300px; // or whatever width suits your card
+    flex-shrink: 0;
+  }

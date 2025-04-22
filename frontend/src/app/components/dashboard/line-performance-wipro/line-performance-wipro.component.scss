@@ -1,0 +1,152 @@
+.grid-container {
+    display: grid;
+    // grid-template-columns: 1fr minmax(100px, 15%); /* Cards take most space, image takes ~15% */
+    gap: 20px;
+    align-items: center;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.card-inheritance {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-inheritance:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Click effect */
+.card-inheritance:active {
+    transform: scale(0.95); /* Shrinks slightly */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Reduces shadow */
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.status-image {
+    width: 100%; /* Makes sure it doesn’t exceed its column */
+    max-width: 120px; /* Limits the max size */
+    height: auto;
+}
+
+.workstation-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.clock {
+    font-size: 1.5rem;
+    font-family: 'digital-7', sans-serif;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.clock-body {
+    display: flex;
+    font-family: 'digital-7', sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    border: 5px solid grey;
+    padding: 4px;
+}
+
+.alert-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.alert-badge {
+    &.status-instock {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-outofstock {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-breakdown {
+        background: #FEEDAF;
+        color: #8A5340;
+    }
+}
+
+.oee-badge {
+    border-radius: var(--border-radius);
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.oee-badge {
+    &.status-good {
+        background: #C8E6C9;
+        color: #256029;
+    }
+
+    &.status-bad {
+        background: #FFCDD2;
+        color: #C63737;
+    }
+
+    &.status-ok {
+        background: #6366f1;
+        color: #ffffff;
+    }
+
+    &.status-satisfactory {
+        background: #FFECB3;
+        color: #FF6F00;
+    }
+}
+
+.status-bubble {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}

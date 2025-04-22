@@ -1,0 +1,58 @@
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Planned</span>
+            <div class="text-900 font-medium text-xl">{{ planned }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-calendar-check text-blue-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">24 new </span><span class="text-500">since last visit</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order in Process</span>
+            <div class="text-900 font-medium text-xl">{{ processing }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-rotate text-orange-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">%52+ </span><span class="text-500">since last week</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Order Completed</span>
+            <div class="text-900 font-medium text-xl">{{ completed }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-check-circle text-cyan-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">520  </span><span class="text-500">newly registered</span> -->
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+      <div class="card mb-0">
+        <div class="flex justify-content-between mb-3">
+          <div>
+            <span class="block text-500 font-medium mb-3">Transactions Today</span>
+            <div class="text-900 font-medium text-xl">{{ transaction_today }}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+            <i class="fas fa-exchange-alt text-purple-500 text-xl"></i>
+          </div>
+        </div>
+        <!-- <span class="text-green-500 font-medium">85 </span><span class="text-500">responded</span> -->
+      </div>
+    </div>
+</div>

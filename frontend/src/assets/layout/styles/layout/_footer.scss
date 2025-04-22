@@ -1,0 +1,21 @@
+.layout-footer {
+    transition: margin-left $transitionDuration;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--surface-border);
+}
+
+// .layout-footer img {
+//     width: 3.5em; /* Adjust this value as needed */
+//     height: auto; /* Automatically adjusts height based on width */
+//     // margin-right: 0.5em; /* Optional: Adds some space between the logo and 'by' */
+//     margin-left: 0.2em; /* Optional: Adds some space between the logo and 'by' */
+//     vertical-align: baseline; /* Optional: Aligns the logo vertically with the text */
+// }
+
+// .layout-footer .font-medium {
+//     font-size: 16px; /* Adjust this value as needed */
+//     /* Add any other styling you want for the 'by' text */
+// }

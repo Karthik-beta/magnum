@@ -1,0 +1,57 @@
+
+<div class="container-fluid col-md-12 justify-content-center align-items-center d-flex">
+    <div class="col-12 grid flex justify-content-between mt-2">
+      <div>
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="mc_on_hours">M/C On Time (Min) :</label>
+                <p-inputNumber id="mc_on_hours" [(ngModel)]="mc_on_hours" [showButtons]="true" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+                <!-- <label for="mc_on_hours">M/C On Time (Min) :</label> -->
+            </span>
+          <!-- <label for="quantity">Machine On Time (min) :</label>
+          <input type="number" class="form-control" id="quantity" [(ngModel)]="mc_on_hours"> -->
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="actual">Actual Production :</label>
+                <p-inputNumber id="actual" [(ngModel)]="actual" [showButtons]="true" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+                <!-- <label for="actual">Actual Production :</label> -->
+            </span>
+          <!-- <label for="productionexpecteddate">Actual Production :</label>
+          <input type="number" class="form-control" id="productionexpecteddate" [(ngModel)]="actual"> -->
+        </div>
+      </div>
+      <div class="col-md-6 mt-2">
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="target">Target Production :</label>
+                <p-inputNumber id="target" [(ngModel)]="target" [showButtons]="true" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+                <!-- <label for="actual">Actual Production :</label> -->
+            </span>
+          <!-- <label for="productionexpecteddate">Actual Production :</label>
+          <input type="number" class="form-control" id="productionexpecteddate" [(ngModel)]="actual"> -->
+        </div>
+      </div>
+      <div class="col-md-6 mt-2">
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="current">kW-h :</label>
+                <p-inputNumber id="current" [(ngModel)]="current" [showButtons]="true" [step]="0.25" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+                <!-- <label for="current">kW-h :</label> -->
+            </span>
+          <!-- <label for="productionexpecteddate">kW-h :</label>
+          <input type="number" class="form-control" id="productionexpecteddate" [(ngModel)]="current"> -->
+        </div>
+      </div>
+      <!-- Add other input fields as needed -->
+    </div>
+  </div>
+
+
+
+
+  <div class="d-flex justify-content-end">
+      <button pButton icon="pi pi-save" (click)="updateAssemblyLine()" label="Save" class="p-button-success"></button>
+  </div>

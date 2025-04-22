@@ -1,0 +1,25 @@
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.clock-body {
+    display: flex;
+    font-family: 'digital-7', sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    border: 5px solid grey;
+    padding: 4px;
+}
+
+.clock {
+    font-size: 2rem;
+    font-family: 'digital-7', sans-serif;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+    // color: #df5046;
+    // text-shadow: 0 0 10px #df5046;
+}

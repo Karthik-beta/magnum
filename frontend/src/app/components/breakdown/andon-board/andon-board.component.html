@@ -1,0 +1,12 @@
+<div class="card">
+    <!-- <div class="header">Shift Running Vs Breakdown</div> -->
+    <div class="flex justify-content-center flex-column sm:flex-row">
+        <span class="text-900 text-2xl font-bold font-large">Line: SSL Workstation - Shift Running Vs Breakdown</span>
+    </div>
+    <div class="content">
+      <div class="chart-area">
+        <p-chart *ngIf="timelineData" type="bar" [data]="timelineData" [options]="timelineOptions"></p-chart>
+         <div *ngIf="!timelineData">Loading chart data...</div>
+      </div>
+    </div>
+</div>

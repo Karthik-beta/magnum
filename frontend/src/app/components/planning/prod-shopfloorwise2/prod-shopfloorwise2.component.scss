@@ -1,0 +1,77 @@
+.performance-cell::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background-color: #000;
+}
+
+.clock {
+    font-size: 2rem;
+    font-family: 'digital-7', sans-serif;
+    color: #00ff00;
+    text-shadow: 0 0 10px #00ff00;
+}
+
+.clock-body {
+    display: flex;
+    font-family: 'digital-7', sans-serif;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: black;
+    border: 5px solid grey;
+    padding: 4px;
+}
+
+@media (min-width: 2160px) {
+    // Text size classes for 4K
+    [class*="text-4k"] {
+        &.text-xl { font-size: 1.25rem; }
+        &.text-2xl { font-size: 1.5rem; }
+        &.text-3xl { font-size: 1.875rem; }
+        &.text-4xl { font-size: 2.25rem; }
+    }
+
+    // Padding classes for 4K
+    [class*="p-4k"] {
+        &.p-6 { padding: 1.5rem; }
+    }
+
+    // Clock adjustments for 4K
+    .clock {
+        font-size: 3rem;
+    }
+
+    .clock-body {
+        padding: 8px;
+        border-width: 8px;
+    }
+
+    // PrimeNG specific adjustments
+    .p-dropdown {
+        .p-dropdown-label {
+            font-size: 1.25rem;
+            padding: 1rem;
+        }
+        .p-dropdown-items {
+            font-size: 1.25rem;
+        }
+    }
+
+    .p-datatable {
+        .p-datatable-header {
+            font-size: 1.5rem;
+        }
+        .p-datatable-thead > tr > th {
+            font-size: 1.25rem;
+            padding: 1.25rem;
+        }
+        .p-datatable-tbody > tr > td {
+            font-size: 1.25rem;
+            padding: 1.25rem;
+        }
+    }
+}

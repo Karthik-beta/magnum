@@ -1,0 +1,27 @@
+<div class="container-fluid col-md-12 justify-content-center align-items-center d-flex">
+    <div class="col-12 grid flex justify-content-between mt-2">
+      <div>
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="mc_on_hours">M/C On Time (Min) :</label>
+                <p-inputNumber id="on_time" [(ngModel)]="on_time" [showButtons]="true" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+            </span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <span class="flex-auto">
+                <label class="mb-2 block font-bold" for="mc_on_hours">Actual Production :</label>
+                <p-inputNumber id="actual" [(ngModel)]="actual" [showButtons]="true" [step]="1" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" buttonLayout="horizontal"> </p-inputNumber>
+            </span>
+        </div>
+      </div>
+
+
+      <!-- Add other input fields as needed -->
+    </div>
+</div>
+
+<div class="d-flex justify-content-end">
+    <button pButton icon="pi pi-save" (click)="updateProductionMachine()" label="Save" class="p-button-success"></button>
+</div>

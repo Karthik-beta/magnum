@@ -1,0 +1,53 @@
+       <div class="card" *ngFor="let item of lineList">
+          <p-divider align="left">
+             <span class="p-tag" style="margin-right: auto;">MC - {{ machine_name }}</span>
+          </p-divider>
+          <div class="flex justify-content-between">
+             <div class="col-6 flex justify-content-start">
+                <div class="col-6">
+                   <span class="block text-900 font-medium oee-badge status-satisfactory">Jobwork : {{ job }}</span>
+                </div>
+                <div class="col-6">
+                   <span class="block text-900 font-medium oee-badge status-satisfactory">Lot/Batch : {{ batch }}</span>
+                </div>
+                <!-- <div class="col-3">
+                   <span class="block text-900 font-medium oee-badge status-satisfactory">Pending : {{ pending }}</span>
+                   </div> -->
+             </div>
+             <div class="col-2 flex justify-content-end">
+                <!-- <p-button label="Download" icon="fa fa-download" size="small" severity="success"></p-button> -->
+                <p-splitButton icon="pi pi-bars" [model]="items" size="small" styleClass="p-button-primary"></p-splitButton>
+             </div>
+          </div>
+          <div class="flex justify-content-between mb-0">
+             <div class="col-12 lg:col-6 xl:col-3">
+                <h5>Planned vs Actual</h5>
+                <p-chart type="bar" [data]="barData3" [options]="barOptions3"></p-chart>
+             </div>
+             <div class="col-12 lg:col-6 xl:col-3">
+                <h5>Running vs Breakdown</h5>
+                <p-chart type="doughnut" [data]="barData2" [options]="barOptions2"></p-chart>
+             </div>
+             <div class="col-12 lg:col-6 xl:col-3">
+                <h5>Breakdown Reason</h5>
+                <p-chart type="bar" [data]="barData4" [options]="barOptions4"></p-chart>
+             </div>
+             <!-- <div class="col-12 lg:col-6 xl:col-3">
+                <h5>Quality</h5>
+                <p-chart type="pie" [data]="data2" [options]="options2"></p-chart>
+                </div> -->
+             <div class="col-12 lg:col-6 xl:col-3">
+                <div class="flex justify-content-between">
+                   <div class="">
+                      <h5>Quality</h5>
+                   </div>
+                   <div class="">
+                      <span [class]="'oee-badge ' + getStatusClass(item.oee)">OEE : {{ item.oee }}%</span>
+                   </div>
+                </div>
+                <p-chart type="pie" [data]="data3" [options]="options3"></p-chart>
+             </div>
+          </div>
+       </div>
+
+

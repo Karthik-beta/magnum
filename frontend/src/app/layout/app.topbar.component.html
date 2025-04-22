@@ -1,0 +1,96 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <!-- <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg" alt="logo"> -->
+        <img src="assets/layout/images/Magnum.png" alt="logo">
+        <!-- <span>SAKAI</span> -->
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <!-- <div class="">
+        <div class="">
+      <img *ngIf="databaseStatus === 'Database is connected.'" src="assets/layout/images/database.png" style="height:30px; width: 30px" alt="Connected GIF">
+        <div class="green-dot"></div>
+    </div> -->
+
+    <div #topbarmenu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+
+        <!-- <div class="flex justify-content-start align-items-center" style="width:100%">
+            <span class="font-bold text-900 text-xl">Line: SSL <span> </span> Workstation - 001</span>
+        </div> -->
+
+        <div class="flex justify-content-end align-items-center">
+            <img src="assets/layout/images/caterpillar-logo.png" alt="logo" width="40%" height="50%">
+        </div>
+
+        <button pButton [pTooltip]="isFullscreen ? 'Exit full screen (f)' : 'Full screen (f)'" tooltipPosition="bottom" class="p-link layout-topbar-button" (click)="toggleFullscreen()">
+            <i [ngClass]="{'fa-expand': !isFullscreen, 'fa-compress': isFullscreen}" class="fas"></i>
+            <span>{{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen' }}</span>
+        </button>
+
+        <ng-template #tooltipContent>
+            <div class="flex align-items-center">
+                <span>{{ isFullscreen ? 'Exit Fullscreen' : 'Fullscreen(f)' }}</span>
+            </div>
+        </ng-template>
+
+        <button class="p-link layout-topbar-button" [pTooltip]="databaseStatus === 'Database Connected.' ? 'Database is connected' : 'Database disconnected'" tooltipPosition="bottom">
+            <!-- <img src="assets/layout/images/database.png" style="height:20px; width: 20px; vertical-align: bottom;" alt="Connected GIF"> -->
+            <i class="pi pi-database mr-1"></i>
+            <div *ngIf="databaseStatus === 'Database Connected.'">
+                <div style="display: flex; align-items: center;">
+                    <div class="green-dot mr-1"></div>
+                    <span>Connected</span>
+                </div>
+            </div>
+            <div *ngIf="databaseStatus !== 'Database Connected.'">
+                <div style="display: flex; align-items: center;">
+                    <div class="red-dot mr-1"></div>
+                    <span>Disconnected</span>
+                </div>
+            </div>
+        </button>
+        <button class="p-link layout-topbar-button" pTooltip="{{ location }}" tooltipPosition="bottom">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ location }}</span>
+        </button>
+        <div pBadge value="10+">
+            <button class="p-link layout-topbar-button" pTooltip="Notifications" tooltipPosition="bottom">
+                <i class="pi pi-bell"></i>
+                <span>Notifications</span>
+            </button>
+        </div>
+        <button class="p-link layout-topbar-button" (click)="menu.toggle($event)" pTooltip="Profile" tooltipPosition="bottom">
+            <!-- <i class="pi pi-user"></i> -->
+            <p-avatar image="assets/demo/images/avatar/bernardodominic.png" styleClass="mt-1" size="medium" shape="circle"></p-avatar>
+            <span>Profile</span>
+        </button>
+        <p-toast></p-toast>
+        <p-menu #menu [model]="profile_items" [popup]="true"></p-menu>
+        <!-- <button class="p-link layout-topbar-button" [routerLink]="'/documentation'"> -->
+        <div>
+            <button class="p-link layout-topbar-button" pTooltip="Settings" tooltipPosition="bottom">
+                <i class="pi pi-cog"></i>
+                <span>Settings</span>
+            </button>
+            <!-- <button class="p-link layout-topbar-button layout-menu">
+                <i class="pi pi-cog"></i>
+                <span>Settings</span>
+                <ng-container *ngFor="let item of model; let i = index;">
+                    <li app-menuitem *ngIf="!item.separator" [item]="item" [index]="i" [root]="true"></li>
+                    <li *ngIf="item.separator" class="menu-separator"></li>
+                </ng-container>
+            </button> -->
+        </div>
+        <!-- <button class="p-link  text-center text-800 font-bold justify-content-center align-items-center">
+            <div>{{ currentDate | date:'h:mm a' }}</div>
+            <div>{{ currentDate | date:'dd/MM/yyyy' }}</div>
+        </button> -->
+    </div>
+</div>
