@@ -86,6 +86,20 @@ export class AppMenuComponent implements OnInit {
             // },
 
             {
+                label: 'GE Healthcare Workstation',
+                items: [
+                    { label: 'Workstations', icon: 'fa-solid fa-cogs',
+                        items: [
+                            { label: 'M1', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/1'] },
+                            { label: 'M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/2'] },
+                        ]
+                    },
+                    { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
+                    { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
+                ],
+            },
+
+            {
                 label: 'Line: Wipro Workstations',
                 items: [
                     { label: 'Workstations', icon: 'fa-solid fa-cogs',
@@ -95,10 +109,10 @@ export class AppMenuComponent implements OnInit {
                             { label: 'Workstation - 003', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/3'] },
                             { label: 'Workstation - 004', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/4'] },
                             { label: 'Workstation - 005', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/5'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_wipro'] },
-                            { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_wipro'] },
                         ]
                     },
+                    { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_wipro'] },
+                    { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_wipro'] },
                 ],
             },
 

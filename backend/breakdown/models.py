@@ -65,12 +65,14 @@ class AndonData(models.Model):
     category = models.CharField(max_length=50)
     sub_category = models.CharField(max_length=50, blank=True, null=True)
     alert_shift = models.CharField(max_length=10)
-    andon_alerts = models.CharField(max_length=100,null=True, blank=True)
-    andon_acknowledge = models.CharField(max_length=100,null=True, blank=True)
-    andon_resolved = models.CharField(max_length=100,null=True, blank=True)
-    response_time = models.CharField(max_length=100, blank=True, null=True)
-    repair_time = models.CharField(max_length=100, blank=True, null=True)
-    total_time = models.CharField(max_length=100, blank=True, null=True)
+    andon_alerts = models.DateTimeField(blank=True, null=True)
+    andon_acknowledge = models.DateTimeField(blank=True, null=True)
+    andon_resolved = models.DateTimeField(blank=True, null=True)
+    response_time = models.DurationField(blank=True, null=True)
+    repair_time = models.DurationField(blank=True, null=True)
+    total_time = models.DurationField(blank=True, null=True)
+    raise_alert = models.DateTimeField(blank=True, null=True)
+    resolution = models.CharField(max_length=50, blank=True, null=True)   
 
     class Meta:
         db_table = 'andon_data'

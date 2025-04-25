@@ -89,6 +89,10 @@ import { LinePerformanceWiproComponent } from './components/dashboard/line-perfo
 import { LinePerformanceFiltrexComponent } from './components/dashboard/line-performance-filtrex/line-performance-filtrex.component';
 import { LinePlanActualWiproComponent } from './components/production/line-plan-actual-wipro/line-plan-actual-wipro.component';
 import { LinePlanActualFiltrexComponent } from './components/production/line-plan-actual-filtrex/line-plan-actual-filtrex.component';
+import { GeWorkstationComponent } from './components/ge-workstation/ge-workstation.component';
+import { LinePerformanceGeComponent } from './components/dashboard/line-performance-ge/line-performance-ge.component';
+import { LinePlanActualGeComponent } from './components/production/line-plan-actual-ge/line-plan-actual-ge.component';
+import { GeHealthcareComponent } from './components/kanban/ge-healthcare/ge-healthcare.component';
 
 
 
@@ -231,6 +235,12 @@ import { LinePlanActualFiltrexComponent } from './components/production/line-pla
                     { path: 'line_performance_filtrex', component: LinePerformanceFiltrexComponent },
                     { path: 'line_plan_actual_wipro', component: LinePlanActualWiproComponent },
                     { path: 'line_plan_actual_filtrex', component: LinePlanActualFiltrexComponent },
+
+                    { path: 'GE_workstation/:id', component: GeWorkstationComponent },
+                    { path: 'line_performance_ge', component: LinePerformanceGeComponent },
+                    { path: 'line_plan_actual_ge', component: LinePlanActualGeComponent },
+
+                    { path: 'ge_kanban', component: GeHealthcareComponent },
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

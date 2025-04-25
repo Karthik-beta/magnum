@@ -7,7 +7,7 @@
             </span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
-            <span class="block text-900 text-xl font-bold font-large">Shopfloor: 00{{ shopfloorID }} Line - 00{{ workstationId }}</span>
+            <span class="block text-900 text-xl font-bold font-large">GE Healthcare Workstation - M{{ workstationId }}</span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
             <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
@@ -61,7 +61,7 @@
 
 <!-- Bottom cards (display only the selected one) -->
 <div class="card" *ngIf="selectedCard === 'Daily Plan vs Actual'">
-    <div class="grid flex">
+    <!-- <div class="grid flex">
         <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="barCode" class="p-inputtext-sm"/>
@@ -89,12 +89,12 @@
                 <label for="name">Search</label>
             </span>
         </div>
-    </div>
+    </div> -->
 
 
 
     <div class="grid flex justify-content-center">
-        <div class="col-6">
+        <!-- <div class="col-6">
             <p-table #dt1 [value]="tableData" dataKey="id" [scrollable]="true"
             [scrollable]="true"
             scrollHeight="400px" [rowHover]="true" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
@@ -103,7 +103,9 @@
                         <th>Serial No</th>
                         <th>Lot No</th>
                         <th>Product Code</th>
-                        <th>Serial Number</th>
+                        <th>Pick-up Area</th>
+                        <th>Workstation</th>
+                        <th>Drop Area</th>
                         <th>Actual</th>
                         <th>Cycle-Time</th>
                     </tr>
@@ -113,7 +115,9 @@
                         <td>{{ item.serialNo }}</td>
                         <td>{{ item.lotNo }}</td>
                         <td>{{ item.productCode }}</td>
-                        <td>{{ item.serial_no }}</td>
+                        <td>{{ item.pickup }}</td>
+                        <td>{{ item.workstation }}</td>
+                        <td>{{ item.dropoff }}</td>
                         <td>{{ item.actual }}</td>
                         <td>{{ item.cycleTime }}</td>
                     </tr>
@@ -129,15 +133,22 @@
                     </tr>
                 </ng-template>
             </p-table>
-        </div>
+        </div> -->
 
-        <div class="col-6">
+        <div class="col-12">
             <p-table #dt1 [value]="dummyStaticRow" dataKey="id" [rowHover]="false" styleClass="p-datatable-sm"  [tableStyle]="{ 'min-width': 'auto' }">
                 <ng-template pTemplate="header">
                     <tr>
+                        <th>Serial No</th>
+                        <th>Lot No</th>
+                        <th>Product Code</th>
+                        <th>Cycle-Time</th>
+                        <th>Trolley Code</th>
                         <th>Shift</th>
-                        <th>M/C on</th>
-                        <th>M/C Idle</th>
+                        <th>Workstation</th>
+                        <th>Drop Point</th>
+                        <th>WS on</th>
+                        <th>WS Idle</th>
                         <th>Plan</th>
                         <th>Actual</th>
                         <th>Performance</th>
@@ -146,7 +157,17 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                     <tr>
+                        <td>{{ item.serialNo }}</td>
+                        <td>{{ item.lotNo }}</td>
+                        <td>{{ item.productCode }}</td>
+                        <td>{{ item.cycleTime }}</td>
+                        <td>{{ item.trolleyCode }}</td>
                         <td>{{ item.shift }}</td>
+                        <td>{{ item.workstation }}</td>
+                        <td>{{ item.dropoff }}</td>
+                        <!-- <td>{{ item.start }}</td>
+                        <td>{{ item.end }}</td> -->
+
                         <td>{{ item.mcOn }}</td>
                         <td>{{ item.mcIdle }}</td>
                         <td>{{ item.plan }}</td>
