@@ -93,6 +93,8 @@ import { GeWorkstationComponent } from './components/ge-workstation/ge-workstati
 import { LinePerformanceGeComponent } from './components/dashboard/line-performance-ge/line-performance-ge.component';
 import { LinePlanActualGeComponent } from './components/production/line-plan-actual-ge/line-plan-actual-ge.component';
 import { GeHealthcareComponent } from './components/kanban/ge-healthcare/ge-healthcare.component';
+import { FiltrexHealthcareComponent } from './components/kanban/filtrex-healthcare/filtrex-healthcare.component';
+import { ShopfloorPlanActualFiltrexComponent } from './components/production/shopfloor-plan-actual-filtrex/shopfloor-plan-actual-filtrex.component';
 
 
 
@@ -241,6 +243,8 @@ import { GeHealthcareComponent } from './components/kanban/ge-healthcare/ge-heal
                     { path: 'line_plan_actual_ge', component: LinePlanActualGeComponent },
 
                     { path: 'ge_kanban', component: GeHealthcareComponent },
+                    { path: 'filtrex_kanban', component: FiltrexHealthcareComponent },
+                    { path: 'shopfloor_plan_actual_filtrex', component: ShopfloorPlanActualFiltrexComponent}
                 ]
             },
             { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },

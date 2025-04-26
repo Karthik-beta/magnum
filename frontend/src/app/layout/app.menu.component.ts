@@ -94,6 +94,7 @@ export class AppMenuComponent implements OnInit {
                             { label: 'M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/2'] },
                         ]
                     },
+                    { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
                     { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
                     { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
                 ],
@@ -148,10 +149,12 @@ export class AppMenuComponent implements OnInit {
                                         { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l5'] },
                                     ]
                                 },
+                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
                                 { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
                                 { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise'] },
                                 { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2'] },
                                 { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
                                 ]
                         },
                         {
@@ -166,10 +169,12 @@ export class AppMenuComponent implements OnInit {
                                         { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l5'] },
                                     ]
                                 },
+                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
                                 { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
                                 { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise'] },
                                 { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2'] },
                                 { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
                                 ]
                         },
                         {
@@ -184,10 +189,12 @@ export class AppMenuComponent implements OnInit {
                                         { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l5'] },
                                     ]
                                 },
+                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
                                 { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
                                 { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise'] },
                                 { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2'] },
                                 { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
                                 ]
                         },
                         { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },

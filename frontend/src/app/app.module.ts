@@ -141,6 +141,8 @@ import { GeWorkstationComponent } from './components/ge-workstation/ge-workstati
 import { LinePerformanceGeComponent } from './components/dashboard/line-performance-ge/line-performance-ge.component';
 import { LinePlanActualGeComponent } from './components/production/line-plan-actual-ge/line-plan-actual-ge.component';
 import { GeHealthcareComponent } from './components/kanban/ge-healthcare/ge-healthcare.component';
+import { FiltrexHealthcareComponent } from './components/kanban/filtrex-healthcare/filtrex-healthcare.component';
+import { ShopfloorPlanActualFiltrexComponent } from './components/production/shopfloor-plan-actual-filtrex/shopfloor-plan-actual-filtrex.component';
 
 
 
@@ -161,7 +163,7 @@ import { GeHealthcareComponent } from './components/kanban/ge-healthcare/ge-heal
         QcDefectTypeComponent, QualityInspectionComponent, SpellAssemblylineComponent, AddEditSpellAssemblylineComponent,
         MachineDetailQualityComponent, DigitalQualityInspectionComponent, MachineDetailQuality2Component, SoloPlantComponent,
         SoloShopfloorComponent, DailyTargetComponent, WeeklyTargetComponent, MonthlyTargetComponent, ApiUrlComponent,
-        LineDashboardComponent, PlantDashboardComponent, MachineDashboardComponent, ProdShopfloorwise2Component, TimeComponent, SslWorkstationComponent, DisplayBoardComponent, DailyBreakdownComponent, AndonBoardComponent, HomeComponent, ProdShiftwiseComponent, LineDashboard2Component, LinePerformanceComponent, WiproWorkstationComponent, PlanActualComponent, LinePlanActualComponent, FiltrexWorkstationComponent, LinePerformanceWiproComponent, LinePerformanceFiltrexComponent, LinePlanActualWiproComponent, LinePlanActualFiltrexComponent, GeWorkstationComponent, LinePerformanceGeComponent, LinePlanActualGeComponent, GeHealthcareComponent
+        LineDashboardComponent, PlantDashboardComponent, MachineDashboardComponent, ProdShopfloorwise2Component, TimeComponent, SslWorkstationComponent, DisplayBoardComponent, DailyBreakdownComponent, AndonBoardComponent, HomeComponent, ProdShiftwiseComponent, LineDashboard2Component, LinePerformanceComponent, WiproWorkstationComponent, PlanActualComponent, LinePlanActualComponent, FiltrexWorkstationComponent, LinePerformanceWiproComponent, LinePerformanceFiltrexComponent, LinePlanActualWiproComponent, LinePlanActualFiltrexComponent, GeWorkstationComponent, LinePerformanceGeComponent, LinePlanActualGeComponent, GeHealthcareComponent, FiltrexHealthcareComponent, ShopfloorPlanActualFiltrexComponent
     ],
     imports: [
         AppRoutingModule,
