@@ -120,8 +120,8 @@ import { ShopfloorPlanActualFiltrexComponent } from './components/production/sho
 
                     // Components Production
                     { path: 'machinewise', component: ProdMachinewiseComponent },
-                    { path: 'shopfloorwise', component: ProdShopfloorwiseComponent },
-                    { path: 'shopfloorwise2', component: ProdShopfloorwise2Component },
+                    { path: 'shopfloorwise/:substring', component: ProdShopfloorwiseComponent },
+                    { path: 'shopfloorwise2/:substring', component: ProdShopfloorwise2Component },
                     { path: 'assemblylinewise', component: ProdAssemblylinewiseComponent },
                     { path: 'plantwise', component: ProdPlantwiseComponent },
                     { path: 'machine_details', component: MachineDetailsComponent },
@@ -227,11 +227,11 @@ import { ShopfloorPlanActualFiltrexComponent } from './components/production/sho
                     { path: 'shiftwise_analysis', component: ProdShiftwiseComponent },
 
                     // New Components
-                    { path: 'line_dash2', component: LineDashboard2Component },
+                    { path: 'line_dash2/:substring', component: LineDashboard2Component },
                     { path: 'line_performance', component: LinePerformanceComponent },
                     { path: 'wipro_workstation/:id', component: WiproWorkstationComponent },
                     { path: 'plan_actual', component: PlanActualComponent },
-                    { path: 'line_plan_actual', component: LinePlanActualComponent },
+                    { path: 'line_plan_actual/:substring', component: LinePlanActualComponent },
 
                     { path: 'line_performance_wipro', component: LinePerformanceWiproComponent },
                     { path: 'line_performance_filtrex', component: LinePerformanceFiltrexComponent },

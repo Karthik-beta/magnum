@@ -37,6 +37,13 @@
                 <span class="text-900 text-white text-xl">SOP</span>
             </div>
         </div>
+
+        <!-- Image Section (Max 15-18%) -->
+        <div class="image-container">
+            <div>
+                <img src="assets/layout/images/green.gif" alt="Status" class="status-image">
+            </div>
+        </div>
     </div>
 </div>
 
@@ -59,11 +66,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-001</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -85,11 +92,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-002</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -111,11 +118,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-003</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -137,11 +144,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-004</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -163,11 +170,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-005</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -189,11 +196,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-006</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -215,11 +222,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-007</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -241,15 +248,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-008</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
+                            <td style="padding: 5px;">{{ row.actual }}</td>
+                            <td style="padding: 5px;">{{ row.gap }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="card col-3" style="visibility: hidden;"></div>
     </div>
 </div>

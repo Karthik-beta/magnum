@@ -153,6 +153,7 @@
                         <th>Actual</th>
                         <th>Performance</th>
                         <th>Gap</th>
+                        <th>Sauld</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
@@ -177,6 +178,9 @@
                         </td>
                         <td [ngStyle]="getBackgroundColorStyleForGap(item.gap)">
                             {{ item.gap }}
+                        </td>
+                        <td>
+                            <p-button icon="pi pi-pencil" severity="info" styleClass="p-button-sm" />
                         </td>
                     </tr>
                 </ng-template>

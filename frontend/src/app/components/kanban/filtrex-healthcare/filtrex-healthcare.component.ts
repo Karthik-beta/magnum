@@ -15,6 +15,14 @@ export class FiltrexHealthcareComponent implements OnInit {
         this.timeFunction();
     }
 
+    jcList = [
+        { jc: 'JC-1001', serialNo: 'DSFGS454364554', qty: 5  },
+        { jc: 'JC-1002', serialNo: 'DSFGS454364554', qty: 35  },
+        { jc: 'JC-1003', serialNo: 'DSFGS454364554', qty: 5  },
+        { jc: 'JC-1004', serialNo: 'DSFGS454364554', qty: 1  },
+        { jc: 'JC-1005', serialNo: 'DSFGS454364554', qty: 78  },
+    ]
+
     currentDate$: Observable<Date>;
         private subscription: Subscription;
 

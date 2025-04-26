@@ -37,12 +37,19 @@
                 <span class="text-900 text-white text-xl">SOP</span>
             </div>
         </div>
+
+        <!-- Image Section (Max 15-18%) -->
+        <div class="image-container">
+            <div>
+                <img src="assets/layout/images/green.gif" alt="Status" class="status-image">
+            </div>
+        </div>
     </div>
 </div>
 
 
 <div class="card">
-    <div class="grid flex">
+    <div class="grid flex col-12">
         <div class="card col-3">
             <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #007bff; color: white; border-radius: 10px; padding: 5px;">
                 <span class="text-xl font-bold">Line - 001 JC:1001</span>
@@ -53,17 +60,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-001</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -79,17 +84,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-002</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -105,17 +108,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-003</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -131,17 +132,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-004</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -155,11 +154,10 @@
             <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
                 <table style="width: 100%; border-collapse: collapse; text-align: left;">
                     <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -183,17 +181,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-006</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -209,17 +205,15 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-007</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -235,21 +229,21 @@
                     <thead>
                         <tr>
                             <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
+                            <th style="border-bottom: 1px solid;">Serial No</th>
+                            <th style="border-bottom: 1px solid;">Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td style="padding: 5px;">JC-008</td>
-                            <td style="padding: 5px;">02:30</td>
-                            <td style="padding: 5px;">34</td>
-                            <td style="padding: 5px;">2</td>
+                        <tr *ngFor="let row of jcList">
+                            <td style="padding: 5px;">{{ row.jc }}</td>
+                            <td style="padding: 5px;">{{ row.serialNo }}</td>
+                            <td style="padding: 5px;">{{ row.qty }}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <div class="card col-3" style="visibility: hidden;"></div>
     </div>
 </div>

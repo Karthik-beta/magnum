@@ -15,6 +15,14 @@ export class GeHealthcareComponent implements OnInit {
         this.timeFunction();
     }
 
+    jcList = [
+        { jc: 'JC-001', cycleTime: '02:30', actual: '34', gap: '2' },
+        { jc: 'JC-002', cycleTime: '02:30', actual: '34', gap: '2' },
+        { jc: 'JC-003', cycleTime: '02:30', actual: '34', gap: '2' },
+        { jc: 'JC-004', cycleTime: '02:30', actual: '34', gap: '2' },
+        { jc: 'JC-005', cycleTime: '02:30', actual: '34', gap: '2' },
+    ];
+
     currentDate$: Observable<Date>;
         private subscription: Subscription;
 
