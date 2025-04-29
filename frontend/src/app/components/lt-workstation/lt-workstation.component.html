@@ -7,7 +7,7 @@
             </span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
-            <span class="block text-900 text-xl font-bold font-large">Shopfloor : ASD</span>
+            <span class="block text-900 text-xl font-bold font-large">{{ shopfloor }} Shopfloor - Machine {{ machine }}</span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
             <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
@@ -62,217 +62,119 @@
 <!-- Bottom cards (display only the selected one) -->
 <div class="card" *ngIf="selectedCard === 'Daily Plan vs Actual'">
     <div class="grid flex">
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #007bff; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 001 JC:1001</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #ffc107; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 002 JC:1002</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #28a745; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 003 JC:1003</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #dc3545; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 004 JC:1004</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #6c757d; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 005 JC:1005</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #17a2b8; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 006 JC:1006</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #6610f2; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 007 JC:1007</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card col-3">
-            <div class="" style="display: flex; align-items: center; justify-content: space-between; background-color: #e83e8c; color: white; border-radius: 10px; padding: 5px;">
-                <span class="text-xl font-bold">Line - 008 JC:1008</span>
-                <input type="text" placeholder="Search" style="border-radius: 5px; border: 1px solid #ccc; padding: 5px; width: 150px;">
-            </div>
-            <div style="margin-top: 10px; height: 100px; border: 2px solid white; background-color: transparent; overflow-y: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left;">
-                    <thead>
-                        <tr>
-                            <th style="border-bottom: 1px solid;">JC</th>
-                            <th style="border-bottom: 1px solid;">Cycle Time</th>
-                            <th style="border-bottom: 1px solid;">Actual</th>
-                            <th style="border-bottom: 1px solid;">Gap</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let row of jcList">
-                            <td style="padding: 5px;">{{ row.jc }}</td>
-                            <td style="padding: 5px;">{{ row.cycleTime }}</td>
-                            <td style="padding: 5px;">{{ row.actual }}</td>
-                            <td style="padding: 5px;">{{ row.gap }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="barCode" class="p-inputtext-sm"/>
+                <label for="name">Scan Barcode</label>
+            </span>
         </div>
 
-        <div class="card col-3" style="visibility: hidden;"></div>
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="lotNo" class="p-inputtext-sm"/>
+                <label for="name">Lot No</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="productCode" class="p-inputtext-sm"/>
+                <label for="name">Product Code</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="search" class="p-inputtext-sm"/>
+                <label for="name">Search</label>
+            </span>
+        </div>
     </div>
+
+
+
+    <div class="grid flex justify-content-center">
+        <div class="col-6">
+            <p-table #dt1 [value]="tableData" dataKey="id" [scrollable]="true"
+            [scrollable]="true"
+            scrollHeight="400px" [rowHover]="true" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Serial No</th>
+                        <th>Lot No</th>
+                        <th>Product Code</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Actual</th>
+                        <th>Cycle-Time</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.serialNo }}</td>
+                        <td>{{ item.lotNo }}</td>
+                        <td>{{ item.productCode }}</td>
+                        <td>{{ item.start }}</td>
+                        <td>{{ item.end }}</td>
+                        <td>{{ item.actual }}</td>
+                        <td>{{ item.cycleTime }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div class="col-6">
+            <p-table #dt1 [value]="dummyStaticRow" dataKey="id" [rowHover]="false" styleClass="p-datatable-sm"  [tableStyle]="{ 'min-width': 'auto' }">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Shift</th>
+                        <th>M/C on</th>
+                        <th>M/C Idle</th>
+                        <th>Plan</th>
+                        <th>Actual</th>
+                        <th>Performance</th>
+                        <th>Gap</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                        <td>{{ item.shift }}</td>
+                        <td>{{ item.mcOn }}</td>
+                        <td>{{ item.mcIdle }}</td>
+                        <td>{{ item.plan }}</td>
+                        <td>{{ item.actual }}</td>
+                        <td style="min-width: auto; white-space: nowrap;">
+                            <p-progressBar [value]="item.performance" [showValue]="true" [style]="{'color': 'green', 'font-size': 'small'}"></p-progressBar>
+                        </td>
+                        <td [ngStyle]="getBackgroundColorStyleForGap(item.gap)">
+                            {{ item.gap }}
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="14">No Data found.</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="loadingbody">
+                    <tr>
+                        <td colspan="14">Loading data. Please wait.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
 </div>
 
 <div class="card" *ngIf="selectedCard === 'Andon Call Help'">

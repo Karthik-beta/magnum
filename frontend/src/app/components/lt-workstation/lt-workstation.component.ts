@@ -10,9 +10,6 @@ interface TableDataItem {
     productCode: string;
     start: string;
     end: string;
-    pickup: string;
-    workstation: string;
-    dropoff: string;
     actual: string;
     cycleTime: string;
     shift: string; // Now 'shift' is part of each TableDataItem
@@ -25,11 +22,11 @@ interface TableDataItem {
 }
 
 @Component({
-  selector: 'app-ge-workstation',
-  templateUrl: './ge-workstation.component.html',
-  styleUrls: ['./ge-workstation.component.scss']
+  selector: 'app-lt-workstation',
+  templateUrl: './lt-workstation.component.html',
+  styleUrls: ['./lt-workstation.component.scss']
 })
-export class GeWorkstationComponent implements OnInit {
+export class LTWorkstationComponent implements OnInit {
 
     tableData: TableDataItem[] = [];
     staticRowData: any = {};
@@ -40,22 +37,16 @@ export class GeWorkstationComponent implements OnInit {
     productCode: string='';
     search: string='';
 
-    workstationId: string = '';
+    shopfloor: string = '';
+    machine: string = '';
 
     constructor(private route: ActivatedRoute) {}
-
-    jcList = [
-        { jc: 'JC-1001', serialNo: 'DSFGS454364554', qty: 5  },
-        { jc: 'JC-1002', serialNo: 'DSFGS454364554', qty: 35  },
-        { jc: 'JC-1003', serialNo: 'DSFGS454364554', qty: 5  },
-        { jc: 'JC-1004', serialNo: 'DSFGS454364554', qty: 1  },
-        { jc: 'JC-1005', serialNo: 'DSFGS454364554', qty: 78  },
-    ]
 
     ngOnInit() {
         this.timeFunction();
         this.route.paramMap.subscribe(params => {
-            this.workstationId = params.get('id') || '';
+            this.shopfloor = params.get('shopfloor') || '';
+            this.machine = params.get('machine') || '';
         });
 
         // Andon Breakdown Section
@@ -112,9 +103,6 @@ export class GeWorkstationComponent implements OnInit {
             productCode: `XRAY 9876`,
             start: `${startHour}:15`, // Example start within the hour
             end: `${startHour}:30`,   // Example end within the hour
-            pickup: this.randomDateTime(), // Random pickup time
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(), // Random dropoff time
             actual: '00:15',
             cycleTime: '01:30',
             shift: shiftTimeRange, // Assign the shift time range
@@ -123,210 +111,104 @@ export class GeWorkstationComponent implements OnInit {
             plan: 110 - (i % 20), // Varying plan values
             actualValue: 105 - (i % 15), // Varying actual values
             performance: '98%', // Example performance
-            gap: 3,
+            gap: 3
           });
           currentTime++;
           if (currentTime > 17) currentTime = 8; // Loop back to 8:00 AM after 5 PM (example)
         }
-    }
-
-    randomDateTime(): string {
-        const startDate = new Date();
-        const endDate = new Date();
-        endDate.setDate(startDate.getDate() + 1); // Generate a date within the next 24 hours
-        const randomTime = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
-
-        // Format the date-time as "yyyy-MM-dd HH:mm"
-        const year = randomTime.getFullYear();
-        const month = String(randomTime.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-        const date = String(randomTime.getDate()).padStart(2, '0');
-        const hours = String(randomTime.getHours()).padStart(2, '0');
-        const minutes = String(randomTime.getMinutes()).padStart(2, '0');
-
-        return `${year}-${month}-${date} ${hours}:${minutes}`;
-    }
+      }
 
       dummyStaticRow = [
         {
-            serialNo: 1,
-            lotNo: 'WX12345',
-            productCode: 'XRAY 9876',
             shift: "08:00 - 09:00",
-            start: "08:15",
-            end: "08:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: 76.8,
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 2,
-            lotNo: 'WX12346',
-            productCode: 'XRAY 9877',
             shift: "09:00 - 10:00",
-            start: "09:15",
-            end: "09:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: 6.8,
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 3,
-            lotNo: 'WX12347',
-            productCode: 'XRAY 9878',
             shift: "10:00 - 11:00",
-            start: "10:15",
-            end: "10:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: 76.8,
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 4,
-            lotNo: 'WX12348',
-            productCode: 'XRAY 9879',
             shift: "11:00 - 12:00",
-            start: "11:15",
-            end: "11:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             // performance: 76.8,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 5,
-            lotNo: 'WX12349',
-            productCode: 'XRAY 9880',
             shift: "12:00 - 01:00",
-            start: "12:15",
-            end: "12:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 6,
-            lotNo: 'WX12350',
-            productCode: 'XRAY 9881',
             shift: "01:00 - 02:00",
-            start: "01:15",
-            end: "01:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 7,
-            lotNo: 'WX12351',
-            productCode: 'XRAY 9882',
             shift: "02:00 - 03:00",
-            start: "02:15",
-            end: "02:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 8,
-            lotNo: 'WX12352',
-            productCode: 'XRAY 9883',
             shift: "03:00 - 04:00",
-            start: "03:15",
-            end: "03:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 9,
-            lotNo: 'WX12353',
-            productCode: 'XRAY 9884',
             shift: "04:00 - 05:00",
-            start: "04:15",
-            end: "04:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
         {
-            serialNo: 10,
-            lotNo: 'WX12354',
-            productCode: 'XRAY 9885',
             shift: "05:00 - 06:00",
-            start: "05:15",
-            end: "05:30",
-            cycleTime: "01:30",
             mcOn: "00:60",
             mcIdle : "00:00",
             plan: 22,
             actual: 25,
             performance: this.randomInt(0, 100),
-            gap: this.randomInt(-5, 5),
-            trolleyCode: 'WGE-123',
-            workstation: this.randomDateTime(),
-            dropoff: this.randomDateTime(),
+            gap: this.randomInt(-5, 5)
         },
       ]
 
@@ -409,10 +291,10 @@ export class GeWorkstationComponent implements OnInit {
         // }
         {
             id: 1,
-            company: 'Caterpillar',
-            plant: 'CHENNAI',
-            shopfloor: 'Workstation',
-            assemblyline: 'SSL Main Line',
+            company: 'L & T Construction',
+            plant: 'Puduchery',
+            shopfloor: 'Metal',
+            assemblyline: 'Test',
             machineId: 'WS-001',
             category: 'Equipment Down',
             subCategory: '',
