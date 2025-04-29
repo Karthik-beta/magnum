@@ -30,6 +30,7 @@ urlpatterns = [
     re_path(r'^andon/([0-9]+)$', views.andonapi),
 
     re_path(r'^andon/$', AndonDataListCreateView.as_view()),
+    re_path(r'^andon/(?P<id>\d+)/?$', views.AndonDataRetrieveUpdateDestroyView.as_view()),
 
     # re_path(r'^export_andon/$', DownloadAndonData.as_view(), name='export_xlsx'),
 

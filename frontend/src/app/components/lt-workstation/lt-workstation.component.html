@@ -206,9 +206,48 @@
                       </div>
                     </th>
                   </ng-container>
-              </tr>
+            </tr>
+            <tr *ngIf="alertRaiseRow(Operator)" style="white-space: nowrap; border: none;">
+                <th>#</th>
+                <th>
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-power-off text-green-500 text-xl"></i>
+                    </div>
+                </th>
+                <th>
+                    Test
+                </th>
+                <th>
+                    Test
+                </th>
+                <th>
+                    Test
+                </th>
+                <th>
+                    Test
+                </th>
+                <th>
+                    <select class="form-control" placeholder="Select Options"
+                            style="font-size: small;" [(ngModel)]="selectedMachineId">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let item of machineIds">{{ item }}</option>
+                    </select>
+                </th>
+                <th>
+                    GS
+                </th>
+                <th>
+                    <button pButton label="Raise Alert" severity="danger"
+                        class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                        (click)="RaiseNewIssue()">
+                    </button>
+                </th>
+                <th></th>
+            </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-item let-i="rowIndex">
+
             <tr style="white-space: nowrap;">
                 <ng-container *ngFor="let col of columnDefinitions; let colIndex = index">
                     <td *ngIf="isVisible(col)">
@@ -256,19 +295,19 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'raiseAlert'">
-                        <button *ngIf="isoperator() && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isoperator() && item.raise_alert == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onNewIssue(item)"></button>
-                        <p  *ngIf="item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p>
+                        <p  *ngIf="item.raise_alert != null" class="timestamp">[EMPNAME, ID] <br>
+                            {{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</p>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'andonAlert'">
-                        <button *ngIf="isTeamLeader() && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isTeamLeader() && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onAndonAlert(item)"></button>
-                        <p  *ngIf="item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p>
+                        <p  *ngIf="item.andon_alerts != null" class="timestamp">[EMPNAME, ID] <br>
+                            {{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</p>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'button'">
@@ -287,18 +326,18 @@
                         <p *ngIf="col.field === 'andonAlert' && item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
                           {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p> -->
 
-                        <button *ngIf="col.field === 'andonAcknowledge' && item.acknowledgeButton && !item.andonAcknowledgeCompleted" pButton label="Acknowledge" severity="warning"
+                        <button *ngIf="col.field === 'andonAcknowledge' && item.acknowledgeButton && item.andon_acknowledge == null" pButton label="Acknowledge" severity="warning"
                                 class="p-button-warning" icon="fa-solid fa-handshake"
                                 (click)="onAndonAcknowledge(item)"></button>
-                        <p *ngIf="col.field === 'andonAcknowledge' && item.andonAcknowledgeCompleted">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonAcknowledgeTimestamp) }}
+                        <p *ngIf="col.field === 'andonAcknowledge' && item.andon_acknowledge != null">[EMPNAME, ID] <br>
+                          {{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
 
-                        <button *ngIf="col.field === 'andonResolved' && item.resolvedButton && !item.andonResolvedCompleted" pButton label="Resolved" severity="success"
+                        <button *ngIf="col.field === 'andonResolved' && item.resolvedButton && item.andon_resolved == null" pButton label="Resolved" severity="success"
                                 class="p-button-success" icon="fa-solid fa-circle-check"
                                 (click)="onAndonResolved(item)"></button>
-                        <p class="timestamp" *ngIf="col.field === 'andonResolved' && item.andonResolvedCompleted">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonResolvedTimestamp) }}
+                        <p class="timestamp" *ngIf="col.field === 'andonResolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
+                          {{ item.andon_resolved }}
                         </p>
                       </div>
                     </ng-container>
@@ -316,7 +355,7 @@
                   </ng-container>
                 </td>
                 </ng-container>
-              </tr>
+            </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
             <tr>

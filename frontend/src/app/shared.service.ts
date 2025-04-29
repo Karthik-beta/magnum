@@ -168,6 +168,18 @@ export class SharedService {
     return this.http.get(`${this.APIUrl}/andon/`, { params: httpParams });
   }
 
+  createAndonData(plan: any): Observable<any> {
+    return this.http.post(`${this.APIUrl}/andon/`, plan);
+  }
+
+  updateAndonData(plan: any): Observable<any> {
+    return this.http.put(`${this.APIUrl}/andon/${plan.id}/`, plan);
+  }
+
+  patchAndonData(plan: any): Observable<any> {
+    return this.http.patch(`${this.APIUrl}/andon/${plan.id}/`, plan);
+  }
+
   getAndonOpenAlerts():Observable<any[]>{
     return this.http.get<any[]>(`${this.APIUrl}/andon_open/`);
   }

@@ -192,11 +192,17 @@ class AndonDataListCreateView(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend]  # Add this line to include the filter backend
     filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift']
 
+class AndonDataListView(generics.ListAPIView):
+    queryset = AndonData.objects.all()
+    serializer_class = AndonDataSerializer
+    pagination_class = AndonDataPagination 
+    filter_backends = [DjangoFilterBackend]  # Add this line to include the filter backend
+    filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift']
 
-
-
-
-
+class AndonDataRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AndonData.objects.all()
+    serializer_class = AndonDataSerializer
+    lookup_url_kwarg = "id"
 
 # class DownloadAndonData(APIView):
 #     def get(self, request):

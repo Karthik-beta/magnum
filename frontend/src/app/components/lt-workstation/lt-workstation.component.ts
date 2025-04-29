@@ -65,7 +65,7 @@ export class LTWorkstationComponent implements OnInit {
         this.generateShopfloorStatusData();
     }
 
-    selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
+    selectedCard: string = 'Andon Call Help'; // Holds the currently selected card
     barCode: string = '';
 
     selectCard(cardName: string) {
@@ -274,6 +274,7 @@ export class LTWorkstationComponent implements OnInit {
         }
     }
 
+    dummyRowAdded: boolean = true;
     currentPage: number = 1;
     andonList: any[] = [];
 
@@ -378,13 +379,15 @@ export class LTWorkstationComponent implements OnInit {
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
         { header: 'Alert Shift', field: 'alert_shift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Breakdown Reason', field: 'category', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'category', options: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'], editableFor: ['Team Leader'] },
-        { header: 'Raise Alert', field: 'raiseAlert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
-        { header: 'Andon Alert', field: 'andonAlert', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
-        { header: 'Andon Acknowledge', field: 'andonAcknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
-        { header: 'Andon Resolved', field: 'andonResolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
+        { header: 'Raise Alert', field: 'raise_alert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
+        { header: 'Andon Alert', field: 'andon_alerts', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
+        { header: 'Andon Acknowledge', field: 'andon_acknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
+        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Resolution', field: 'resolution', visibleTo: ['Resolved'], type: 'resolution', options: ['ICA (Interim Containment Action)', 'PCA (Permanent Corrective Action)'], editableFor: ['Resolved'] },
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
+
+    machineIds: string[] = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
 
     selectRole(role: string) {
         this.currentUserRole = role;
@@ -392,6 +395,10 @@ export class LTWorkstationComponent implements OnInit {
 
     isVisible(column: any): boolean {
         return column.visibleTo.includes(this.currentUserRole);
+    }
+
+    alertRaiseRow(row: any): boolean {
+        return this.currentUserRole === 'Operator';
     }
 
     isEditable(column: any): boolean {
@@ -479,6 +486,28 @@ export class LTWorkstationComponent implements OnInit {
         this.rows = [...this.rows, newRow];
     }
 
+    selectedMachineId: string = '';
+
+    RaiseNewIssue(row: any) {
+
+        row = {
+            company: 'Test',
+            location: 'Test',
+            shopfloor: 'Test',
+            assemblyline: 'Test',
+            machineId: this.selectedMachineId,
+            alert_shift: 'GS',
+            raise_alert: new Date(),
+            category: 'Test',
+        }
+
+        this.service.createAndonData(row).subscribe((response: any) => {
+            console.log('Andon data created:', response);
+        });
+
+        this.getAndonList();
+    }
+
     onNewAlert() {
         this.addRow();
     }
@@ -489,6 +518,11 @@ export class LTWorkstationComponent implements OnInit {
         // this.addRow();
         row.alertStartTime = new Date();
         this.startTimer(row);
+
+        this.service.patchAndonData(row.id).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+        });
+
     }
 
     onAndonAlert(row: any) {
