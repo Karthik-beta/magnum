@@ -326,17 +326,17 @@
                         <p *ngIf="col.field === 'andonAlert' && item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
                           {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p> -->
 
-                        <button *ngIf="col.field === 'andonAcknowledge' && item.acknowledgeButton && item.andon_acknowledge == null" pButton label="Acknowledge" severity="warning"
+                        <button *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge == null" pButton label="Acknowledge" severity="warning"
                                 class="p-button-warning" icon="fa-solid fa-handshake"
                                 (click)="onAndonAcknowledge(item)"></button>
-                        <p *ngIf="col.field === 'andonAcknowledge' && item.andon_acknowledge != null">[EMPNAME, ID] <br>
+                        <p *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge != null">[EMPNAME, ID] <br>
                           {{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
 
-                        <button *ngIf="col.field === 'andonResolved' && item.resolvedButton && item.andon_resolved == null" pButton label="Resolved" severity="success"
+                        <button *ngIf="col.field === 'andon_resolved' && item.andon_resolved == null" pButton label="Resolved" severity="success"
                                 class="p-button-success" icon="fa-solid fa-circle-check"
                                 (click)="onAndonResolved(item)"></button>
-                        <p class="timestamp" *ngIf="col.field === 'andonResolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
+                        <p class="timestamp" *ngIf="col.field === 'andon_resolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
                           {{ item.andon_resolved }}
                         </p>
                       </div>
