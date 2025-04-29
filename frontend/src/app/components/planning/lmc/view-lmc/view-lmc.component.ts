@@ -32,15 +32,12 @@ export class ViewLmcComponent implements OnInit {
       loading: boolean = false;
 
 
-
     ModalTitle:string="";
     lmcPlan: any;
     searchText:string="";
     ProductionPlanListWithoutFilter:any=[];
 
-
     items: MenuItem[] = [];
-
 
     planned: number;
 

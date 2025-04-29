@@ -3,6 +3,7 @@ import { Observable, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'src/app/shared.service';
 
 interface TableDataItem {
     serialNo: number;
@@ -40,9 +41,10 @@ export class LTWorkstationComponent implements OnInit {
     shopfloor: string = '';
     machine: string = '';
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute,private service: SharedService) {}
 
     ngOnInit() {
+        this.getAndonList();
         this.timeFunction();
         this.route.paramMap.subscribe(params => {
             this.shopfloor = params.get('shopfloor') || '';
@@ -270,7 +272,31 @@ export class LTWorkstationComponent implements OnInit {
               this.updateStaticRowData(); // Reset to first item's data when scrolled back to top (example)
           }
         }
-      }
+    }
+
+    currentPage: number = 1;
+    andonList: any[] = [];
+
+    getAndonList() {
+
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString()
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            this.andonList =data.results;
+            this.totalRecords = data.count;
+
+        });
+
+
+        // this.service.getLineMachineConfig(params).subscribe((data: any) => {
+        //     this.lineMachineList = data.results; // Assuming your API response has a 'results' property
+        //     this.totalRecords = data.count;   // Assuming your API response has a 'count' property
+        //     this.loading = false;
+        //   });
+    }
 
     // Andon Call Help
     dummyList: any[] = [
@@ -346,7 +372,7 @@ export class LTWorkstationComponent implements OnInit {
         { header: '#', field: 'id', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'index' },
         { header: 'Start M/C', field: 'startMC', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'icon' },
         { header: 'Company', field: 'company', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
-        { header: 'Plant', field: 'plant', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Plant', field: 'location', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Shopfloor', field: 'shopfloor', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Line', field: 'assemblyline', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
