@@ -376,7 +376,7 @@ export class LTWorkstationComponent implements OnInit {
         { header: 'Shopfloor', field: 'shopfloor', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Line', field: 'assemblyline', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
-        { header: 'Alert Shift', field: 'alertShift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Alert Shift', field: 'alert_shift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Breakdown Reason', field: 'category', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'category', options: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'], editableFor: ['Team Leader'] },
         { header: 'Raise Alert', field: 'raiseAlert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
         { header: 'Andon Alert', field: 'andonAlert', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
