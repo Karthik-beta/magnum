@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Observable, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
@@ -41,7 +41,7 @@ export class LTWorkstationComponent implements OnInit {
     shopfloor: string = '';
     machine: string = '';
 
-    constructor(private route: ActivatedRoute,private service: SharedService) {}
+    constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef) {}
 
     ngOnInit() {
         this.getAndonList();
@@ -523,31 +523,78 @@ export class LTWorkstationComponent implements OnInit {
             console.log('Andon data updated:', response);
         });
 
+        row.counterDisplay = true;
+
     }
 
     onAndonAlert(row: any) {
-        row.andonAlertCompleted = true;
-        row.andonAlertTimestamp = new Date();
-        // row.alertStartTime = new Date();
-        // this.startTimer(row);
-        // this.startTimer(); // You might need to modify this to work with multiple rows
-        row.acknowledgeButton = true;
-        row.counterDisplay = true;
-        // this.onNewAlert();
+        // row.andonAlertCompleted = true;
+        // row.andonAlertTimestamp = new Date();
+        // row.acknowledgeButton = true;
+        // row.counterDisplay = true;
+
+        row = {
+            id: row.id,
+            andon_alerts: new Date(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonAcknowledge(row: any) {
-        row.andonAcknowledgeCompleted = true;
-        row.andonAcknowledgeTimestamp = new Date();
-        row.resolvedButton = true;
+        // row.andonAcknowledgeCompleted = true;
+        // row.andonAcknowledgeTimestamp = new Date();
+        // row.resolvedButton = true;
+
+        row = {
+            id: row.id,
+            andon_acknowledge: new Date(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonResolved(row: any) {
-        row.andonResolvedCompleted = true;
-        row.andonResolvedTimestamp = new Date();
-        this.stopTimer(row);
-        console.log('Resolving:', row);
-        // this.stopTimer(); // You might need to modify this to work with multiple rows
+        // row.andonResolvedCompleted = true;
+        // row.andonResolvedTimestamp = new Date();
+        // this.stopTimer(row);
+        // console.log('Resolving:', row);
+
+        row = {
+            id: row.id,
+            andon_resolved: new Date(),
+            total_time: this.calculateTimeDifference(row.andon_alerts),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+
+    }
+
+    onResolutionChange(selectedValue: any, row: any) {
+        console.log('Resolution changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            resolution: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     formatTotalBreakdownTime(time: number): string {
@@ -561,6 +608,20 @@ export class LTWorkstationComponent implements OnInit {
     padZero(num: number): string {
         return num.toString().padStart(2, '0');
     }
+
+    calculateTimeDifference(raiseAlerts: string | Date): string {
+        if (!raiseAlerts) return 'N/A';
+
+        const raiseTime = new Date(raiseAlerts);
+        const currentTime = new Date();
+        const diffInMs = currentTime.getTime() - raiseTime.getTime();
+
+        const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+        return `${hours}:${minutes}:${seconds}`;
+      }
 
     //Production Transaction
     shopfloorStatus: any[] = [];

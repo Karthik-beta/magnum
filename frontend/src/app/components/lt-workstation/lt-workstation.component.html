@@ -287,9 +287,10 @@
 
                     <ng-container *ngSwitchCase="'resolution'">
                         <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
-                            style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution">
+                            style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution"
+                            (change)="onResolutionChange($event.target.value, item)">
                             <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let option of col.options">{{ option }}</option>
+                            <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
                     </ng-container>
@@ -312,19 +313,6 @@
 
                     <ng-container *ngSwitchCase="'button'">
                       <div class="">
-                        <!-- <button *ngIf="col.field === 'raiseAlert' && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
-                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
-                                (click)="onNewIssue(item)"></button>
-
-                        <p *ngIf="col.field === 'raiseAlert' && item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p> -->
-
-                        <!-- <button *ngIf="col.field === 'andonAlert' && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
-                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
-                                (click)="onAndonAlert(item)"></button>
-
-                        <p *ngIf="col.field === 'andonAlert' && item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p> -->
 
                         <button *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge == null" pButton label="Acknowledge" severity="warning"
                                 class="p-button-warning" icon="fa-solid fa-handshake"
@@ -343,8 +331,11 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'counter'">
-                      <div *ngIf="item.counterDisplay">
-                        <span [class]="'alert-badge status-breakdown'">{{ item.counter }}</span>
+                      <div *ngIf="item.total_time == null && item.raise_alert != null">
+                        <span [class]="'alert-badge status-breakdown'">{{ calculateTimeDifference(item.raise_alert) }}</span>
+                      </div>
+                      <div *ngIf="item.total_time != null">
+                        <span [class]="'alert-badge status-breakdown'">{{ item.total_time }}</span>
                       </div>
                     </ng-container>
 
