@@ -288,8 +288,10 @@ export class LTWorkstationComponent implements OnInit {
         this.service.getAndList(params).subscribe((data: any) => {
             this.andonList =data.results;
             this.totalRecords = data.count;
-
+            this.cdr.detectChanges();
         });
+
+        this.getMetricsData();
 
 
         // this.service.getLineMachineConfig(params).subscribe((data: any) => {
@@ -297,6 +299,16 @@ export class LTWorkstationComponent implements OnInit {
         //     this.totalRecords = data.count;   // Assuming your API response has a 'count' property
         //     this.loading = false;
         //   });
+    }
+
+    metricsData: any[] = [];
+
+    getMetricsData() {
+        this.service.getMetricsData().subscribe((data: any) => {
+            console.log('Metrics data:', data);
+            // Process the data as needed
+            this.metricsData = data;
+        });
     }
 
     // Andon Call Help
@@ -388,6 +400,14 @@ export class LTWorkstationComponent implements OnInit {
     ];
 
     machineIds: string[] = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
+
+    get filteredMachineIds(): string[] {
+        return this.machineIds.filter(machineId => {
+            const machine = this.andonList.find(item => item.machineId === machineId);
+            // If the machine is not present in the andonList or andon_resolved is not null, include it
+            return !machine || machine.andon_resolved !== null;
+        });
+    }
 
     selectRole(role: string) {
         this.currentUserRole = role;
@@ -489,6 +509,11 @@ export class LTWorkstationComponent implements OnInit {
     selectedMachineId: string = '';
 
     RaiseNewIssue(row: any) {
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
 
         row = {
             company: 'Test',
@@ -497,15 +522,15 @@ export class LTWorkstationComponent implements OnInit {
             assemblyline: 'Test',
             machineId: this.selectedMachineId,
             alert_shift: 'GS',
-            raise_alert: new Date(),
+            raise_alert: istTime.toISOString() ,
             category: 'Test',
         }
 
         this.service.createAndonData(row).subscribe((response: any) => {
             console.log('Andon data created:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
         });
-
-        this.getAndonList();
     }
 
     onNewAlert() {
@@ -521,6 +546,8 @@ export class LTWorkstationComponent implements OnInit {
 
         this.service.patchAndonData(row.id).subscribe((response: any) => {
             console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
         });
 
         row.counterDisplay = true;
@@ -533,9 +560,16 @@ export class LTWorkstationComponent implements OnInit {
         // row.acknowledgeButton = true;
         // row.counterDisplay = true;
 
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
         row = {
             id: row.id,
-            andon_alerts: new Date(),
+            andon_alerts: istTime.toISOString(),
+            category: row.category,
         }
 
         this.service.patchAndonData(row).subscribe((response: any) => {
@@ -550,9 +584,15 @@ export class LTWorkstationComponent implements OnInit {
         // row.andonAcknowledgeTimestamp = new Date();
         // row.resolvedButton = true;
 
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
         row = {
             id: row.id,
-            andon_acknowledge: new Date(),
+            andon_acknowledge: istTime.toISOString(),
         }
 
         this.service.patchAndonData(row).subscribe((response: any) => {
@@ -568,9 +608,15 @@ export class LTWorkstationComponent implements OnInit {
         // this.stopTimer(row);
         // console.log('Resolving:', row);
 
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
         row = {
             id: row.id,
-            andon_resolved: new Date(),
+            andon_resolved: istTime.toISOString(),
             total_time: this.calculateTimeDifference(row.andon_alerts),
         }
 
@@ -583,7 +629,7 @@ export class LTWorkstationComponent implements OnInit {
     }
 
     onResolutionChange(selectedValue: any, row: any) {
-        console.log('Resolution changed:', selectedValue);
+        // console.log('Resolution changed:', selectedValue);
 
         row = {
             id: row.id,
@@ -620,7 +666,12 @@ export class LTWorkstationComponent implements OnInit {
         const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
 
-        return `${hours}:${minutes}:${seconds}`;
+        // Pad hours, minutes, and seconds with leading zeros
+        const paddedHours = String(hours).padStart(2, '0');
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
+
+        return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
       }
 
     //Production Transaction

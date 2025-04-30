@@ -227,10 +227,15 @@
                     Test
                 </th>
                 <th>
-                    <select class="form-control" placeholder="Select Options"
+                    <!-- <select class="form-control" placeholder="Select Options"
                             style="font-size: small;" [(ngModel)]="selectedMachineId">
                             <option value="" disabled selected>-Select-</option>
                             <option *ngFor="let item of machineIds">{{ item }}</option>
+                    </select> -->
+                    <select class="form-control" placeholder="Select Options"
+                            style="font-size: small;" [(ngModel)]="selectedMachineId">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let id of filteredMachineIds" [value]="id">{{ id }}</option>
                     </select>
                 </th>
                 <th>
@@ -280,7 +285,7 @@
                         <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
                             style="font-size: small;" [(ngModel)]="item.category">
                             <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let option of col.options">{{ option }}</option>
+                            <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
                     </ng-container>
@@ -450,7 +455,7 @@
                         <!-- <span class="block text-900 font-medium">Today</span> -->
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">1</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.today_open_alerts }}</div>
                     </div>
                 </div>
             </div>
@@ -462,7 +467,7 @@
                         <h5 class="block text-900 font-sm mb-3">Open</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_open_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">%52+ </span>
@@ -476,7 +481,7 @@
                         <h5 class="block text-900 font-sm mb-3">Ack/Closure</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_acknowledge_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">520  </span>
@@ -490,7 +495,7 @@
                         <h5 class="block text-900 font-sm mb-3">All</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">85 </span>
@@ -499,7 +504,7 @@
         </div>
     </div>
 
-    <p-table #dt1 [value]="dummyList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
+    <p-table #dt1 [value]="andonList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th style="min-width: auto">
@@ -592,7 +597,7 @@
                     {{ log.company }}
                 </td>
                 <td>
-                    {{ log.plant }}
+                    {{ log.location }}
                 </td>
                 <td>
                     {{ log.shopfloor }}
@@ -607,19 +612,19 @@
                     {{ log.category }}
                 </td>
                 <td>
-                    {{ log.alertShift }}
+                    {{ log.alert_shift }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonNewIssueTimestamp) }}
+                    {{ log.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonAlertTimestamp) }}
+                    {{ log.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonAcknowledgeTimestamp) }}
+                    {{ log.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonResolvedTimestamp) }}
+                    {{ log.andon_resolved | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <!-- <td>
                     {{ log.counter }}
