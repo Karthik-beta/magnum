@@ -325,7 +325,7 @@
                                 class="p-button-success" icon="fa-solid fa-circle-check"
                                 (click)="onAndonResolved(item)"></button>
                         <p class="timestamp" *ngIf="col.field === 'andon_resolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
-                          {{ item.andon_resolved }}
+                          {{ item.andon_resolved | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
                       </div>
                     </ng-container>
