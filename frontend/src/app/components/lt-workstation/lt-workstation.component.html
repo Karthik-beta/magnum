@@ -283,7 +283,8 @@
 
                     <ng-container *ngSwitchCase="'category'">
                         <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
-                            style="font-size: small;" [(ngModel)]="item.category">
+                            style="font-size: small;" [(ngModel)]="item.category"
+                            (change)="onCategoryChange($event.target.value, item)">
                             <option value="" disabled selected>-Select-</option>
                             <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>

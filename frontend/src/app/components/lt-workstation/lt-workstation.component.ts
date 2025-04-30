@@ -569,7 +569,6 @@ export class LTWorkstationComponent implements OnInit {
         row = {
             id: row.id,
             andon_alerts: istTime.toISOString(),
-            category: row.category,
         }
 
         this.service.patchAndonData(row).subscribe((response: any) => {
@@ -626,6 +625,21 @@ export class LTWorkstationComponent implements OnInit {
             this.cdr.detectChanges();
         });
 
+    }
+
+    onCategoryChange(selectedValue: any, row: any) {
+        // console.log('Category changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            category: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onResolutionChange(selectedValue: any, row: any) {
