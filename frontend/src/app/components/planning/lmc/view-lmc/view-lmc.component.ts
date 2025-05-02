@@ -107,6 +107,8 @@ export class ViewLmcComponent implements OnInit {
         this.totalRecords = data.count;   // Assuming your API response has a 'count' property
         this.loading = false;
       });
+
+      console.log(this.lineMachineList);
     }
 
     loadLogs(event: TableLazyLoadEvent): void {

@@ -190,7 +190,33 @@ class AndonDataListCreateView(generics.ListCreateAPIView):
     serializer_class = AndonDataSerializer
     pagination_class = AndonDataPagination 
     filter_backends = [DjangoFilterBackend]  # Add this line to include the filter backend
-    filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift']
+    filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift', 'andon_resolved']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        filters = Q()
+
+        # Extract query parameters
+        machineId = self.request.query_params.get('machineId')
+        andon_resolved_isnull = self.request.query_params.get('andon_resolved_isnull')
+        category = self.request.query_params.get('category')
+        assemblyline = self.request.query_params.get('assemblyline')
+        alert_shift = self.request.query_params.get('alert_shift')
+
+        # Dynamically build filters
+        if machineId:
+            filters &= Q(machineId=machineId)
+        if andon_resolved_isnull is not None:
+            filters &= Q(andon_resolved__isnull=(andon_resolved_isnull.lower() == 'true'))
+        if category:
+            filters &= Q(category=category)
+        if assemblyline:
+            filters &= Q(assemblyline=assemblyline)
+        if alert_shift:
+            filters &= Q(alert_shift=alert_shift)
+
+        # Apply filters to the queryset
+        return queryset.filter(filters)
 
 class AndonDataListView(generics.ListAPIView):
     queryset = AndonData.objects.all()

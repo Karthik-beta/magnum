@@ -52,6 +52,7 @@ export class LTWorkstationComponent implements OnInit {
 
             // Call getAndonList whenever the route changes
             this.getAndonList();
+            this.getAllAndonList();
         });
 
         // Andon Breakdown Section
@@ -280,6 +281,8 @@ export class LTWorkstationComponent implements OnInit {
     dummyRowAdded: boolean = true;
     currentPage: number = 1;
     andonList: any[] = [];
+    allAndonList: any[] = [];
+    isAndonListEmpty: boolean = false;
 
     // getAndonList() {
     //     const params = {
@@ -299,13 +302,34 @@ export class LTWorkstationComponent implements OnInit {
     getAndonList() {
         const params = {
             page: this.currentPage.toString(),
-            page_size: this.rows.toString()
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            andon_resolved_isnull: true
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
             // Filter the andonList to include only the machineId matching the activated route
             const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
             this.andonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
+            this.isAndonListEmpty = this.andonList.length === 0;
+            this.cdr.detectChanges();
+        });
+
+        this.getAllAndonList();
+    }
+
+    getAllAndonList() {
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.allAndonList = data.results.filter((item: any) => item.machineId === routeMachineId);
             this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
             this.cdr.detectChanges();
         });

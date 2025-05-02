@@ -83,6 +83,7 @@ class BreakdownHmiSerializer(serializers.ModelSerializer):
 
 
 class AndonDataSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = models.AndonData
         fields = '__all__'

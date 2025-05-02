@@ -207,7 +207,7 @@
                     </th>
                   </ng-container>
             </tr>
-            <tr *ngIf="alertRaiseRow(Operator)" style="white-space: nowrap; border: none;">
+            <tr *ngIf="alertRaiseRow(Operator) && isAndonListEmpty" style="white-space: nowrap; border: none;">
                 <th>#</th>
                 <th>
                     <div class="flex align-items-center justify-content-center">
@@ -505,7 +505,7 @@
         </div>
     </div>
 
-    <p-table #dt1 [value]="andonList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
+    <p-table #dt1 [value]="allAndonList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th style="min-width: auto">
