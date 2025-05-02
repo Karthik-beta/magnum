@@ -49,6 +49,9 @@ export class LTWorkstationComponent implements OnInit {
         this.route.paramMap.subscribe(params => {
             this.shopfloor = params.get('shopfloor') || '';
             this.machine = params.get('machine') || '';
+
+            // Call getAndonList whenever the route changes
+            this.getAndonList();
         });
 
         // Andon Breakdown Section
@@ -278,27 +281,36 @@ export class LTWorkstationComponent implements OnInit {
     currentPage: number = 1;
     andonList: any[] = [];
 
-    getAndonList() {
+    // getAndonList() {
+    //     const params = {
+    //         page: this.currentPage.toString(),
+    //         page_size: this.rows.toString()
+    //     };
 
+    //     this.service.getAndList(params).subscribe((data: any) => {
+    //         this.andonList =data.results;
+    //         this.totalRecords = data.count;
+    //         this.cdr.detectChanges();
+    //     });
+
+    //     this.getMetricsData();
+    // }
+
+    getAndonList() {
         const params = {
             page: this.currentPage.toString(),
             page_size: this.rows.toString()
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
-            this.andonList =data.results;
-            this.totalRecords = data.count;
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.andonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
             this.cdr.detectChanges();
         });
 
         this.getMetricsData();
-
-
-        // this.service.getLineMachineConfig(params).subscribe((data: any) => {
-        //     this.lineMachineList = data.results; // Assuming your API response has a 'results' property
-        //     this.totalRecords = data.count;   // Assuming your API response has a 'count' property
-        //     this.loading = false;
-        //   });
     }
 
     metricsData: any[] = [];
@@ -394,18 +406,27 @@ export class LTWorkstationComponent implements OnInit {
         { header: 'Raise Alert', field: 'raise_alert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
         { header: 'Andon Alert', field: 'andon_alerts', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
         { header: 'Andon Acknowledge', field: 'andon_acknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
-        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Resolution', field: 'resolution', visibleTo: ['Resolved'], type: 'resolution', options: ['ICA (Interim Containment Action)', 'PCA (Permanent Corrective Action)'], editableFor: ['Resolved'] },
+        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
 
     machineIds: string[] = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
 
+    // get filteredMachineIds(): string[] {
+    //     return this.machineIds.filter(machineId => {
+    //         const machine = this.andonList.find(item => item.machineId === machineId);
+    //         // If the machine is not present in the andonList or andon_resolved is not null, include it
+    //         return !machine || machine.andon_resolved !== null;
+    //     });
+    // }
+
     get filteredMachineIds(): string[] {
         return this.machineIds.filter(machineId => {
             const machine = this.andonList.find(item => item.machineId === machineId);
             // If the machine is not present in the andonList or andon_resolved is not null, include it
-            return !machine || machine.andon_resolved !== null;
+            const matchesRoute = machineId === `WS-${this.machine.padStart(3, '0')}`;
+            return (!machine || machine.andon_resolved !== null) && matchesRoute;
         });
     }
 
