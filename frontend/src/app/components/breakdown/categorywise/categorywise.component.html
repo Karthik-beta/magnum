@@ -1,80 +1,8 @@
-<!-- <div class="grid">
-    <div class="col-12">
-        <div class="card mb-0">
-            <div class="flex justify-content-between">
-                <div>
-                    <span class="block text-900 font-medium mb-3">Plant</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="plant" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-                <div>
-                    <span class="block text-900 font-medium mb-3">Shopfloor</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-                <div>
-                    <span class="block text-900 font-medium mb-3">Shopfloor</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="shopfloor" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-                <div>
-                    <span class="block text-900 font-medium mb-3">Assembly Line</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="assembly_line" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-                <div>
-                    <span class="block text-900 font-medium mb-3">Machine</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="machine_id" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-                <div>
-                    <span class="block text-900 font-medium mb-3">B D Category</span>
-                    <div class="text-900 font-medium text-xl">
-                        <p-dropdown [options]="category" [autoDisplayFirst]="true" optionLabel="name" placeholder="Select"></p-dropdown>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<!-- <div class="grid justify-content-center">
-    <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0" style="background-color: #ee6b6e;">
-            <div class="flex justify-content-between">
-                <div>
-                    <h5 class="block text-900 font-medium mb-3">Open Alerts</h5>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <div class="text-900 font-medium text-xl">4</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 lg:col-6 xl:col-3">
-        <div class="card mb-0" style="background-color: #45b6fe;">
-            <div class="flex justify-content-between">
-                <div>
-                    <h5 class="block text-900 font-medium mb-3">Closed Alerts</h5>
-                </div>
-                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <div class="text-900 font-medium text-xl">12</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="equipmentDownList.length > 0">
     <h4>CATEGORY : Equipment Down</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of equipmentDownList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -84,26 +12,34 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="partUnavailableList.length > 0">
     <h4>CATEGORY : Part Unavailable</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of partUnavailableList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -113,26 +49,34 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="missingSWSList.length > 0">
     <h4>CATEGORY : Missing SWS</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of missingSWSList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -142,26 +86,34 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="fitIssueList.length > 0">
     <h4>CATEGORY : Fit Issue</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of fitIssueList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -171,26 +123,34 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="partDamageList.length > 0">
     <h4>CATEGORY : Part Damage</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of partDamageList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -200,26 +160,34 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="col-12 text-center text-500">
+<div class="col-12 text-center text-500" *ngIf="safetyIssueList.length > 0">
     <h4>CATEGORY : Safety Issue</h4>
 </div>
 <div class="scrollable-div">
-    <div class="card alert-card" *ngFor="let item of dummyList">
+    <div class="card alert-card" *ngFor="let item of safetyIssueList">
         <div class="card-body">
             <h5 class="card-title text-red-500"><i class="fas fa-bell"></i></h5>
             <div class="card card-content justify-content-between">
@@ -229,15 +197,23 @@
                 </div>
                 <div class="col-12 grid">
                     <span class="card-key text-900">Workstation : </span>
-                    <span class="card-value text-900">{{ item.machine_id }}</span>
+                    <span class="card-value text-900">{{ item.machineId }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Status : </span>
-                    <span class="card-value text-900">{{ item.status }}</span>
+                    <span class="card-key text-900">Breakdown Reason : </span>
+                    <span class="card-value text-900">{{ item.category }}</span>
                 </div>
                 <div class="col-12 grid">
-                    <span class="card-key text-900">Alert : </span>
-                    <span class=" text-900">{{ item.alert }}</span>
+                    <span class="card-key text-900">Raise Alert : </span>
+                    <span class=" text-900">{{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Alert : </span>
+                    <span class=" text-900">{{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
+                </div>
+                <div class="col-12 grid">
+                    <span class="card-key text-900">Andon Acknowledge : </span>
+                    <span class=" text-900">{{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}</span>
                 </div>
             </div>
         </div>

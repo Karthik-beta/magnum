@@ -566,7 +566,7 @@ export class LTWorkstationComponent implements OnInit {
         row = {
             company: 'Test',
             location: 'Test',
-            shopfloor: 'Test',
+            shopfloor: 'ORT',
             assemblyline: 'Test',
             machineId: this.selectedMachineId,
             alert_shift: 'GS',

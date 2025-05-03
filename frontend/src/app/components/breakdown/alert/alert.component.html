@@ -57,9 +57,9 @@
 
 
 <div class="grid justify-content-center">
-    <div class="col-12 lg:col-4 xl:col-3" *ngFor="let card of alertCards">
+    <div class="col-12 lg:col-4 xl:col-3" *ngFor="let card of distinctCategories">
         <div class="card">
-            <div class="card mb-0" [ngStyle]="{ 'background-color': card.bgColor }" style="background-color: #CD5C5D;">
+            <div class="card mb-0" [ngStyle]="{ 'background-color': card.bgColor }">
                 <div class="flex justify-content-between">
                     <div class="flex align-items-center">
                         <span class="block text-900 font-medium mr-2">{{ card.title }}</span>

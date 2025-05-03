@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
-import { interval } from 'rxjs';
+import { interval, Subscription } from 'rxjs';
 import { switchMap, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 @Component({
@@ -37,8 +37,10 @@ export class AlertComponent implements OnInit {
 
 
     ngOnInit(): void {
-      this.metricsData();
-      this.AndonOpenAlerts();
+        this.metricsData();
+        this.getAndonList();
+        this.startAutoRefresh();
+    //   this.AndonOpenAlerts();
 
       // Call the calculateTotalTime function every 30 seconds
     // setInterval(() => {
@@ -47,6 +49,10 @@ export class AlertComponent implements OnInit {
     //   this.metricsData();
     // }, 30000);
 
+    }
+
+    ngOnDestroy(): void {
+        this.stopAutoRefresh(); // Clear interval when component is destroyed
     }
 
 
@@ -99,15 +105,14 @@ export class AlertComponent implements OnInit {
         },
     ];
 
+    private metricsDataSubscription: Subscription | null = null; // Store the subscription
 
     metricsData() {
-        // Use interval to trigger the request every 10 second
-        interval(10000).pipe(
+        // Use interval to trigger the request every 10 seconds
+        this.metricsDataSubscription = interval(10000).pipe(
             startWith(0),
-          // Use switchMap to switch to a new observable (HTTP request) each time interval emits
-          switchMap(() => this.service.getMetricsData()),
-          // Use distinctUntilChanged to filter out repeated values
-          distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
+            switchMap(() => this.service.getMetricsData()),
+            distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
         ).subscribe((data: any) => {
             this.today_open_alerts = data.today_open_alerts;
             this.total_open_alerts = data.total_open_alerts;
@@ -119,7 +124,7 @@ export class AlertComponent implements OnInit {
             this.total_elect_maint_alerts = data.total_elect_maint_alerts;
             this.total_alerts = data.total_alerts;
         });
-      }
+    }
 
     // checkDatabaseConnection() {
     //   this.service.getDatabaseStatus().subscribe((data: any) => {
@@ -136,18 +141,18 @@ export class AlertComponent implements OnInit {
     //   );
     // }
 
-    AndonOpenAlerts() {
-        // Use interval to trigger the request every 10 second
-        interval(10000).pipe(
-            startWith(0), // emit 0 immediately
-          // Use switchMap to switch to a new observable (HTTP request) each time interval emits
-          switchMap(() => this.service.getAndonOpenAlerts()),
-          // Use distinctUntilChanged to filter out repeated values
-          distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
-        ).subscribe((data: any) => {
-          this.AndonOpenAlertsList = data;
-        });
-      }
+    // AndonOpenAlerts() {
+    //     // Use interval to trigger the request every 10 second
+    //     interval(10000).pipe(
+    //         startWith(0), // emit 0 immediately
+    //       // Use switchMap to switch to a new observable (HTTP request) each time interval emits
+    //       switchMap(() => this.service.getAndonOpenAlerts()),
+    //       // Use distinctUntilChanged to filter out repeated values
+    //       distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
+    //     ).subscribe((data: any) => {
+    //       this.AndonOpenAlertsList = data;
+    //     });
+    //   }
 
 
     calculateTotalTime(andonAlerts: string): string {
@@ -167,6 +172,79 @@ export class AlertComponent implements OnInit {
       const formattedTime = `${hours}h ${minutes}m`;
 
       return formattedTime;
+    }
+
+    andonList: any[] = [];
+    private previousAndonList: any[] = [];
+    private refreshInterval: any;
+
+    getAndonList() {
+        const params = {
+            page: 1,
+            page_size: 100,
+            andon_resolved_isnull: true
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            const newAndonList = data.results;
+
+            // Compare new data with the previous data
+            if (JSON.stringify(newAndonList) !== JSON.stringify(this.previousAndonList)) {
+                this.andonList = newAndonList; // Update UI only if data changes
+                this.getDistinctCategories();
+                this.previousAndonList = [...newAndonList]; // Save the new data for future comparison
+                console.log('Andon List updated:', this.andonList);
+            } else {
+                console.log('No changes in Andon List');
+            }
+        });
+    }
+
+    distinctCategories: any[] = [];
+
+    getDistinctCategories() {
+        const allCategories = [
+            'Equipment Down',
+            'Part Unavailable',
+            'Missing SWS',
+            'Fit issue',
+            'Part Damage',
+            'Safety issue'
+        ];
+
+        this.distinctCategories = allCategories.map(category => ({
+            title: category,
+            count: this.andonList.filter(item => item.category === category).length || 0,
+            bgColor: this.getCategoryColor(category) // Assign colors dynamically
+        }));
+    }
+
+    getCategoryColor(category: string): string {
+        const colors: { [key: string]: string } = {
+            'Equipment Down': '#CD5C5D',
+            'Part Unavailable': '#62CD37',
+            'Missing SWS': '#A7B289',
+            'Fit issue': '#7F8000',
+            'Part Damage': '#088F8F',
+            'Safety issue': '#115c45'
+        };
+        return colors[category] || '#CCCCCC'; // Default color
+    }
+
+    startAutoRefresh() {
+        this.refreshInterval = setInterval(() => {
+            this.getAndonList();
+        }, 10000); // Refresh every 30 seconds
+    }
+
+    stopAutoRefresh() {
+        if (this.refreshInterval) {
+            clearInterval(this.refreshInterval);
+        }
+        if (this.metricsDataSubscription) {
+            this.metricsDataSubscription.unsubscribe();
+            this.metricsDataSubscription = null;
+        }
     }
 
 

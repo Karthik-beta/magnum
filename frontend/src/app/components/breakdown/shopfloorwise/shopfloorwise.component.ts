@@ -40,8 +40,8 @@ export class ShopfloorwiseComponent implements OnInit{
     product_id: any;
 
     ngOnInit(): void {
-        this.shopfloorwiseData();
-        this.metricsData();
+        this.getAndonList();
+        this.startAutoRefresh();
 
         this.plant = [
             { name: 'CHENNAI' },
@@ -65,42 +65,64 @@ export class ShopfloorwiseComponent implements OnInit{
           ]
     }
 
+    ngOnDestroy(): void {
+        this.stopAutoRefresh(); // Clear interval when component is destroyed
+    }
 
     cardColors: string[] = [
         'burlywood',
         '#ccc',
         'rgb(133, 124, 190)',
         'rgb(195, 223, 195)',
-        'rgb(202, 202, 180)'
-      ];
+        'rgb(202, 202, 180)',
+        '#ff9999', // Light Red
+        '#99ccff', // Light Blue
+        '#ffcc99', // Light Orange
+        '#ccffcc', // Light Green
+        '#ffccff', // Light Pink
+        '#d9d9d9', // Light Gray
+        '#ffff99', // Light Yellow
+        '#c2c2f0', // Light Purple
+        '#ffb3e6', // Light Magenta
+        '#c2f0c2'  // Light Mint Green
+    ];
 
-      shopfloorwiseData() {
-        // this.service.getShopfloorwiseData().subscribe((data: any) => {
-        //   this.ShopfloorList = data;
-        //   // this.shopfloor = data.shopfloor;
-        //   // this.machineId = data.machineId;
-        //   // this.category = data.category;
-        //   // this.andon_alerts = data.andon_alerts;
-        // });
-      }
+    andonList: any[] = [];
+    private previousAndonList: any[] = [];
+    private refreshInterval: any;
 
-      metricsData() {
-        // this.service.getMetricsData().subscribe((data: any) => {
-        //   this.results = data;
-        //   this.today_open_alerts = data.today_open_alerts;
-        //   this.total_open_alerts = data.total_open_alerts;
-        //   this.total_acknowledge_alerts = data.total_acknowledge_alerts;
-        //   this.total_resetting_alerts = data.total_resetting_alerts;
-        //   this.total_engineering_alerts = data.total_engineering_alerts;
-        //   this.total_quality_alerts = data.total_quality_alerts;
-        //   this.total_mech_maint_alerts = data.total_mech_maint_alerts;
-        //   this.total_elect_maint_alerts = data.total_elect_maint_alerts;
-        //   this.total_alerts = data.total_alerts;
-        //   this.total_closed_alerts = data.total_closed_alerts;
-        // });
-      }
+    getAndonList() {
+        const params = {
+            page: 1,
+            page_size: 100,
+            andon_resolved_isnull: true
+        };
 
+        this.service.getAndList(params).subscribe((data: any) => {
+            const newAndonList = data.results;
 
+            // Compare new data with the previous data
+            if (JSON.stringify(newAndonList) !== JSON.stringify(this.previousAndonList)) {
+                this.andonList = newAndonList; // Update UI only if data changes
+                this.previousAndonList = [...newAndonList]; // Save the new data for future comparison
+                console.log('Andon List updated:', this.andonList);
+            } else {
+                console.log('No changes in Andon List');
+            }
+        });
+    }
+
+    startAutoRefresh() {
+        this.refreshInterval = setInterval(() => {
+            this.getAndonList();
+        }, 10000); // Refresh every 30 seconds
+    }
+
+    stopAutoRefresh() {
+        if (this.refreshInterval) {
+            clearInterval(this.refreshInterval);
+        }
+    }
 
     dummyList = [
         {

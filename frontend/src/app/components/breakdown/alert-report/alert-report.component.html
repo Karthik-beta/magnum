@@ -173,7 +173,7 @@
                                 {{ log.company }}
                             </td>
                             <td>
-                                {{ log.plant }}
+                                {{ log.location }}
                             </td>
                             <td>
                                 {{ log.shopfloor }}
@@ -188,25 +188,25 @@
                                 {{ log.category }}
                             </td>
                             <td>
-                                {{ log.alertShift }}
+                                {{ log.alert_shift }}
                             </td>
                             <td>
-                                {{ log.andonNewIssueTimestamp }}
+                                {{ log.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}
                             </td>
                             <td>
-                                {{ log.andonAlertTimestamp }}
+                                {{ log.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}
                             </td>
                             <td>
-                                {{ log.andonAcknowledgeTimestamp }}
+                                {{ log.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                             </td>
                             <td>
-                                {{ log.andonResolvedTimestamp }}
+                                {{ log.andon_resolved | date: 'dd-MM-yyyy HH:mm:ss' }}
                             </td>
                             <td>
                                 {{ log.resolution }}
                             </td>
                             <td>
-                                {{ log.counter }}
+                                {{ log.total_time }}
                             </td>
                         </tr>
                     </ng-template>
