@@ -230,13 +230,9 @@
                     <!-- <select class="form-control" placeholder="Select Options"
                             style="font-size: small;" [(ngModel)]="selectedMachineId">
                             <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let item of machineIds">{{ item }}</option>
-                    </select> -->
-                    <select class="form-control" placeholder="Select Options"
-                            style="font-size: small;" [(ngModel)]="selectedMachineId">
-                            <option value="" disabled selected>-Select-</option>
                             <option *ngFor="let id of filteredMachineIds" [value]="id">{{ id }}</option>
-                    </select>
+                    </select> -->
+                    {{ selectedMachineId }}
                 </th>
                 <th>
                     GS
@@ -273,12 +269,13 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'machineId'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                        <!-- <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
                             style="font-size: small;" [(ngModel)]="item.machineId">
                             <option value="" disabled selected>-Select-</option>
                             <option *ngFor="let option of col.options">{{ option }}</option>
                         </select>
-                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
+                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span> -->
+                        <span>{{ item.machineId }}</span>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'category'">
@@ -292,7 +289,7 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'resolution'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                        <select *ngIf="isEditable(col) && item.andon_acknowledge != null" class="form-control" placeholder="Select Options"
                             style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution"
                             (change)="onResolutionChange($event.target.value, item)">
                             <option value="" disabled selected>-Select-</option>
@@ -310,7 +307,7 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'andonAlert'">
-                        <button *ngIf="isTeamLeader() && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isTeamLeader() && item.category != 'Test' && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onAndonAlert(item)"></button>
                         <p  *ngIf="item.andon_alerts != null" class="timestamp">[EMPNAME, ID] <br>
@@ -320,14 +317,14 @@
                     <ng-container *ngSwitchCase="'button'">
                       <div class="">
 
-                        <button *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge == null" pButton label="Acknowledge" severity="warning"
+                        <button *ngIf="col.field === 'andon_acknowledge' && item.andon_alerts != null && item.andon_acknowledge == null && currentUserRole !== 'Resolved'" pButton label="Acknowledge" severity="warning"
                                 class="p-button-warning" icon="fa-solid fa-handshake"
                                 (click)="onAndonAcknowledge(item)"></button>
                         <p *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge != null">[EMPNAME, ID] <br>
                           {{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
 
-                        <button *ngIf="col.field === 'andon_resolved' && item.andon_resolved == null" pButton label="Resolved" severity="success"
+                        <button *ngIf="col.field === 'andon_resolved' && item.resolution != null && item.andon_resolved == null" pButton label="Resolved" severity="success"
                                 class="p-button-success" icon="fa-solid fa-circle-check"
                                 (click)="onAndonResolved(item)"></button>
                         <p class="timestamp" *ngIf="col.field === 'andon_resolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
@@ -355,7 +352,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
-            <tr>
+            <tr *ngIf="currentUserRole !== 'Operator'">
                 <td colspan="15">No Data found.</td>
             </tr>
         </ng-template>

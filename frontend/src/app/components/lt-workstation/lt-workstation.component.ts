@@ -50,6 +50,9 @@ export class LTWorkstationComponent implements OnInit {
             this.shopfloor = params.get('shopfloor') || '';
             this.machine = params.get('machine') || '';
 
+            // Auto-select the machine based on the route parameter
+            this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+
             // Call getAndonList whenever the route changes
             this.getAndonList();
             this.getAllAndonList();
@@ -672,6 +675,8 @@ export class LTWorkstationComponent implements OnInit {
 
     }
 
+    displayAndonAlert: boolean = false;
+
     onCategoryChange(selectedValue: any, row: any) {
         // console.log('Category changed:', selectedValue);
 
@@ -683,8 +688,10 @@ export class LTWorkstationComponent implements OnInit {
         this.service.patchAndonData(row).subscribe((response: any) => {
             console.log('Andon data updated:', response);
             this.getAndonList();
+            this.displayAndonAlert = true;
             this.cdr.detectChanges();
         });
+
     }
 
     onResolutionChange(selectedValue: any, row: any) {
