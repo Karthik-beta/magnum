@@ -317,6 +317,7 @@ export class LTWorkstationComponent implements OnInit {
             this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
             this.isAndonListEmpty = this.andonList.length === 0;
             this.cdr.detectChanges();
+            console.log('Andon List:', this.andonList);
         });
 
         this.getAllAndonList();
@@ -344,7 +345,6 @@ export class LTWorkstationComponent implements OnInit {
 
     getMetricsData() {
         this.service.getMetricsData().subscribe((data: any) => {
-            console.log('Metrics data:', data);
             // Process the data as needed
             this.metricsData = data;
         });
@@ -374,7 +374,7 @@ export class LTWorkstationComponent implements OnInit {
             shopfloor: 'Metal',
             assemblyline: 'Test',
             machineId: 'WS-001',
-            category: 'Equipment Down',
+            category: '',
             subCategory: '',
             alertShift: 'GS',
             andonAlertCompleted: false,
@@ -532,7 +532,7 @@ export class LTWorkstationComponent implements OnInit {
             shopfloor: 'Workstation',
             assemblyline: 'SSL Main Line',
             machineId: 'WS-001',      // And these
-            category: 'RESETTING',
+            category: '',
 
             andonNewIssueCompleted: false,
             andonNewIssueTimestamp: null,
@@ -571,7 +571,6 @@ export class LTWorkstationComponent implements OnInit {
             machineId: this.selectedMachineId,
             alert_shift: 'GS',
             raise_alert: istTime.toISOString() ,
-            category: 'Test',
         }
 
         this.service.createAndonData(row).subscribe((response: any) => {

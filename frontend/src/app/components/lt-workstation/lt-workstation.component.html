@@ -279,10 +279,10 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'category'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                        <select *ngIf="isEditable(col)" class="form-control"
                             style="font-size: small;" [(ngModel)]="item.category"
                             (change)="onCategoryChange($event.target.value, item)">
-                            <option value="" disabled selected>-Select-</option>
+                            <option value="null" disabled selected>-Select Reason-</option>
                             <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
@@ -292,7 +292,7 @@
                         <select *ngIf="isEditable(col) && item.andon_acknowledge != null" class="form-control" placeholder="Select Options"
                             style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution"
                             (change)="onResolutionChange($event.target.value, item)">
-                            <option value="" disabled selected>-Select-</option>
+                            <option value="null" disabled selected>-Select Resolution-</option>
                             <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
@@ -307,7 +307,7 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'andonAlert'">
-                        <button *ngIf="isTeamLeader() && item.category != 'Test' && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isTeamLeader() && item.category != null && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onAndonAlert(item)"></button>
                         <p  *ngIf="item.andon_alerts != null" class="timestamp">[EMPNAME, ID] <br>

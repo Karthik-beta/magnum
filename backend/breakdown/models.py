@@ -62,7 +62,7 @@ class AndonData(models.Model):
     shopfloor = models.CharField(max_length=30, default='GRINDING')
     assemblyline = models.CharField(max_length=30)
     machineId = models.CharField(max_length=50)
-    category = models.CharField(max_length=50)
+    category = models.CharField(max_length=50, blank=True, null=True)
     sub_category = models.CharField(max_length=50, blank=True, null=True)
     alert_shift = models.CharField(max_length=10)
     andon_alerts = models.DateTimeField(blank=True, null=True)
