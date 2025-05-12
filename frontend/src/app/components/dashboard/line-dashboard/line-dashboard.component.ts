@@ -76,6 +76,11 @@ export class LineDashboardComponent implements OnInit {
         },
     ]
 
+    machineList1: any[] = [];
+
+
+    andonList: any[] = [];
+
     bar1Chart: any;
 
     bar1Options: any;
@@ -85,6 +90,7 @@ export class LineDashboardComponent implements OnInit {
     ngOnInit() {
         this.initCharts();
         this.getMachineDetails();
+        this.refreshAndList();
 
         this.timeFunction();
 
@@ -97,6 +103,7 @@ export class LineDashboardComponent implements OnInit {
     private refreshData(): void {
         this.initCharts();
         this.getMachineDetails();
+        this.refreshAndList();
     }
 
     initCharts() {
@@ -183,6 +190,113 @@ export class LineDashboardComponent implements OnInit {
     navigateToMachineDetails(machineId: number) { // Add parameter here
         this.router.navigate(['/machine_dash'], { queryParams: { machine_id: machineId } });
     }
+
+    refreshAndList(): void {
+    const params = {
+        page: 1,
+        page_size: 100,
+    };
+
+    // Define your fixed five machines (adjust IDs as needed)
+    const fixedMachines = ['WS01', 'WS02', 'WS03', 'WS04', 'WS05'];
+
+    this.service.getAndList(params).subscribe((data: any) => {
+        this.andonList = data.results;
+
+        // Get today's 08:00 and 18:00
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const shiftStart = new Date(today.getTime());
+        shiftStart.setHours(8, 0, 0, 0);
+        const shiftEnd = new Date(today.getTime());
+        shiftEnd.setHours(18, 0, 0, 0);
+        const currentShiftEnd = now < shiftEnd ? now : shiftEnd;
+
+        this.machineList1 = fixedMachines.map(machineId => {
+            // Filter records for this machine and today
+            const records = this.andonList.filter(item =>
+                item.machineId === machineId &&
+                item.raise_alert &&
+                new Date(item.raise_alert).setHours(0,0,0,0) === today.getTime()
+            );
+
+            // If no records, show only total_on_time, rest as 00:00
+            if (records.length === 0) {
+                const total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000);
+                const formatTime = (sec: number) => {
+                    const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+                    const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+                    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+                    return `${h}:${m}`;
+                };
+                return {
+                    channel: machineId,
+                    machine: 'Status',
+                    status: true,
+                    total_on_time: formatTime(total_on_time_sec),
+                    total_idle_time: '00:00',
+                    breakdown_time: '00:00',
+                    alert: '00:00',
+                    acknowledge: '00:00',
+                };
+            }
+
+            // Breakdown time: sum of total_time (assume total_time is in seconds)
+            let breakdown_time_sec = records.reduce((sum, rec) => sum + (rec.total_time ? Number(rec.total_time) : 0), 0);
+
+            // total_on_time: (current time or 18:00) - 08:00 - breakdown_time
+            let total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000) - breakdown_time_sec;
+            if (total_on_time_sec < 0) total_on_time_sec = 0;
+
+            // total_idle_time = total_on_time - breakdown_time
+            let total_idle_time_sec = total_on_time_sec - breakdown_time_sec;
+            if (total_idle_time_sec < 0) total_idle_time_sec = 0;
+
+            // Alert time: sum of (andon_acknowledge - raise_alert) for today
+            let alert_time_sec = records.reduce((sum, rec) => {
+                if (rec.raise_alert && rec.andon_acknowledge) {
+                    const start = new Date(rec.raise_alert);
+                    const end = new Date(rec.andon_acknowledge);
+                    if (end > start) {
+                        return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
+                    }
+                }
+                return sum;
+            }, 0);
+
+            // Acknowledge time: sum of (andon_resolved - andon_acknowledge) for today
+            let acknowledge_time_sec = records.reduce((sum, rec) => {
+                if (rec.andon_acknowledge && rec.andon_resolved) {
+                    const start = new Date(rec.andon_acknowledge);
+                    const end = new Date(rec.andon_resolved);
+                    if (end > start) {
+                        return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
+                    }
+                }
+                return sum;
+            }, 0);
+
+            // Helper to format seconds to HH:mm:ss
+            const formatTime = (sec: number) => {
+                const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+                const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+                const s = Math.floor(sec % 60).toString().padStart(2, '0');
+                return `${h}:${m}`;
+            };
+
+            return {
+                channel: machineId,
+                machine: 'Status',
+                status: true,
+                total_on_time: formatTime(total_on_time_sec),
+                total_idle_time: formatTime(total_idle_time_sec),
+                breakdown_time: formatTime(breakdown_time_sec),
+                alert: formatTime(alert_time_sec),
+                acknowledge: formatTime(acknowledge_time_sec),
+            };
+        });
+    });
+}
 
     getMachineDetails() {
 
