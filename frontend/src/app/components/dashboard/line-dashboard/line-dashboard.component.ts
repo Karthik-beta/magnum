@@ -198,7 +198,7 @@ export class LineDashboardComponent implements OnInit {
     };
 
     // Define your fixed five machines (adjust IDs as needed)
-    const fixedMachines = ['WS01', 'WS02', 'WS03', 'WS04', 'WS05'];
+    const fixedMachines = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
 
     this.service.getAndList(params).subscribe((data: any) => {
         this.andonList = data.results;
@@ -242,14 +242,14 @@ export class LineDashboardComponent implements OnInit {
             }
 
             // Breakdown time: sum of total_time (assume total_time is in seconds)
-            let breakdown_time_sec = records.reduce((sum, rec) => sum + (rec.total_time ? Number(rec.total_time) : 0), 0);
+            let breakdown_time_sec = records.reduce((sum, rec) => sum + (rec.total_time ? timeStringToSeconds(rec.total_time) : 0), 0);
 
             // total_on_time: (current time or 18:00) - 08:00 - breakdown_time
             let total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000) - breakdown_time_sec;
             if (total_on_time_sec < 0) total_on_time_sec = 0;
 
             // total_idle_time = total_on_time - breakdown_time
-            let total_idle_time_sec = total_on_time_sec - breakdown_time_sec;
+            let total_idle_time_sec = breakdown_time_sec;
             if (total_idle_time_sec < 0) total_idle_time_sec = 0;
 
             // Alert time: sum of (andon_acknowledge - raise_alert) for today
@@ -276,12 +276,19 @@ export class LineDashboardComponent implements OnInit {
                 return sum;
             }, 0);
 
-            // Helper to format seconds to HH:mm:ss
+            // Helper functions
+            function timeStringToSeconds(time: string): number {
+                if (!time) return 0;
+                const parts = time.split(':').map(Number);
+                if (parts.length !== 3) return 0;
+                return parts[0] * 3600 + parts[1] * 60 + parts[2];
+            }
             const formatTime = (sec: number) => {
+                if (!isFinite(sec) || sec < 0) sec = 0;
                 const h = Math.floor(sec / 3600).toString().padStart(2, '0');
                 const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
                 const s = Math.floor(sec % 60).toString().padStart(2, '0');
-                return `${h}:${m}`;
+                return `${h}:${m}:${s}`;
             };
 
             return {
