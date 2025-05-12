@@ -13,7 +13,7 @@ export class DisplayBoardComponent implements OnInit {
     ) {}
 
     ngOnInit (): void {
-        // this.refreshAndList();
+        this.refreshAndList();
     }
 
     andonList: any[] = [];
