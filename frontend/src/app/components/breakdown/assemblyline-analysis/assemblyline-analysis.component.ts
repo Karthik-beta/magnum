@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
 
 @Component({
@@ -6,17 +6,22 @@ import { SharedService } from 'src/app/shared.service';
   templateUrl: './assemblyline-analysis.component.html',
   styleUrls: ['./assemblyline-analysis.component.scss']
 })
-export class AssemblylineAnalysisComponent implements OnInit{
+export class AssemblylineAnalysisComponent implements OnInit {
 
     pieDayData: any;
     pieDayOptions: any;
+    noBreakdownToday: boolean = false;
 
     pieWeekData: any;
     pieWeekOptions: any;
+    noBreakdownThisWeek: boolean = false;
 
     pieMonthData: any;
-
     pieMonthOptions: any;
+    noBreakdownThisMonth: boolean = false;
+
+    barMonthlyBreakdown: any;
+    barMonthlyBreakdownOptions: any;
 
     barData: any;
 
@@ -39,12 +44,103 @@ export class AssemblylineAnalysisComponent implements OnInit{
         this.service.getAndonCategoryStats().subscribe((data: any) => {
             const daily = data.Daily || {};
             this.pieDayData.labels = Object.keys(daily);
-            this.pieDayOptions.datasets[0].data = Object.values(daily);
+            this.pieDayData.datasets[0].data = Object.values(daily);
+            this.pieDayData = { ...this.pieDayData }
+
+            // Set the flag based on data
+            this.noBreakdownToday = this.pieDayData.labels.length === 0;
 
             const weekly = data.Weekly || {};
             this.pieWeekData.labels = Object.keys(weekly);
-            this.pieWeekOptions.datasets[0].data = Object.values(weekly);
+            this.pieWeekData.datasets[0].data = Object.values(weekly);
+            this.pieWeekData = { ...this.pieWeekData }
+
+            // Set the flag based on data
+            this.noBreakdownThisWeek = this.pieWeekData.labels.length === 0;
+
+            const currentMonth = data.current_month || {};
+            this.pieMonthData.labels = Object.keys(currentMonth);
+            this.pieMonthData.datasets[0].data = Object.values(currentMonth);
+            this.pieMonthData = { ...this.pieMonthData }
+
+            // Set the flag based on data
+            this.noBreakdownThisMonth = this.pieMonthData.labels.length === 0;
+
+            // Prepare barMonthlyBreakdown for monthly breakdown
+            const monthly = data.Monthly || {};
+            const months = Object.keys(monthly); // ['Jan', 'Feb', ...]
+            const categorySet = new Set<string>();
+
+            // Collect all categories across months
+            months.forEach(month => {
+                const catObj = monthly[month];
+                if (catObj) {
+                    Object.keys(catObj).forEach(cat => categorySet.add(cat));
+                }
+            });
+
+            const categories = Array.from(categorySet);
+
+            // Build datasets for each category
+            const datasets = categories.map(category => ({
+                label: category,
+                backgroundColor: this.getCategoryColor(category), // helper for color
+                data: months.map(month => monthly[month]?.[category] ?? 0)
+            }));
+
+            this.barMonthlyBreakdown = {
+                labels: months,
+                datasets: datasets
+            };
+            this.barMonthlyBreakdown = { ...this.barMonthlyBreakdown }; // trigger change detection
+
+
+            const runningBreakdown = data.running_breakdown || {};
+            const monthsRB = Object.keys(runningBreakdown); // ['Jan', 'Feb', ...]
+            const runningData = monthsRB.map(month => runningBreakdown[month]?.running ?? 0);
+            const breakdownData = monthsRB.map(month => runningBreakdown[month]?.breakdown ?? 0);
+
+            this.barData = {
+                labels: monthsRB,
+                datasets: [
+                    {
+                        label: 'Running',
+                        backgroundColor: '#22c55e',
+                        borderColor: '#22c55e',
+                        data: runningData
+                    },
+                    {
+                        label: 'Breakdown',
+                        backgroundColor: '#ef4444',
+                        borderColor: '#ef4444',
+                        data: breakdownData
+                    }
+                ]
+            };
+            this.barData = { ...this.barData }; // trigger change detection
+
         })
+    }
+
+    // Helper to assign colors per category (customize as needed)
+    getCategoryColor(category: string): string {
+        const colorMap: { [key: string]: string } = {
+            'Equipment Down': '#22c55e',
+            'Fit issue': '#a21caf',
+            'Missing SWS': '#6366f1',
+            'Part Damage': '#fbbf24',
+            'Part Unavailable': '#ef4444',
+            'Safety Issue': '#f97316',
+            'Other': '#f59e42',
+            'Idle': '#3b82f6',
+            'Alert': '#ef4444',
+            'Acknowledge': '#6366f1',
+            'OK': '#22c55e',
+            'Running': '#3b82f6',
+            'Breakdown': '#ef4444',
+            // Add more mappings as needed
+        };
+        return colorMap[category] || '#f59e42'; // default color
     }
 
 
@@ -116,6 +212,43 @@ export class AssemblylineAnalysisComponent implements OnInit{
                 }]
         };
 
+        this.pieMonthData = {
+            labels: [],
+            datasets: [
+                {
+                    data: [],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--indigo-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--yellow-500'),
+                        documentStyle.getPropertyValue('--orange-500')
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--indigo-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--yellow-500'),
+                        documentStyle.getPropertyValue('--orange-500')
+                    ]
+                }]
+        };
+
+        this.pieMonthOptions = {
+            maintainAspectRatio: false,
+            aspectRatio: 1.2,
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: false,
+                        color: textColor
+                    }
+                }
+            }
+        };
+
         this.pieWeekOptions = {
             maintainAspectRatio: false,
             aspectRatio: 1.2,
@@ -129,22 +262,52 @@ export class AssemblylineAnalysisComponent implements OnInit{
             }
         };
 
-        this.barData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November'],
-            datasets: [
-                {
-                    label: 'RUNNING',
-                    backgroundColor: documentStyle.getPropertyValue('--green-500'),
-                    borderColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81]
-                },
-                {
-                    label: 'BREAKDOWN',
-                    backgroundColor: documentStyle.getPropertyValue('--red-400'),
-                    borderColor: documentStyle.getPropertyValue('--red-400'),
-                    data: [28, 48, 40, 19, 86, 27, 90, 80, 59, 55, 86]
+        this.barMonthlyBreakdown = {
+            labels: [],
+            datasets: []
+        }
+
+        this.barMonthlyBreakdownOptions = {
+            maintainAspectRatio: false,
+            aspectRatio: 1.5,
+            plugins: {
+                legend: {
+                    // display: false,
+                    labels: {
+                        color: textColor
+                    }
                 }
-            ]
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary,
+                        font: {
+                            weight: 500
+                        }
+                    },
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    }
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+            }
+        };
+
+        this.barData = {
+            labels: [],
+            datasets: []
         };
 
         this.barOptions = {
@@ -160,6 +323,7 @@ export class AssemblylineAnalysisComponent implements OnInit{
             },
             scales: {
                 x: {
+                    stacked: false,
                     ticks: {
                         color: textColorSecondary,
                         font: {
@@ -172,6 +336,7 @@ export class AssemblylineAnalysisComponent implements OnInit{
                     }
                 },
                 y: {
+                    stacked: false,
                     ticks: {
                         color: textColorSecondary
                     },

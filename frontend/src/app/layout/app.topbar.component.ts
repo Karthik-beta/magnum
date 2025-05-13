@@ -145,8 +145,8 @@ handleKeyboardEvent(event: KeyboardEvent): void {
         this.locationSubcription = this.service.getLocation().subscribe({
             next: (data: any) => {
                 console.log('Received data:', data);
-                this.location = data[0].plant_name;
-                console.log('Location: ' + this.location);
+                // this.location = data[0].plant_name;
+                // console.log('Location: ' + this.location);
             },
             error: (error: any) => {
                 this.location = 'Location error: ' + error.error.message;

@@ -545,9 +545,32 @@ class AndonDataCategoryStatsAPIView(APIView):
             else:
                 monthly_data[month_name] = None
 
+        # Running vs breakdown
+        running_breakdown = {}
+        for i in range(1, 13):
+            month_name = calendar.month_abbr[i]
+            month_start = now.replace(month=i, day=1, hour=0, minute=0, second=0, microsecond=0)
+            if i == 12:
+                next_month_start = month_start.replace(year=month_start.year + 1, month=1)
+            else:
+                next_month_start = month_start.replace(month=i+1)
+            unresolved_qs = AndonData.objects.filter(
+                andon_alerts__gte=month_start,
+                andon_alerts__lt=next_month_start
+            ).values('machineId').distinct()
+
+            breakdown_count = unresolved_qs.count()
+
+            running_breakdown[month_name] = {
+                "running": 5 - breakdown_count if breakdown_count <= 5 else 0,
+                "breakdown": breakdown_count
+            }
+
         data = {
             "Daily": daily_counts,
             "Weekly": weekly_counts,
+            "current_month": monthly_data.get(now.strftime('%b'), None),
             "Monthly": monthly_data,
+            "running_breakdown": running_breakdown,
         }
         return Response(data)

@@ -2,19 +2,35 @@
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">DAILY ANALYSIS</h5>
+            <span *ngIf="noBreakdownToday" class="text-700 block font-bold text-center text-2xl">
+                No Breakdowns Today
+            </span>
+            <div *ngIf="!noBreakdownToday">
             <p-chart type="pie" [data]="pieDayData" [options]="pieDayOptions"></p-chart>
+            </div>
+
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">WEEKLY ANALYSIS</h5>
+            <span *ngIf="noBreakdownThisWeek" class="text-700 block font-bold text-center text-2xl">
+                No Breakdowns This Week
+            </span>
+            <div *ngIf="!noBreakdownThisWeek">
             <p-chart type="pie" [data]="pieWeekData" [options]="pieWeekOptions"></p-chart>
+            </div>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-4">
         <div class="card text-900 flex flex-column align-items-center">
             <h5 class="text-left w-full">MONTHLY ANALYSIS</h5>
+            <span *ngIf="noBreakdownThisMonth" class="text-700 block font-bold text-center text-2xl">
+                No Breakdowns This Week
+            </span>
+            <div *ngIf="!noBreakdownThisMonth">
             <p-chart type="pie" [data]="pieMonthData" [options]="pieMonthOptions"></p-chart>
+            </div>
         </div>
     </div>
 </div>
@@ -22,7 +38,7 @@
 <div class="card">
     <div class="col-12 lg:col-12 xl:col-12">
         <h5>MONTHLY BREAKDOWNS</h5>
-        <p-chart type="bar" [data]="barData2" [options]="barOptions2"></p-chart>
+        <p-chart type="bar" [data]="barMonthlyBreakdown" [options]="barMonthlyBreakdownOptions"></p-chart>
     </div>
 </div>
 
