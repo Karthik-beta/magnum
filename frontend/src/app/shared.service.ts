@@ -510,4 +510,8 @@ export class SharedService {
             responseType: 'blob' as 'json', // Set the response type to 'blob' for binary data
         });
     }
+
+    getAndonCategoryStats():Observable<any[]>{
+        return this.http.get<any[]>(this.APIUrl+'/andon_category_stats/');
+    }
 }

@@ -26,6 +26,9 @@ from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from django.db.models import Q
 from openpyxl.styles import Font, PatternFill, Alignment
+from collections import defaultdict
+from django.db.models.functions import TruncMonth
+import calendar
 
 
 from .models import (BreakdownCategory,
@@ -488,3 +491,63 @@ class AndonDataOpenMechListView(generics.ListAPIView):
 
     def get_queryset(self):
         return AndonData.objects.filter(andon_resolved__isnull=True, category="MECH MAINT")
+
+class AndonDataCategoryStatsAPIView(APIView):
+    """
+    API to get count of different 'category' in AndonData for today, this week, and monthly (grouped by month).
+    """
+    def get(self, request):
+        now = timezone.now()
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        week_start = today_start - timedelta(days=today_start.weekday())
+        year_start = today_start.replace(month=1, day=1)
+
+        # Helper to aggregate counts
+        def get_counts(qs):
+            return dict(
+                qs.values('category')
+                  .annotate(count=Count('category'))
+                  .order_by('-count')
+                  .values_list('category', 'count')
+            )
+
+        # Daily
+        qs_today = AndonData.objects.filter(andon_alerts__gte=today_start, andon_alerts__lt=now)
+        daily_counts = get_counts(qs_today)
+
+        # Weekly
+        qs_week = AndonData.objects.filter(andon_alerts__gte=week_start, andon_alerts__lt=now)
+        weekly_counts = get_counts(qs_week)
+
+        # Monthly (grouped by month)
+        qs_months = (
+            AndonData.objects
+            .filter(andon_alerts__gte=year_start, andon_alerts__lt=now)
+            .annotate(month=TruncMonth('andon_alerts'))
+            .values('month', 'category')
+            .annotate(count=Count('category'))
+            .order_by('month')
+        )
+        # Build monthly data
+        raw_monthly_data = defaultdict(dict)
+        for entry in qs_months:
+            month_str = entry['month'].strftime('%b')  # 'Jan', 'Feb', etc.
+            category = entry['category']
+            count = entry['count']
+            raw_monthly_data[month_str][category] = count
+
+        # Ensure all months are present, set to None if no data
+        monthly_data = {}
+        for i in range(1, 13):
+            month_name = calendar.month_abbr[i]
+            if month_name in raw_monthly_data and raw_monthly_data[month_name]:
+                monthly_data[month_name] = raw_monthly_data[month_name]
+            else:
+                monthly_data[month_name] = None
+
+        data = {
+            "Daily": daily_counts,
+            "Weekly": weekly_counts,
+            "Monthly": monthly_data,
+        }
+        return Response(data)

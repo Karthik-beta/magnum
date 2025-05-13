@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-assemblyline-analysis',
@@ -7,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssemblylineAnalysisComponent implements OnInit{
 
+    pieDayData: any;
+    pieDayOptions: any;
+
+    pieWeekData: any;
+    pieWeekOptions: any;
 
     pieMonthData: any;
 
@@ -20,9 +26,25 @@ export class AssemblylineAnalysisComponent implements OnInit{
 
     barOptions2: any;
 
+    constructor(
+        private service: SharedService
+    ) {}
 
     ngOnInit() {
         this.initCharts();
+        this.getAndonCategoryStats();
+    }
+
+    getAndonCategoryStats() {
+        this.service.getAndonCategoryStats().subscribe((data: any) => {
+            const daily = data.Daily || {};
+            this.pieDayData.labels = Object.keys(daily);
+            this.pieDayOptions.datasets[0].data = Object.values(daily);
+
+            const weekly = data.Weekly || {};
+            this.pieWeekData.labels = Object.keys(weekly);
+            this.pieWeekOptions.datasets[0].data = Object.values(weekly);
+        })
     }
 
 
@@ -32,11 +54,11 @@ export class AssemblylineAnalysisComponent implements OnInit{
         const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-        this.pieMonthData = {
-            labels: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit Issue', 'Part Damage', 'Safety Issue'],
+        this.pieDayData = {
+            labels: [],
             datasets: [
                 {
-                    data: [54, 32, 22, 32, 44, 12],
+                    data: [],
                     backgroundColor: [
                         documentStyle.getPropertyValue('--green-500'),
                         documentStyle.getPropertyValue('--red-500'),
@@ -57,7 +79,44 @@ export class AssemblylineAnalysisComponent implements OnInit{
                 }]
         };
 
-        this.pieMonthOptions = {
+        this.pieDayOptions = {
+            maintainAspectRatio: false,
+            aspectRatio: 1.2,
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: false,
+                        color: textColor
+                    }
+                }
+            }
+        };
+
+        this.pieWeekData = {
+            labels: [],
+            datasets: [
+                {
+                    data: [],
+                    backgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--indigo-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--yellow-500'),
+                        documentStyle.getPropertyValue('--orange-500')
+                    ],
+                    hoverBackgroundColor: [
+                        documentStyle.getPropertyValue('--green-500'),
+                        documentStyle.getPropertyValue('--red-500'),
+                        documentStyle.getPropertyValue('--indigo-500'),
+                        documentStyle.getPropertyValue('--purple-500'),
+                        documentStyle.getPropertyValue('--yellow-500'),
+                        documentStyle.getPropertyValue('--orange-500')
+                    ]
+                }]
+        };
+
+        this.pieWeekOptions = {
             maintainAspectRatio: false,
             aspectRatio: 1.2,
             plugins: {

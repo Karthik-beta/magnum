@@ -6,7 +6,8 @@ from .views import (BreakdownCategoryListCreateView,
                        DownloadAndonData,
                        AndonDataListCreateView, DownloadBreakdownHMIData, AndonMetricsView, Shopfloorwise,
                        check_database_connection, AndonDataOpenListView,
-                       AndonDataOpenResettingListView, AndonDataOpenEngineeringListView, AndonDataOpenElectListView, AndonDataOpenQualityListView, AndonDataOpenMechListView)
+                       AndonDataOpenResettingListView, AndonDataOpenEngineeringListView, AndonDataOpenElectListView, AndonDataOpenQualityListView, AndonDataOpenMechListView,
+                       AndonDataCategoryStatsAPIView)
 
 
 urlpatterns = [
@@ -55,6 +56,8 @@ urlpatterns = [
     re_path(r'^andon_open_quality/$', AndonDataOpenQualityListView.as_view()),
 
     re_path(r'^andon_open_mech/$', AndonDataOpenMechListView.as_view()),
+
+    re_path(r'^andon_category_stats/$', AndonDataCategoryStatsAPIView.as_view()),
 
     # path('register', RegisterView.as_view()),
     # path('login', LoginView.as_view()),
