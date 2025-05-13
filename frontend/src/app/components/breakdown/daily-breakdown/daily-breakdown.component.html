@@ -4,7 +4,12 @@
         <div class="col-12 md:col-4 lg:col-4">
             <div class="col-12">
                 <h4>Daily Breakdown Analysis</h4>
+                <span *ngIf="noBreakdownToday" class="text-700 block font-bold text-center text-2xl">
+                    No Breakdowns Today
+                </span>
+                <div *ngIf="!noBreakdownToday">
                 <p-chart type="pie" [data]="pieChartData" [options]="pieChartOptions"></p-chart>
+                </div>
             </div>
         </div>
         <div class="col-12 md:col-8 lg:col-8">

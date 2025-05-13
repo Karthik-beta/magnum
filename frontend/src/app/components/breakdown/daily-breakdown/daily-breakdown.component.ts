@@ -1,19 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-daily-breakdown',
   templateUrl: './daily-breakdown.component.html',
   styleUrls: ['./daily-breakdown.component.scss']
 })
-export class DailyBreakdownComponent {
+export class DailyBreakdownComponent implements OnInit {
     pieChartData: any;
     pieChartOptions: any;
+    noBreakdownToday: boolean = false;
+
+    constructor(
+        private service: SharedService
+    ) {}
+
+
+    ngOnInit (): void {
+        this.initChart();
+        this.getAndonCategoryStats();
+
+    }
+
+    getAndonCategoryStats() {
+        this.service.getAndonCategoryStats().subscribe((data: any) => {
+            const daily = data.Daily || {};
+            this.pieChartData.labels = Object.keys(daily);
+            this.pieChartData.datasets[0].data = Object.values(daily);
+            this.pieChartData = { ...this.pieChartData }
+
+            // Set the flag based on data
+            this.noBreakdownToday = this.pieChartData.labels.length === 0;
+        });
+    }
 
     metrics = [
       { label: 'ALERT TODAY', value: '0', backgroundColor: '#673AB7' },
       { label: 'ALERT OPEN', value: '0', backgroundColor: '#9C27B0' },
-      { label: 'ALERT ACK/CLOSURE', value: '5', backgroundColor: '#FFB300' },
-      { label: 'BREAKDOWN ALERT', value: '5', backgroundColor: '#007ad9' },
+      { label: 'ALERT ACK/CLOSURE', value: '0', backgroundColor: '#FFB300' },
+      { label: 'BREAKDOWN ALERT', value: '0', backgroundColor: '#007ad9' },
     //   { label: 'EQUIPMENT DOWN', value: '1', backgroundColor: '#00a368' },
     //   { label: 'PART UNAVAILABLE', value: '1', backgroundColor: '#ffc63b' },
     //   { label: 'MISSING SWS', value: '1', backgroundColor: '#ff5959' },
@@ -23,12 +48,12 @@ export class DailyBreakdownComponent {
     ];
 
     breakdowns = [
-        { label: 'EQUIPMENT DOWN', value: '1', backgroundColor: '#00a368' },
-        { label: 'PART UNAVAILABLE', value: '1', backgroundColor: '#ffc63b' },
-        { label: 'MISSING SWS', value: '1', backgroundColor: '#ff5959' },
-        { label: 'FIT ISSUE', value: '1', backgroundColor: '#8e44ad' },
-        { label: 'PART DAMAGE', value: '1', backgroundColor: '#3498db' },
-        { label: 'SAFETY ISSUE', value: '1', backgroundColor: '#2ecc71' }
+        { label: 'EQUIPMENT DOWN', value: '0', backgroundColor: '#00a368' },
+        { label: 'PART UNAVAILABLE', value: '0', backgroundColor: '#ffc63b' },
+        { label: 'MISSING SWS', value: '0', backgroundColor: '#ff5959' },
+        { label: 'FIT ISSUE', value: '0', backgroundColor: '#8e44ad' },
+        { label: 'PART DAMAGE', value: '0', backgroundColor: '#3498db' },
+        { label: 'SAFETY ISSUE', value: '0', backgroundColor: '#2ecc71' }
     ];
 
     breakdownCategories = [
@@ -40,13 +65,13 @@ export class DailyBreakdownComponent {
       'Safety issue'
     ];
 
-    constructor() {
+    initChart() {
       this.pieChartData = {
         aspectRatio: 1.5,
-        labels: ['Equipment down', 'Part unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'],
+        labels: [],
         datasets: [
           {
-            data: [37.5, 31.3, 6.3, 6.3, 6.3, 6.3],
+            data: [],
             backgroundColor: [
               '#007ad9', // Running - Blue
               '#00a368', // Breakdown - Green
