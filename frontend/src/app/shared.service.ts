@@ -514,4 +514,8 @@ export class SharedService {
     getAndonCategoryStats():Observable<any[]>{
         return this.http.get<any[]>(this.APIUrl+'/andon_category_stats/');
     }
+
+    getMachineBreakdownToday():Observable<any[]>{
+        return this.http.get<any[]>(this.APIUrl+'/machine_breakdown_today/');
+    }
 }

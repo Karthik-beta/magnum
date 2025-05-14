@@ -118,7 +118,7 @@ export class AppMenuComponent implements OnInit {
             },
 
             {
-                label: 'Line: SSL Workstations',
+                label: 'Line: Caterpiller SSL Workstations',
                 items: [
                     { label: 'Workstations', icon: 'fa-solid fa-cogs',
                         items: [

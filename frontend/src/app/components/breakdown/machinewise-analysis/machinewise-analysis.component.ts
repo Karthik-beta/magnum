@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-machinewise-analysis',
@@ -16,9 +17,11 @@ export class MachinewiseAnalysisComponent {
 
     bar1Options: any;
 
-    bar2Chart: any;
+    bar11Chart: any;
 
-    bar2Options: any;
+    bar11Options: any;
+
+    noBreakdownToday: boolean = false;
 
 
 
@@ -34,18 +37,19 @@ export class MachinewiseAnalysisComponent {
     total_closed_alerts: number = 0;
 
 
-
-
-
     plant: any;
     shopfloor: any;
     assembly_line: any;
     machine_id: any;
 
+    constructor(
+        private service: SharedService
+    ) {}
 
     ngOnInit() {
         this.initCharts();
         this.metricsData();
+        this.getMachineBreakdownToday();
 
         this.plant = [
             { name: 'CHENNAI' },
@@ -63,6 +67,86 @@ export class MachinewiseAnalysisComponent {
           ]
     }
 
+    machines = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
+    machineCharts: any = {};
+
+    getMachineBreakdownToday() {
+        this.service.getMachineBreakdownToday().subscribe((data: any) => {
+            // Map "assets" object to barChart
+            const assets = data.assets || {};
+            this.barChart.labels = ['Assets'];
+            this.barChart.datasets = [
+                {
+                    label: 'Online',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    data: [assets.Online ?? 0]
+                },
+                {
+                    label: 'Offline',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    data: [assets.Offline ?? 0]
+                }
+            ];
+            this.barChart = { ...this.barChart };
+
+            // Loop for all machines
+            this.machineCharts = {};
+            this.machines.forEach(machine => {
+                const machineData = data[machine];
+                if (machineData) {
+                    // Asset chart
+                    const bar1Chart = {
+                        labels: ['Efficiency'],
+                        datasets: [
+                            {
+                                label: 'Running',
+                                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                                data: [machineData.asset?.running ?? 0]
+                            },
+                            {
+                                label: 'Breakdown',
+                                backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                                borderColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                                data: [machineData.asset?.breakdown ?? 0]
+                            }
+                        ]
+                    };
+                    // Category chart
+                    const categories = machineData.category || {};
+                    const bar11Chart = {
+                        labels: ['Category'],
+                        datasets: Object.keys(categories).map(cat => ({
+                            label: cat,
+                            backgroundColor: this.getCategoryColor(cat),
+                            borderColor: this.getCategoryColor(cat),
+                            data: [categories[cat]]
+                        }))
+                    };
+                    this.machineCharts[machine] = {
+                        bar1Chart,
+                        bar11Chart,
+                        noBreakdownToday: Object.keys(categories).length === 0
+                    };
+                }
+            });
+        });
+    }
+
+    getCategoryColor(category: string): string {
+        const colors: { [key: string]: string } = {
+            'Equipment Down': '#CD5C5D',
+            'Part Unavailable': '#62CD37',
+            'Missing SWS': '#A7B289',
+            'Fit issue': '#7F8000',
+            'Part Damage': '#088F8F',
+            'Safety issue': '#115c45'
+        };
+        return colors[category] || '#CCCCCC'; // Default color
+    }
+
     initCharts() {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
@@ -70,19 +154,19 @@ export class MachinewiseAnalysisComponent {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.barChart = {
-            labels: ['Assests'],
+            labels: [],
             datasets: [
                 {
                     label: 'Online',
                     backgroundColor: documentStyle.getPropertyValue('--green-500'),
                     borderColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [65]
+                    data: []
                 },
                 {
                     label: 'Offline',
                     backgroundColor: documentStyle.getPropertyValue('--red-400'),
                     borderColor: documentStyle.getPropertyValue('--red-400'),
-                    data: [28]
+                    data: []
                 }
             ]
         };
@@ -133,19 +217,19 @@ export class MachinewiseAnalysisComponent {
         };
 
         this.bar1Chart = {
-            labels: ['Efficiency'],
+            labels: [],
             datasets: [
                 {
                     label: 'Running',
                     backgroundColor: documentStyle.getPropertyValue('--green-500'),
                     borderColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [65]
+                    data: []
                 },
                 {
                     label: 'Breakdown',
                     backgroundColor: documentStyle.getPropertyValue('--red-400'),
                     borderColor: documentStyle.getPropertyValue('--red-400'),
-                    data: [35]
+                    data: []
                 }
             ]
         };
@@ -194,49 +278,49 @@ export class MachinewiseAnalysisComponent {
         };
 
 
-        this.bar2Chart = {
-            labels: ['Category'],
+        this.bar11Chart = {
+            labels: [],
             datasets: [
                 {
                     label: 'Equipment Down',
                     backgroundColor: documentStyle.getPropertyValue('--indigo-500'),
                     borderColor: documentStyle.getPropertyValue('--indigo-500'),
-                    data: [25]
+                    data: []
                 },
                 {
                     label: 'Part Unavailable',
                     backgroundColor: documentStyle.getPropertyValue('--yellow-400'),
                     borderColor: documentStyle.getPropertyValue('--yellow-400'),
-                    data: [15]
+                    data: []
                 },
                 {
                     label: 'Missing SWS',
                     backgroundColor: documentStyle.getPropertyValue('--blue-400'),
                     borderColor: documentStyle.getPropertyValue('--blue-400'),
-                    data: [20]
+                    data: []
                 },
                 {
                     label: 'Fit Issue',
                     backgroundColor: documentStyle.getPropertyValue('--purple-400'),
                     borderColor: documentStyle.getPropertyValue('--purple-400'),
-                    data: [10]
+                    data: []
                 },
                 {
                     label: 'Part Damage',
                     backgroundColor: documentStyle.getPropertyValue('--pink-400'),
                     borderColor: documentStyle.getPropertyValue('--pink-400'),
-                    data: [20]
+                    data: []
                 },
                 {
                     label: 'Safety Issue',
                     backgroundColor: documentStyle.getPropertyValue('--green-400'),
                     borderColor: documentStyle.getPropertyValue('--green-400'),
-                    data: [10]
+                    data: []
                 }
             ]
         };
 
-        this.bar2Options = {
+        this.bar11Options = {
             indexAxis: 'y',
             maintainAspectRatio: false,
             aspectRatio: 3.5,

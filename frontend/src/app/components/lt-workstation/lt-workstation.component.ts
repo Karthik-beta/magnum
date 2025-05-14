@@ -56,6 +56,8 @@ export class LTWorkstationComponent implements OnInit {
             // Call getAndonList whenever the route changes
             this.getAndonList();
             this.getAllAndonList();
+            this.getCompanyList();
+            this.getLocationList();
         });
 
         // Andon Breakdown Section
@@ -286,6 +288,8 @@ export class LTWorkstationComponent implements OnInit {
     andonList: any[] = [];
     allAndonList: any[] = [];
     isAndonListEmpty: boolean = false;
+    companyName: string = '';
+    locationName: string = '';
 
     // getAndonList() {
     //     const params = {
@@ -301,6 +305,22 @@ export class LTWorkstationComponent implements OnInit {
 
     //     this.getMetricsData();
     // }
+
+    getCompanyList() {
+        this.service.getCompanyList().subscribe((data: any) => {
+            // Process the data as needed
+            this.companyName = data[0].company_name;
+            console.log('Company List:', data);
+        });
+    }
+
+    getLocationList() {
+        this.service.getLocation().subscribe((data: any) => {
+            // Process the data as needed
+            this.locationName = data[0].plant_name;
+            console.log('Location List:', data);
+        });
+    }
 
     getAndonList() {
         const params = {

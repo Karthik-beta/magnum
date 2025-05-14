@@ -574,3 +574,73 @@ class AndonDataCategoryStatsAPIView(APIView):
             "running_breakdown": running_breakdown,
         }
         return Response(data)
+
+class MachineBreakdownTodayAPIView(APIView):
+    """
+    API to output current day's count of machine breakdowns for WS-001 to WS-005,
+    including running/breakdown percentage and category breakdown.
+    """
+    def get(self, request):
+        now = timezone.now()
+        today_start = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        machines = [f"WS-00{i}" for i in range(1, 6)]
+
+        # Query all breakdowns for today for the 5 machines
+        qs = AndonData.objects.filter(
+            machineId__in=machines,
+            andon_alerts__gte=today_start,
+            andon_alerts__lt=now
+        )
+
+        # Count breakdowns per machine and category
+        machine_category_counts = defaultdict(lambda: defaultdict(int))
+        machine_breakdown_counts = defaultdict(int)
+        shift_category_counts = defaultdict(int)
+        for record in qs:
+            machine = record.machineId
+            category = record.category or "Unknown"
+            machine_category_counts[machine][category] += 1
+            machine_breakdown_counts[machine] += 1
+            shift_category_counts[category] += 1
+
+        online = 0
+        offline = 0
+        result = {
+            "assets": {
+                "Online": 0,
+                "Offline": 0
+            }
+        }
+
+        for machine in machines:
+            breakdown_count = machine_breakdown_counts.get(machine, 0)
+            if breakdown_count > 0:
+                running = max(0, 100 - breakdown_count)
+                offline += 1
+            else:
+                running = 100
+                online += 1
+
+            result[machine] = {
+                "asset": {
+                    "running": running,
+                    "breakdown": 100 - running
+                },
+                "category": dict(machine_category_counts[machine]) if breakdown_count > 0 else {}
+            }
+
+        result["assets"]["Online"] = online
+        result["assets"]["Offline"] = offline
+
+        # Add shift summary (example: using all breakdowns for the day)
+        shift_breakdown = sum(shift_category_counts.values())
+        shift_running = max(0, 100 - shift_breakdown)
+        result["shift"] = {
+            "efficiency": {
+                "Running": shift_running,
+                "Breakdown": shift_breakdown
+            },
+            "category": dict(shift_category_counts)
+        }
+
+        return Response(result)

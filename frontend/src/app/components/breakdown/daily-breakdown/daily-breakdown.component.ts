@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from 'src/app/shared.service';
+import { interval, Subscription } from 'rxjs';
+import { switchMap, distinctUntilChanged, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-daily-breakdown',
@@ -11,6 +13,21 @@ export class DailyBreakdownComponent implements OnInit {
     pieChartOptions: any;
     noBreakdownToday: boolean = false;
 
+    distinctCategories: any[] = [];
+    andonList: any[] = [];
+    private previousAndonList: any[] = [];
+    private refreshInterval: any;
+
+    today_open_alerts: number = 0;
+    total_open_alerts: number = 0;
+    total_acknowledge_alerts: number = 0;
+    total_resetting_alerts: number = 0;
+    total_engineering_alerts: number = 0;
+    total_quality_alerts: number = 0;
+    total_mech_maint_alerts: number = 0;
+    total_elect_maint_alerts: number = 0;
+    total_alerts: number = 0;
+
     constructor(
         private service: SharedService
     ) {}
@@ -19,8 +36,30 @@ export class DailyBreakdownComponent implements OnInit {
     ngOnInit (): void {
         this.initChart();
         this.getAndonCategoryStats();
-
+        this.getAndonList();
+        this.metricsData();
     }
+
+    private metricsDataSubscription: Subscription | null = null;
+
+    metricsData() {
+            // Use interval to trigger the request every 10 seconds
+            this.metricsDataSubscription = interval(10000).pipe(
+                startWith(0),
+                switchMap(() => this.service.getMetricsData()),
+                distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr))
+            ).subscribe((data: any) => {
+                this.today_open_alerts = data.today_open_alerts;
+                this.total_open_alerts = data.total_open_alerts;
+                this.total_acknowledge_alerts = data.total_acknowledge_alerts;
+                this.total_resetting_alerts = data.total_resetting_alerts;
+                this.total_engineering_alerts = data.total_engineering_alerts;
+                this.total_quality_alerts = data.total_quality_alerts;
+                this.total_mech_maint_alerts = data.total_mech_maint_alerts;
+                this.total_elect_maint_alerts = data.total_elect_maint_alerts;
+                this.total_alerts = data.total_alerts;
+            });
+        }
 
     getAndonCategoryStats() {
         this.service.getAndonCategoryStats().subscribe((data: any) => {
@@ -34,11 +73,62 @@ export class DailyBreakdownComponent implements OnInit {
         });
     }
 
+    getAndonList() {
+        const params = {
+            page: 1,
+            page_size: 100,
+            andon_resolved_isnull: true
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            const newAndonList = data.results;
+
+            // Compare new data with the previous data
+            if (JSON.stringify(newAndonList) !== JSON.stringify(this.previousAndonList)) {
+                this.andonList = newAndonList; // Update UI only if data changes
+                this.getDistinctCategories();
+                this.previousAndonList = [...newAndonList]; // Save the new data for future comparison
+                console.log('Andon List updated:', this.andonList);
+            } else {
+                console.log('No changes in Andon List');
+            }
+        });
+    }
+
+    getDistinctCategories() {
+        const allCategories = [
+            'Equipment Down',
+            'Part Unavailable',
+            'Missing SWS',
+            'Fit issue',
+            'Part Damage',
+            'Safety issue'
+        ];
+
+        this.distinctCategories = allCategories.map(category => ({
+            title: category,
+            count: this.andonList.filter(item => item.category === category).length || 0,
+            bgColor: this.getCategoryColor(category) // Assign colors dynamically
+        }));
+    }
+
+    getCategoryColor(category: string): string {
+        const colors: { [key: string]: string } = {
+            'Equipment Down': '#CD5C5D',
+            'Part Unavailable': '#62CD37',
+            'Missing SWS': '#A7B289',
+            'Fit issue': '#7F8000',
+            'Part Damage': '#088F8F',
+            'Safety issue': '#115c45'
+        };
+        return colors[category] || '#CCCCCC'; // Default color
+    }
+
     metrics = [
-      { label: 'ALERT TODAY', value: '0', backgroundColor: '#673AB7' },
-      { label: 'ALERT OPEN', value: '0', backgroundColor: '#9C27B0' },
-      { label: 'ALERT ACK/CLOSURE', value: '0', backgroundColor: '#FFB300' },
-      { label: 'BREAKDOWN ALERT', value: '0', backgroundColor: '#007ad9' },
+      { label: 'ALERT TODAY', value: this.today_open_alerts, backgroundColor: '#673AB7' },
+      { label: 'ALERT OPEN', value: this.total_open_alerts, backgroundColor: '#9C27B0' },
+      { label: 'ALERT ACK/CLOSURE', value: this.total_acknowledge_alerts, backgroundColor: '#FFB300' },
+      { label: 'BREAKDOWN ALERT', value: this.total_alerts, backgroundColor: '#007ad9' },
     //   { label: 'EQUIPMENT DOWN', value: '1', backgroundColor: '#00a368' },
     //   { label: 'PART UNAVAILABLE', value: '1', backgroundColor: '#ffc63b' },
     //   { label: 'MISSING SWS', value: '1', backgroundColor: '#ff5959' },
@@ -101,4 +191,20 @@ export class DailyBreakdownComponent implements OnInit {
         }
       };
     }
-  }
+
+    startAutoRefresh() {
+        this.refreshInterval = setInterval(() => {
+            this.getAndonList();
+        }, 10000); // Refresh every 30 seconds
+    }
+
+    stopAutoRefresh() {
+        if (this.refreshInterval) {
+            clearInterval(this.refreshInterval);
+        }
+        if (this.metricsDataSubscription) {
+            this.metricsDataSubscription.unsubscribe();
+            this.metricsDataSubscription = null;
+        }
+    }
+}

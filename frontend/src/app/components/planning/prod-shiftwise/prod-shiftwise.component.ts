@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/shared.service';
 
 @Component({
   selector: 'app-prod-shiftwise',
@@ -20,7 +21,11 @@ export class ProdShiftwiseComponent {
 
     bar2Options: any;
 
+    bar3Chart: any;
+    bar3Options: any;
 
+    bar4Chart: any;
+    bar4Options: any;
 
     today_open_alerts: number = 0;
     total_open_alerts: number = 0;
@@ -33,15 +38,14 @@ export class ProdShiftwiseComponent {
     total_alerts: number = 0;
     total_closed_alerts: number = 0;
 
-
-
-
-
     plant: any;
     shopfloor: any;
     assembly_line: any;
     machine_id: any;
 
+    constructor(
+        private service: SharedService
+    ) {}
 
     ngOnInit() {
         this.initCharts();
@@ -60,7 +64,76 @@ export class ProdShiftwiseComponent {
             { name: 'TSE-001' },
             { name: 'TSE-002' },
             { name: 'TSE-003' },
-          ]
+        ]
+
+        this.getMachineBreakdownToday();
+    }
+
+    getMachineBreakdownToday() {
+        this.service.getMachineBreakdownToday().subscribe((data: any) => {
+            // Map "assets" object to barChart
+            const assets = data.assets || {};
+            this.barChart.labels = ['Assets'];
+            this.barChart.datasets = [
+                {
+                    label: 'Online',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    data: [assets.Online ?? 0]
+                },
+                {
+                    label: 'Offline',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    data: [assets.Offline ?? 0]
+                }
+            ];
+            this.barChart = { ...this.barChart };
+
+            const shift = data.shift.efficiency || {};
+            this.bar1Chart.labels = ['Running', 'Breakdown'];
+            this.bar1Chart.datasets = [
+                {
+                    label: 'Running',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--green-500'),
+                    data: [shift.Running ?? 0]
+                },
+                {
+                    label: 'Breakdown',
+                    backgroundColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    borderColor: getComputedStyle(document.documentElement).getPropertyValue('--red-400'),
+                    data: [shift.Breakdown ?? 0]
+                }
+            ];
+            this.bar1Chart = { ...this.bar1Chart };
+
+            // Category chart
+            const categories = data.shift?.category || {};
+            const bar11Chart = {
+                labels: ['Category'],
+                datasets: Object.keys(categories).map(cat => ({
+                    label: cat,
+                    backgroundColor: this.getCategoryColor(cat),
+                    borderColor: this.getCategoryColor(cat),
+                    data: [categories[cat]]
+                }))
+            };
+
+            this.bar2Chart = { ...bar11Chart };
+        });
+    }
+
+    getCategoryColor(category: string): string {
+        const colors: { [key: string]: string } = {
+            'Equipment Down': '#CD5C5D',
+            'Part Unavailable': '#62CD37',
+            'Missing SWS': '#A7B289',
+            'Fit issue': '#7F8000',
+            'Part Damage': '#088F8F',
+            'Safety issue': '#115c45'
+        };
+        return colors[category] || '#CCCCCC'; // Default color
     }
 
     initCharts() {
@@ -70,19 +143,19 @@ export class ProdShiftwiseComponent {
         const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
         this.barChart = {
-            labels: ['Assests'],
+            labels: [],
             datasets: [
                 {
                     label: 'Online',
                     backgroundColor: documentStyle.getPropertyValue('--green-500'),
                     borderColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [65]
+                    data: []
                 },
                 {
                     label: 'Offline',
                     backgroundColor: documentStyle.getPropertyValue('--red-400'),
                     borderColor: documentStyle.getPropertyValue('--red-400'),
-                    data: [28]
+                    data: []
                 }
             ]
         };
@@ -133,19 +206,19 @@ export class ProdShiftwiseComponent {
         };
 
         this.bar1Chart = {
-            labels: ['Efficiency'],
+            labels: [],
             datasets: [
                 {
                     label: 'Running',
                     backgroundColor: documentStyle.getPropertyValue('--green-500'),
                     borderColor: documentStyle.getPropertyValue('--green-500'),
-                    data: [65]
+                    data: []
                 },
                 {
                     label: 'Breakdown',
                     backgroundColor: documentStyle.getPropertyValue('--red-400'),
                     borderColor: documentStyle.getPropertyValue('--red-400'),
-                    data: [35]
+                    data: []
                 }
             ]
         };
@@ -195,6 +268,155 @@ export class ProdShiftwiseComponent {
 
 
         this.bar2Chart = {
+            labels: [],
+            datasets: [
+                {
+                    label: 'Equipment Down',
+                    backgroundColor: documentStyle.getPropertyValue('--indigo-500'),
+                    borderColor: documentStyle.getPropertyValue('--indigo-500'),
+                    data: []
+                },
+                {
+                    label: 'Part Unavailable',
+                    backgroundColor: documentStyle.getPropertyValue('--yellow-400'),
+                    borderColor: documentStyle.getPropertyValue('--yellow-400'),
+                    data: []
+                },
+                {
+                    label: 'Missing SWS',
+                    backgroundColor: documentStyle.getPropertyValue('--blue-400'),
+                    borderColor: documentStyle.getPropertyValue('--blue-400'),
+                    data: []
+                },
+                {
+                    label: 'Fit issue',
+                    backgroundColor: documentStyle.getPropertyValue('--purple-400'),
+                    borderColor: documentStyle.getPropertyValue('--purple-400'),
+                    data: []
+                },
+                {
+                    label: 'Part Damage',
+                    backgroundColor: documentStyle.getPropertyValue('--pink-400'),
+                    borderColor: documentStyle.getPropertyValue('--pink-400'),
+                    data: []
+                },
+                {
+                    label: 'Safety issue',
+                    backgroundColor: documentStyle.getPropertyValue('--orange-400'),
+                    borderColor: documentStyle.getPropertyValue('--orange-400'),
+                    data: []
+                }
+            ]
+        };
+
+        this.bar2Options = {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            aspectRatio: 3.5,
+            plugins: {
+                legend: {
+                    // display: false,
+                    labels: {
+                        color: textColor
+                    },
+                datalabels: {
+                    display: true,
+                    color: textColor
+                }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary,
+                        font: {
+                            weight: 500
+                        }
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+
+
+
+        this.bar3Chart = {
+            labels: ['Efficiency'],
+            datasets: [
+                {
+                    label: 'Running',
+                    backgroundColor: documentStyle.getPropertyValue('--green-500'),
+                    borderColor: documentStyle.getPropertyValue('--green-500'),
+                    data: [65]
+                },
+                {
+                    label: 'Breakdown',
+                    backgroundColor: documentStyle.getPropertyValue('--red-400'),
+                    borderColor: documentStyle.getPropertyValue('--red-400'),
+                    data: [35]
+                }
+            ]
+        };
+
+        this.bar3Options = {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            aspectRatio: 3.5,
+            plugins: {
+                legend: {
+                    // display: false,
+                    labels: {
+                        color: textColor
+                    },
+                datalabels: {
+                    display: true,
+                    color: textColor
+                }
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary,
+                        font: {
+                            weight: 500
+                        }
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                },
+                y: {
+                    stacked: true,
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+
+
+        this.bar4Chart = {
             labels: ['Category'],
             datasets: [
                 {
@@ -236,7 +458,7 @@ export class ProdShiftwiseComponent {
             ]
         };
 
-        this.bar2Options = {
+        this.bar4Options = {
             indexAxis: 'y',
             maintainAspectRatio: false,
             aspectRatio: 3.5,
