@@ -347,7 +347,8 @@ export class LTWorkstationComponent implements OnInit {
         const params = {
             page: this.currentPage.toString(),
             page_size: this.rows.toString(),
-            machineId: `WS-${this.machine.padStart(3, '0')}`
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            company: 'L & T Construction',
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
@@ -584,8 +585,8 @@ export class LTWorkstationComponent implements OnInit {
         const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
 
         row = {
-            company: 'Test',
-            location: 'Test',
+            company: 'L & T Construction',
+            location: 'Bangalore',
             shopfloor: 'ORT',
             assemblyline: 'Test',
             machineId: this.selectedMachineId,

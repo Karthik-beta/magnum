@@ -135,6 +135,48 @@ export class AppMenuComponent implements OnInit {
             },
 
             {
+                label: 'Workstation performance',
+                items: [
+                    {
+                        label: 'M1', icon: 'fa-solid fa-cogs',
+                        items: [
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                        ]
+                    },
+                    {
+                        label: 'M2', icon: 'fa-solid fa-cogs',
+                        items: [
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                        ]
+                    },
+                    {
+                        label: 'M3', icon: 'fa-solid fa-cogs',
+                        items: [
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                        ]
+                    }
+                ]
+            },
+
+            {
                 label: 'Shopfloor Filtrex',
                 items: [
                         {

@@ -220,7 +220,7 @@ import { LTWorkstationComponent } from './components/lt-workstation/lt-workstati
 
                     // SSL Workstation
                     { path: 'filtrex_workstation/:sid/:lid', component: FiltrexWorkstationComponent },
-                    { path: 'ssl_workstation/:id', component: SslWorkstationComponent },
+                    { path: 'ssl_workstation/:machine', component: SslWorkstationComponent },
                     { path: 'display_board', component: DisplayBoardComponent },
                     { path: 'daily_breakdown', component: DailyBreakdownComponent },
                     { path: 'andon_board', component: AndonBoardComponent },

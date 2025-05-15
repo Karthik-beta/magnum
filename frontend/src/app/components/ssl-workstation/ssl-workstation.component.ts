@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Observable, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'src/app/shared.service';
 
 interface TableDataItem {
     serialNo: number;
@@ -37,14 +38,25 @@ export class SslWorkstationComponent implements OnInit {
     productCode: string='';
     search: string='';
 
-    workstationId: string = '';
+    shopfloor: string = '';
+    machine: string = '';
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef) {}
 
     ngOnInit() {
+        this.getAndonList();
         this.timeFunction();
         this.route.paramMap.subscribe(params => {
-            this.workstationId = params.get('id') || '';
+            this.machine = params.get('machine') || '';
+
+            // Auto-select the machine based on the route parameter
+            this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+
+            // Call getAndonList whenever the route changes
+            this.getAndonList();
+            this.getAllAndonList();
+            this.getCompanyList();
+            this.getLocationList();
         });
 
         // Andon Breakdown Section
@@ -61,7 +73,7 @@ export class SslWorkstationComponent implements OnInit {
         this.generateShopfloorStatusData();
     }
 
-    selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
+    selectedCard: string = 'Andon Call Help'; // Holds the currently selected card
     barCode: string = '';
 
     selectCard(cardName: string) {
@@ -268,7 +280,96 @@ export class SslWorkstationComponent implements OnInit {
               this.updateStaticRowData(); // Reset to first item's data when scrolled back to top (example)
           }
         }
-      }
+    }
+
+    dummyRowAdded: boolean = true;
+    currentPage: number = 1;
+    andonList: any[] = [];
+    allAndonList: any[] = [];
+    isAndonListEmpty: boolean = false;
+    companyName: string = '';
+    locationName: string = '';
+
+    // getAndonList() {
+    //     const params = {
+    //         page: this.currentPage.toString(),
+    //         page_size: this.rows.toString()
+    //     };
+
+    //     this.service.getAndList(params).subscribe((data: any) => {
+    //         this.andonList =data.results;
+    //         this.totalRecords = data.count;
+    //         this.cdr.detectChanges();
+    //     });
+
+    //     this.getMetricsData();
+    // }
+
+    getCompanyList() {
+        this.service.getCompanyList().subscribe((data: any) => {
+            // Process the data as needed
+            this.companyName = data[0].company_name;
+            console.log('Company List:', data);
+        });
+    }
+
+    getLocationList() {
+        this.service.getLocation().subscribe((data: any) => {
+            // Process the data as needed
+            this.locationName = data[0].plant_name;
+            console.log('Location List:', data);
+        });
+    }
+
+    getAndonList() {
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            andon_resolved_isnull: true,
+            company: 'Caterpillar'
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.andonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
+            this.isAndonListEmpty = this.andonList.length === 0;
+            this.cdr.detectChanges();
+            console.log('Andon List:', this.andonList);
+        });
+
+        this.getAllAndonList();
+    }
+
+    getAllAndonList() {
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            company: 'Caterpillar'
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.allAndonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
+            this.cdr.detectChanges();
+        });
+
+        this.getMetricsData();
+    }
+
+    metricsData: any[] = [];
+
+    getMetricsData() {
+        this.service.getMetricsData().subscribe((data: any) => {
+            // Process the data as needed
+            this.metricsData = data;
+        });
+    }
 
     // Andon Call Help
     dummyList: any[] = [
@@ -289,12 +390,12 @@ export class SslWorkstationComponent implements OnInit {
         // }
         {
             id: 1,
-            company: 'Caterpillar',
-            plant: 'CHENNAI',
-            shopfloor: 'Workstation',
-            assemblyline: 'SSL Main Line',
+            company: 'L & T Construction',
+            plant: 'Puduchery',
+            shopfloor: 'Metal',
+            assemblyline: 'Test',
             machineId: 'WS-001',
-            category: 'Equipment Down',
+            category: '',
             subCategory: '',
             alertShift: 'GS',
             andonAlertCompleted: false,
@@ -344,19 +445,38 @@ export class SslWorkstationComponent implements OnInit {
         { header: '#', field: 'id', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'index' },
         { header: 'Start M/C', field: 'startMC', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'icon' },
         { header: 'Company', field: 'company', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
-        { header: 'Plant', field: 'plant', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Plant', field: 'location', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Shopfloor', field: 'shopfloor', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Line', field: 'assemblyline', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
-        { header: 'Alert Shift', field: 'alertShift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Alert Shift', field: 'alert_shift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Breakdown Reason', field: 'category', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'category', options: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'], editableFor: ['Team Leader'] },
-        { header: 'Raise Alert', field: 'raiseAlert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
-        { header: 'Andon Alert', field: 'andonAlert', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
-        { header: 'Andon Acknowledge', field: 'andonAcknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
-        { header: 'Andon Resolved', field: 'andonResolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
+        { header: 'Raise Alert', field: 'raise_alert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
+        { header: 'Andon Alert', field: 'andon_alerts', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
+        { header: 'Andon Acknowledge', field: 'andon_acknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
         { header: 'Resolution', field: 'resolution', visibleTo: ['Resolved'], type: 'resolution', options: ['ICA (Interim Containment Action)', 'PCA (Permanent Corrective Action)'], editableFor: ['Resolved'] },
+        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
+
+    machineIds: string[] = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
+
+    // get filteredMachineIds(): string[] {
+    //     return this.machineIds.filter(machineId => {
+    //         const machine = this.andonList.find(item => item.machineId === machineId);
+    //         // If the machine is not present in the andonList or andon_resolved is not null, include it
+    //         return !machine || machine.andon_resolved !== null;
+    //     });
+    // }
+
+    get filteredMachineIds(): string[] {
+        return this.machineIds.filter(machineId => {
+            const machine = this.andonList.find(item => item.machineId === machineId);
+            // If the machine is not present in the andonList or andon_resolved is not null, include it
+            const matchesRoute = machineId === `WS-${this.machine.padStart(3, '0')}`;
+            return (!machine || machine.andon_resolved !== null) && matchesRoute;
+        });
+    }
 
     selectRole(role: string) {
         this.currentUserRole = role;
@@ -364,6 +484,10 @@ export class SslWorkstationComponent implements OnInit {
 
     isVisible(column: any): boolean {
         return column.visibleTo.includes(this.currentUserRole);
+    }
+
+    alertRaiseRow(row: any): boolean {
+        return this.currentUserRole === 'Operator';
     }
 
     isEditable(column: any): boolean {
@@ -429,7 +553,7 @@ export class SslWorkstationComponent implements OnInit {
             shopfloor: 'Workstation',
             assemblyline: 'SSL Main Line',
             machineId: 'WS-001',      // And these
-            category: 'RESETTING',
+            category: '',
 
             andonNewIssueCompleted: false,
             andonNewIssueTimestamp: null,
@@ -451,6 +575,32 @@ export class SslWorkstationComponent implements OnInit {
         this.rows = [...this.rows, newRow];
     }
 
+    selectedMachineId: string = '';
+
+    RaiseNewIssue(row: any) {
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            company: 'Caterpillar',
+            location: 'Chennai',
+            shopfloor: 'Workstation',
+            assemblyline: 'SSL Main Line',
+            machineId: this.selectedMachineId,
+            alert_shift: 'GS',
+            raise_alert: istTime.toISOString() ,
+        }
+
+        this.service.createAndonData(row).subscribe((response: any) => {
+            console.log('Andon data created:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+    }
+
     onNewAlert() {
         this.addRow();
     }
@@ -461,31 +611,122 @@ export class SslWorkstationComponent implements OnInit {
         // this.addRow();
         row.alertStartTime = new Date();
         this.startTimer(row);
+
+        this.service.patchAndonData(row.id).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+
+        row.counterDisplay = true;
+
     }
 
     onAndonAlert(row: any) {
-        row.andonAlertCompleted = true;
-        row.andonAlertTimestamp = new Date();
-        // row.alertStartTime = new Date();
-        // this.startTimer(row);
-        // this.startTimer(); // You might need to modify this to work with multiple rows
-        row.acknowledgeButton = true;
-        row.counterDisplay = true;
-        // this.onNewAlert();
+        // row.andonAlertCompleted = true;
+        // row.andonAlertTimestamp = new Date();
+        // row.acknowledgeButton = true;
+        // row.counterDisplay = true;
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_alerts: istTime.toISOString(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonAcknowledge(row: any) {
-        row.andonAcknowledgeCompleted = true;
-        row.andonAcknowledgeTimestamp = new Date();
-        row.resolvedButton = true;
+        // row.andonAcknowledgeCompleted = true;
+        // row.andonAcknowledgeTimestamp = new Date();
+        // row.resolvedButton = true;
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_acknowledge: istTime.toISOString(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonResolved(row: any) {
-        row.andonResolvedCompleted = true;
-        row.andonResolvedTimestamp = new Date();
-        this.stopTimer(row);
-        console.log('Resolving:', row);
-        // this.stopTimer(); // You might need to modify this to work with multiple rows
+        // row.andonResolvedCompleted = true;
+        // row.andonResolvedTimestamp = new Date();
+        // this.stopTimer(row);
+        // console.log('Resolving:', row);
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_resolved: istTime.toISOString(),
+            total_time: this.calculateTimeDifference(row.andon_alerts),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+
+    }
+
+    displayAndonAlert: boolean = false;
+
+    onCategoryChange(selectedValue: any, row: any) {
+        // console.log('Category changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            category: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.displayAndonAlert = true;
+            this.cdr.detectChanges();
+        });
+
+    }
+
+    onResolutionChange(selectedValue: any, row: any) {
+        // console.log('Resolution changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            resolution: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     formatTotalBreakdownTime(time: number): string {
@@ -499,6 +740,25 @@ export class SslWorkstationComponent implements OnInit {
     padZero(num: number): string {
         return num.toString().padStart(2, '0');
     }
+
+    calculateTimeDifference(raiseAlerts: string | Date): string {
+        if (!raiseAlerts) return 'N/A';
+
+        const raiseTime = new Date(raiseAlerts);
+        const currentTime = new Date();
+        const diffInMs = currentTime.getTime() - raiseTime.getTime();
+
+        const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+        // Pad hours, minutes, and seconds with leading zeros
+        const paddedHours = String(hours).padStart(2, '0');
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
+
+        return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
+      }
 
     //Production Transaction
     shopfloorStatus: any[] = [];
