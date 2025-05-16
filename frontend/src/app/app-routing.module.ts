@@ -235,17 +235,17 @@ import { LTWorkstationComponent } from './components/lt-workstation/lt-workstati
                     { path: 'line_plan_actual/:substring', component: LinePlanActualComponent },
 
                     { path: 'line_performance_wipro', component: LinePerformanceWiproComponent },
-                    { path: 'line_performance_filtrex', component: LinePerformanceFiltrexComponent },
+                    { path: 'line_performance_filtrex/:machine', component: LinePerformanceFiltrexComponent },
                     { path: 'line_plan_actual_wipro', component: LinePlanActualWiproComponent },
-                    { path: 'line_plan_actual_filtrex', component: LinePlanActualFiltrexComponent },
+                    { path: 'line_plan_actual_filtrex/:machine', component: LinePlanActualFiltrexComponent },
 
                     { path: 'GE_workstation/:id', component: GeWorkstationComponent },
                     { path: 'line_performance_ge', component: LinePerformanceGeComponent },
                     { path: 'line_plan_actual_ge', component: LinePlanActualGeComponent },
 
                     { path: 'ge_kanban', component: GeHealthcareComponent },
-                    { path: 'filtrex_kanban', component: FiltrexHealthcareComponent },
-                    { path: 'shopfloor_plan_actual_filtrex', component: ShopfloorPlanActualFiltrexComponent},
+                    { path: 'filtrex_kanban/:machine', component: FiltrexHealthcareComponent },
+                    { path: 'shopfloor_plan_actual_filtrex/:machine', component: ShopfloorPlanActualFiltrexComponent},
 
                     // L&T Workstation
                     { path: 'lt_workstation/:shopfloor/:machine', component: LTWorkstationComponent },

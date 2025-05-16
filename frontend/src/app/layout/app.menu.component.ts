@@ -106,40 +106,40 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'M1', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M1', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/1'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
+                            { label: 'Workstation M1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M1'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M1'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M1'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M1'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/M1'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/M1'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/M1'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/M1'] },
                         ]
                     },
                     {
                         label: 'M2', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/2'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
+                            { label: 'Workstation M2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M2'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M2'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M2'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M2'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/M2'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/M2'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/M2'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/M2'] },
                         ]
                     },
                     {
                         label: 'M3', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M3', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/3'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs' },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
+                            { label: 'Workstation M3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M3'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M3'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M3'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M3'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/M3'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/M3'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/M3'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/M3'] },
                         ]
                     }
                 ]
@@ -186,139 +186,139 @@ export class AppMenuComponent implements OnInit {
                         label: 'Line 1', icon: 'fa-solid fa-cogs',
                         items: [
                             { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l1'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/1'] },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/1'] },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/1'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/l1'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/l1'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/l1'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/l1'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/l1'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/l1'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/l1'] },
                         ]
                     },
                     {
                         label: 'Line 2', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l2'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/2'] },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/2'] },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/2'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l2'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/l2'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/l2'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/l2'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/l2'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/l2'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/l2'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/l2'] },
                         ]
                     },
                     {
                         label: 'Line 3', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l3'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/3'] },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/3'] },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/3'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l3'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/l3'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/l3'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/l3'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/l3'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/l3'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/l3'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/l3'] },
                         ]
                     },
                     {
                         label: 'Line 4', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s4/l4'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/4'] },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/4'] },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/4'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l4'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/l4'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/l4'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/l4'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/l4'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/l4'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/l4'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/l4'] },
                         ]
                     },
                     {
                         label: 'Line 5', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s5/l5'] },
-                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/5'] },
-                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/5'] },
-                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/5'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l5'] },
+                            { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/l5'] },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/l5'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/l5'] },
+                            { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/l5'] },
+                            { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/l5'] },
+                            { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/l5'] },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/l5'] },
                         ]
-                    }
+                    },
                 ]
             },
 
-            {
-                label: 'Shopfloor Filtrex',
-                items: [
-                        {
-                            label: 'Shopfloor 1', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l1'] },
-                                        { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l2'] },
-                                        { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l3'] },
-                                        { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l4'] },
-                                        { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l5'] },
-                                    ]
-                                },
-                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/1'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/1'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/1'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
-                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                                ]
-                        },
-                        {
-                            label: 'Shopfloor 2', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l1'] },
-                                        { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l2'] },
-                                        { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l3'] },
-                                        { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l4'] },
-                                        { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l5'] },
-                                    ]
-                                },
-                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/2'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/2'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/2'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
-                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                                ]
-                        },
-                        {
-                            label: 'Shopfloor 3', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l1'] },
-                                        { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l2'] },
-                                        { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l3'] },
-                                        { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l4'] },
-                                        { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l5'] },
-                                    ]
-                                },
-                                { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/3'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/3'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/3'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
-                                { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
-                                ]
-                        },
-                        { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
-                        { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/machine_details'] },
-                        { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex'] },
-                        { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
-                ],
-            },
+            // {
+            //     label: 'Shopfloor Filtrex',
+            //     items: [
+            //             {
+            //                 label: 'Shopfloor 1', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l1'] },
+            //                             { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l2'] },
+            //                             { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l3'] },
+            //                             { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l4'] },
+            //                             { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/l5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/1'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/1'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/1'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+            //                     { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
+            //                     ]
+            //             },
+            //             {
+            //                 label: 'Shopfloor 2', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l1'] },
+            //                             { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l2'] },
+            //                             { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l3'] },
+            //                             { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l4'] },
+            //                             { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s2/l5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/2'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/2'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/2'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+            //                     { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
+            //                     ]
+            //             },
+            //             {
+            //                 label: 'Shopfloor 3', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Line 1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l1'] },
+            //                             { label: 'Line 2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l2'] },
+            //                             { label: 'Line 3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l3'] },
+            //                             { label: 'Line 4', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l4'] },
+            //                             { label: 'Line 5', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s3/l5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban'] },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/3'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/3'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/3'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual_filtrex'] },
+            //                     { label: 'Shopfloor Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex'] },
+            //                     ]
+            //             },
+            //             { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
+            //             { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/machine_details'] },
+            //             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex'] },
+            //             { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex'] },
+            //     ],
+            // },
 
             {
                 label: 'Machine performance',
@@ -328,12 +328,12 @@ export class AppMenuComponent implements OnInit {
                         items: [
                             { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/1'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual/1'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/metalshop'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/metalshop'] },
                             { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/1'] },
                             { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/1'] },
                             { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/1'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/metalshop'] },
                         ]
                     },
                     {
@@ -341,12 +341,12 @@ export class AppMenuComponent implements OnInit {
                         items: [
                             { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/1'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual/2'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/metalshop'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/metalshop'] },
                             { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/2'] },
                             { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/2'] },
                             { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/2'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/metalshop'] },
                         ]
                     },
                     {
@@ -354,78 +354,78 @@ export class AppMenuComponent implements OnInit {
                         items: [
                             { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/1'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual/3'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs' },
-                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs' },
+                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/metalshop'] },
+                            { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/metalshop'] },
                             { label: 'Asset Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/3'] },
                             { label: 'Asset On Vs Idle Vs Breakdown Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise/3'] },
                             { label: 'Asset On Vs Idle Hours', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloorwise2/3'] },
-                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs' },
+                            { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_kanban/metalshop'] },
                         ]
                     }
                 ]
             },
 
-            {
-                label: 'Shopfloor L&T',
-                items: [
-                        {
-                            label: 'Metal Shopfloor', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/1'] },
-                                        { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/2'] },
-                                        { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/3'] },
-                                        { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/4'] },
-                                        { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/5'] },
-                                    ]
-                                },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/1'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/1'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/1'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/1'] },
-                                ]
-                        },
-                        {
-                            label: 'ORT Shopfloor', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/1'] },
-                                        { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/2'] },
-                                        { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/3'] },
-                                        { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/4'] },
-                                        { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/5'] },
-                                    ]
-                                },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/2'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/2'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/2'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/2'] },
-                                ]
-                        },
-                        {
-                            label: 'Steelwaler Shopfloor', icon: 'fa-solid fa-building',
-                            items: [
-                                { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
-                                    items: [
-                                        { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/1'] },
-                                        { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/2'] },
-                                        { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/3'] },
-                                        { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/4'] },
-                                        { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/5'] },
-                                    ]
-                                },
-                                { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/3'] },
-                                { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/3'] },
-                                { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/3'] },
-                                { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/3'] },
-                                ]
-                        },
-                        // { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
-                        // { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/machine_details'] },
-                ],
-            },
+            // {
+            //     label: 'Shopfloor L&T',
+            //     items: [
+            //             {
+            //                 label: 'Metal Shopfloor', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/1'] },
+            //                             { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/2'] },
+            //                             { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/3'] },
+            //                             { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/4'] },
+            //                             { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Metal/5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/1'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/1'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/1'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/1'] },
+            //                     ]
+            //             },
+            //             {
+            //                 label: 'ORT Shopfloor', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/1'] },
+            //                             { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/2'] },
+            //                             { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/3'] },
+            //                             { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/4'] },
+            //                             { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/2'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/2'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/2'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/2'] },
+            //                     ]
+            //             },
+            //             {
+            //                 label: 'Steelwaler Shopfloor', icon: 'fa-solid fa-building',
+            //                 items: [
+            //                     { label: 'Asset Performance vs Breakdown Andon', icon: 'fa-solid fa-cogs',
+            //                         items: [
+            //                             { label: 'Machine 1', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/1'] },
+            //                             { label: 'Machine 2', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/2'] },
+            //                             { label: 'Machine 3', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/3'] },
+            //                             { label: 'Machine 4', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/4'] },
+            //                             { label: 'Machine 5', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/5'] },
+            //                         ]
+            //                     },
+            //                     { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2/3'] },
+            //                     { label: 'Asset On vs Idle vs Breakdown Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise/3'] },
+            //                     { label: 'Asset On vs Idle Hours', icon: 'fa-solid fa-industry', routerLink: ['/shopfloorwise2/3'] },
+            //                     { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/line_plan_actual/3'] },
+            //                     ]
+            //             },
+            //             // { label: 'Asset Performance', icon: 'fa-solid fa-industry', routerLink: ['/line_dash2'] },
+            //             // { label: 'Asset Plan vs Actual', icon: 'fa-solid fa-industry', routerLink: ['/machine_details'] },
+            //     ],
+            // },
 
             {
                 label: 'Production Andon', icon: 'fa-solid fa-chart-bar',
