@@ -85,20 +85,20 @@ export class AppMenuComponent implements OnInit {
             //     ]
             // },
 
-            {
-                label: 'GE Healthcare Workstation',
-                items: [
-                    { label: 'Workstations', icon: 'fa-solid fa-cogs',
-                        items: [
-                            { label: 'M1', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/1'] },
-                            { label: 'M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/2'] },
-                        ]
-                    },
-                    { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
-                    { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
-                    { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
-                ],
-            },
+            // {
+            //     label: 'GE Healthcare Workstation',
+            //     items: [
+            //         { label: 'Workstations', icon: 'fa-solid fa-cogs',
+            //             items: [
+            //                 { label: 'M1', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/1'] },
+            //                 { label: 'M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/2'] },
+            //             ]
+            //         },
+            //         { label: 'Production Kanban Board', icon: 'fa-solid fa-cogs', routerLink: ['/ge_kanban'] },
+            //         { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_ge'] },
+            //         { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_ge'] },
+            //     ],
+            // },
 
             {
                 label: 'Workstation performance',
@@ -145,39 +145,39 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
 
-            {
-                label: 'Line: Wipro Workstations',
-                items: [
-                    { label: 'Workstations', icon: 'fa-solid fa-cogs',
-                        items: [
-                            { label: 'Workstation - 001', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/1'] },
-                            { label: 'Workstation - 002', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/2'] },
-                            { label: 'Workstation - 003', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/3'] },
-                            { label: 'Workstation - 004', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/4'] },
-                            { label: 'Workstation - 005', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/5'] },
-                        ]
-                    },
-                    { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_wipro'] },
-                    { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_wipro'] },
-                ],
-            },
+            // {
+            //     label: 'Line: Wipro Workstations',
+            //     items: [
+            //         { label: 'Workstations', icon: 'fa-solid fa-cogs',
+            //             items: [
+            //                 { label: 'Workstation - 001', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/1'] },
+            //                 { label: 'Workstation - 002', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/2'] },
+            //                 { label: 'Workstation - 003', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/3'] },
+            //                 { label: 'Workstation - 004', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/4'] },
+            //                 { label: 'Workstation - 005', icon: 'fa-solid fa-cogs', routerLink: ['/wipro_workstation/5'] },
+            //             ]
+            //         },
+            //         { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_wipro'] },
+            //         { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_wipro'] },
+            //     ],
+            // },
 
-            {
-                label: 'Line: Caterpiller SSL Workstations',
-                items: [
-                    { label: 'Workstations', icon: 'fa-solid fa-cogs',
-                        items: [
-                            { label: 'Workstation - 001', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/1'] },
-                            { label: 'Workstation - 002', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/2'] },
-                            { label: 'Workstation - 003', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/3'] },
-                            { label: 'Workstation - 004', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/4'] },
-                            { label: 'Workstation - 005', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/5'] },
-                            { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance'] },
-                            { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual'] },
-                        ]
-                    },
-                ],
-            },
+            // {
+            //     label: 'Line: Caterpiller SSL Workstations',
+            //     items: [
+            //         { label: 'Workstations', icon: 'fa-solid fa-cogs',
+            //             items: [
+            //                 { label: 'Workstation - 001', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/1'] },
+            //                 { label: 'Workstation - 002', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/2'] },
+            //                 { label: 'Workstation - 003', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/3'] },
+            //                 { label: 'Workstation - 004', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/4'] },
+            //                 { label: 'Workstation - 005', icon: 'fa-solid fa-cogs', routerLink: ['/ssl_workstation/5'] },
+            //                 { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance'] },
+            //                 { label: 'Line Plan vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual'] },
+            //             ]
+            //         },
+            //     ],
+            // },
 
             {
                 label: 'Shopfloor performance',
