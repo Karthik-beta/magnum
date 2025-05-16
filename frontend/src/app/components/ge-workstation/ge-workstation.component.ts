@@ -22,6 +22,7 @@ interface TableDataItem {
     actualValue: number; // Avoid conflict with 'actual' column name
     performance: string;
     gap: number;
+    machineId: string;
 }
 
 @Component({
@@ -110,6 +111,7 @@ export class GeWorkstationComponent implements OnInit {
             serialNo: i,
             lotNo: `WX${12345 + i}`,
             productCode: `XRAY 9876`,
+            machineId: ['ORT', 'MS', 'SW', 'UT', 'KTT'][Math.floor(Math.random() * 5)],
             start: `${startHour}:15`, // Example start within the hour
             end: `${startHour}:30`,   // Example end within the hour
             pickup: this.randomDateTime(), // Random pickup time

@@ -106,7 +106,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'M1', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M1', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M1'] },
+                            { label: 'Workstation M1', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/M1'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M1'] },
                             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M1'] },
                             { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M1'] },
@@ -119,7 +119,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'M2', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M2', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M2'] },
+                            { label: 'Workstation M2', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/M2'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M2'] },
                             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M2'] },
                             { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M2'] },
@@ -132,7 +132,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'M3', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Workstation M3', icon: 'fa-solid fa-cogs', routerLink: ['/filtrex_workstation/s1/M3'] },
+                            { label: 'Workstation M3', icon: 'fa-solid fa-cogs', routerLink: ['/GE_workstation/M3'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/shopfloor_plan_actual_filtrex/M3'] },
                             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/M3'] },
                             { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual_filtrex/M3'] },

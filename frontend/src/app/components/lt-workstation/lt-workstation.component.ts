@@ -11,6 +11,9 @@ interface TableDataItem {
     productCode: string;
     start: string;
     end: string;
+    pickup: string;
+    workstation: string;
+    dropoff: string;
     actual: string;
     cycleTime: string;
     shift: string; // Now 'shift' is part of each TableDataItem
@@ -18,8 +21,10 @@ interface TableDataItem {
     mcIdle: string;
     plan: number;
     actualValue: number; // Avoid conflict with 'actual' column name
-    performance: string;
+    performance: number;
     gap: number;
+    machineId: string;
+    status: string;
 }
 
 @Component({
@@ -74,7 +79,7 @@ export class LTWorkstationComponent implements OnInit {
         this.generateShopfloorStatusData();
     }
 
-    selectedCard: string = 'Andon Call Help'; // Holds the currently selected card
+    selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
     barCode: string = '';
 
     selectCard(cardName: string) {
@@ -99,11 +104,11 @@ export class LTWorkstationComponent implements OnInit {
           });
     }
 
-    generateSampleData(): void {
+   generateSampleData(): void {
         this.tableData = []; // Clear previous data
         let currentTime = 8; // Start at 8:00 AM
 
-        for (let i = 1; i <= 50; i++) {
+        for (let i = 1; i <= 10; i++) {
           const startHour = String(currentTime).padStart(2, '0');
           const endHour = String(currentTime + 1).padStart(2, '0');
           const shiftTimeRange = `${startHour}:00 - ${endHour}:00`;
@@ -112,8 +117,13 @@ export class LTWorkstationComponent implements OnInit {
             serialNo: i,
             lotNo: `WX${12345 + i}`,
             productCode: `XRAY 9876`,
+            machineId: ['ORT', 'MS', 'SW', 'UT', 'KTT'][Math.floor(Math.random() * 5)],
+            status:'No Response',
             start: `${startHour}:15`, // Example start within the hour
             end: `${startHour}:30`,   // Example end within the hour
+            pickup: this.randomDateTime(), // Random pickup time
+            workstation: this.randomDateTime(),
+            dropoff: this.randomDateTime(), // Random dropoff time
             actual: '00:15',
             cycleTime: '01:30',
             shift: shiftTimeRange, // Assign the shift time range
@@ -121,13 +131,29 @@ export class LTWorkstationComponent implements OnInit {
             mcIdle: '00:02',
             plan: 110 - (i % 20), // Varying plan values
             actualValue: 105 - (i % 15), // Varying actual values
-            performance: '98%', // Example performance
-            gap: 3
+            performance: this.randomInt(0, 100), // Example performance
+            gap: 3,
           });
           currentTime++;
           if (currentTime > 17) currentTime = 8; // Loop back to 8:00 AM after 5 PM (example)
         }
-      }
+    }
+
+    randomDateTime(): string {
+        const startDate = new Date();
+        const endDate = new Date();
+        endDate.setDate(startDate.getDate() + 1); // Generate a date within the next 24 hours
+        const randomTime = new Date(startDate.getTime() + Math.random() * (endDate.getTime() - startDate.getTime()));
+
+        // Format the date-time as "yyyy-MM-dd HH:mm"
+        const year = randomTime.getFullYear();
+        const month = String(randomTime.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+        const date = String(randomTime.getDate()).padStart(2, '0');
+        const hours = String(randomTime.getHours()).padStart(2, '0');
+        const minutes = String(randomTime.getMinutes()).padStart(2, '0');
+
+        return `${year}-${month}-${date} ${hours}:${minutes}`;
+    }
 
       dummyStaticRow = [
         {
