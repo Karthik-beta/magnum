@@ -7,7 +7,7 @@
             </span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
-            <span class="block text-900 text-xl font-bold font-large">Shopfloor: 00{{ shopfloorID }} Line - 00{{ workstationId }}</span>
+            <span class="block text-900 text-xl font-bold font-large">Shopfloor: 00{{ shopfloorID }} Line - 00{{ machine }}</span>
         </div>
         <div class="flex justify-content-center flex-column sm:flex-row">
             <span class="block text-900 text-xl font-bold font-large">Shift GS, 08:00 - 06:00</span>
@@ -194,7 +194,7 @@
         </div>
     </div>
 
-    <p-table #dt1 [value]="dummyList" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'font-size': 'small' }" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
+    <p-table #dt1 [value]="andonList" dataKey="id" [rows]="10" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [tableStyle]="{ 'font-size': 'small' }" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true" currentPageReportTemplate="{first} - {last} of {totalRecords}">
         <ng-template pTemplate="header">
             <tr style="white-space: nowrap;">
                 <ng-container *ngFor="let col of columnDefinitions">
@@ -204,9 +204,49 @@
                       </div>
                     </th>
                   </ng-container>
-              </tr>
+            </tr>
+            <tr *ngIf="alertRaiseRow(Operator) && isAndonListEmpty" style="white-space: nowrap; border: none;">
+                <th>#</th>
+                <th>
+                    <div class="flex align-items-center justify-content-center">
+                        <i class="fa-solid fa-power-off text-green-500 text-xl"></i>
+                    </div>
+                </th>
+                <th>
+                    Filtrex
+                </th>
+                <th>
+                    Bangalore
+                </th>
+                <th>
+                    Workstation
+                </th>
+                <th>
+                    Test
+                </th>
+                <th>
+                    <!-- <select class="form-control" placeholder="Select Options"
+                            style="font-size: small;" [(ngModel)]="selectedMachineId">
+                            <option value="" disabled selected>-Select-</option>
+                            <option *ngFor="let id of filteredMachineIds" [value]="id">{{ id }}</option>
+                    </select> -->
+                    {{ selectedMachineId }}
+                </th>
+                <th>
+                    GS
+                </th>
+                <th>
+                    <button pButton label="Raise Alert" severity="danger"
+                        class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
+                        (click)="RaiseNewIssue()">
+                    </button>
+                </th>
+                <th></th>
+            </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-item let-i="rowIndex">
+
             <tr style="white-space: nowrap;">
                 <ng-container *ngFor="let col of columnDefinitions; let colIndex = index">
                     <td *ngIf="isVisible(col)">
@@ -227,83 +267,76 @@
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'machineId'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
+                        <!-- <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
                             style="font-size: small;" [(ngModel)]="item.machineId">
                             <option value="" disabled selected>-Select-</option>
                             <option *ngFor="let option of col.options">{{ option }}</option>
                         </select>
-                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
+                        <span *ngIf="!isEditable(col)">{{item[col.field]}}</span> -->
+                        <span>{{ item.machineId }}</span>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'category'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
-                            style="font-size: small;" [(ngModel)]="item.category">
-                            <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let option of col.options">{{ option }}</option>
+                        <select *ngIf="isEditable(col)" class="form-control"
+                            style="font-size: small;" [(ngModel)]="item.category"
+                            (change)="onCategoryChange($event.target.value, item)">
+                            <option value="null" disabled selected>-Select Reason-</option>
+                            <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'resolution'">
-                        <select *ngIf="isEditable(col)" class="form-control" placeholder="Select Options"
-                            style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution">
-                            <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let option of col.options">{{ option }}</option>
+                        <select *ngIf="isEditable(col) && item.andon_acknowledge != null" class="form-control" placeholder="Select Options"
+                            style="font-size: small; white-space: nowrap;" [(ngModel)]="item.resolution"
+                            (change)="onResolutionChange($event.target.value, item)">
+                            <option value="null" disabled selected>-Select Resolution-</option>
+                            <option *ngFor="let option of col.options" [value]="option">{{ option }}</option>
                         </select>
                         <span *ngIf="!isEditable(col)">{{item[col.field]}}</span>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'raiseAlert'">
-                        <button *ngIf="isoperator() && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isoperator() && item.raise_alert == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onNewIssue(item)"></button>
-                        <p  *ngIf="item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p>
+                        <p  *ngIf="item.raise_alert != null" class="timestamp">[EMPNAME, ID] <br>
+                            {{ item.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}</p>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'andonAlert'">
-                        <button *ngIf="isTeamLeader() && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
+                        <button *ngIf="isTeamLeader() && item.category != null && item.andon_alerts == null" pButton label="Raise Alert" severity="danger"
                                 class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
                                 (click)="onAndonAlert(item)"></button>
-                        <p  *ngIf="item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p>
+                        <p  *ngIf="item.andon_alerts != null" class="timestamp">[EMPNAME, ID] <br>
+                            {{ item.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}</p>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'button'">
                       <div class="">
-                        <!-- <button *ngIf="col.field === 'raiseAlert' && !item.andonNewIssueCompleted" pButton label="Raise Alert" severity="danger"
-                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
-                                (click)="onNewIssue(item)"></button>
 
-                        <p *ngIf="col.field === 'raiseAlert' && item.andonNewIssueCompleted" class="timestamp">[EMPNAME, ID] <br>
-                            {{ getFormattedTimestamp(item.andonNewIssueTimestamp) }}</p> -->
-
-                        <!-- <button *ngIf="col.field === 'andonAlert' && !item.andonAlertCompleted" pButton label="Raise Alert" severity="danger"
-                                class="p-button-danger" icon="fa-solid fa-triangle-exclamation"
-                                (click)="onAndonAlert(item)"></button>
-
-                        <p *ngIf="col.field === 'andonAlert' && item.andonAlertCompleted" class="timestamp">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonAlertTimestamp) }}</p> -->
-
-                        <button *ngIf="col.field === 'andonAcknowledge' && item.acknowledgeButton && !item.andonAcknowledgeCompleted" pButton label="Acknowledge" severity="warning"
+                        <button *ngIf="col.field === 'andon_acknowledge' && item.andon_alerts != null && item.andon_acknowledge == null && currentUserRole !== 'Resolved'" pButton label="Acknowledge" severity="warning"
                                 class="p-button-warning" icon="fa-solid fa-handshake"
                                 (click)="onAndonAcknowledge(item)"></button>
-                        <p *ngIf="col.field === 'andonAcknowledge' && item.andonAcknowledgeCompleted">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonAcknowledgeTimestamp) }}
+                        <p *ngIf="col.field === 'andon_acknowledge' && item.andon_acknowledge != null">[EMPNAME, ID] <br>
+                          {{ item.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
 
-                        <button *ngIf="col.field === 'andonResolved' && item.resolvedButton && !item.andonResolvedCompleted" pButton label="Resolved" severity="success"
+                        <button *ngIf="col.field === 'andon_resolved' && item.resolution != null && item.andon_resolved == null" pButton label="Resolved" severity="success"
                                 class="p-button-success" icon="fa-solid fa-circle-check"
                                 (click)="onAndonResolved(item)"></button>
-                        <p class="timestamp" *ngIf="col.field === 'andonResolved' && item.andonResolvedCompleted">[EMPNAME, ID] <br>
-                          {{ getFormattedTimestamp(item.andonResolvedTimestamp) }}
+                        <p class="timestamp" *ngIf="col.field === 'andon_resolved' && item.andon_resolved != null">[EMPNAME, ID] <br>
+                          {{ item.andon_resolved | date: 'dd-MM-yyyy HH:mm:ss' }}
                         </p>
                       </div>
                     </ng-container>
 
                     <ng-container *ngSwitchCase="'counter'">
-                      <div *ngIf="item.counterDisplay">
-                        <span [class]="'alert-badge status-breakdown'">{{ item.counter }}</span>
+                      <div *ngIf="item.total_time == null && item.raise_alert != null">
+                        <span [class]="'alert-badge status-breakdown'">{{ calculateTimeDifference(item.raise_alert) }}</span>
+                      </div>
+                      <div *ngIf="item.total_time != null">
+                        <span [class]="'alert-badge status-breakdown'">{{ item.total_time }}</span>
                       </div>
                     </ng-container>
 
@@ -314,10 +347,10 @@
                   </ng-container>
                 </td>
                 </ng-container>
-              </tr>
+            </tr>
         </ng-template>
         <ng-template pTemplate="emptymessage">
-            <tr>
+            <tr *ngIf="currentUserRole !== 'Operator'">
                 <td colspan="15">No Data found.</td>
             </tr>
         </ng-template>
@@ -418,7 +451,7 @@
                         <!-- <span class="block text-900 font-medium">Today</span> -->
                     </div>
                     <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">1</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.today_open_alerts }}</div>
                     </div>
                 </div>
             </div>
@@ -430,7 +463,7 @@
                         <h5 class="block text-900 font-sm mb-3">Open</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_open_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">%52+ </span>
@@ -444,7 +477,7 @@
                         <h5 class="block text-900 font-sm mb-3">Ack/Closure</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_acknowledge_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">520  </span>
@@ -458,7 +491,7 @@
                         <h5 class="block text-900 font-sm mb-3">All</h5>
                     </div>
                     <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                        <div class="text-900 font-sm text-xl">0</div>
+                        <div class="text-900 font-sm text-xl">{{ metricsData.total_alerts }}</div>
                     </div>
                 </div>
                 <!-- <span class="text-green-500 font-medium">85 </span>
@@ -467,7 +500,7 @@
         </div>
     </div>
 
-    <p-table #dt1 [value]="dummyList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
+    <p-table #dt1 [value]="allAndonList" dataKey="id" [rows]="rows" [lazy]="true" [loading]="loading" (onLazyLoad)="loadLogs($event)" [rowsPerPageOptions]="rowsPerPageOptions" [totalRecords]="totalRecords" [rowHover]="true" styleClass="p-datatable-sm p-datatable-gridlines" [paginator]="false" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [showCurrentPageReport]="true">
         <ng-template pTemplate="header">
             <tr>
                 <th style="min-width: auto">
@@ -560,7 +593,7 @@
                     {{ log.company }}
                 </td>
                 <td>
-                    {{ log.plant }}
+                    {{ log.location }}
                 </td>
                 <td>
                     {{ log.shopfloor }}
@@ -575,19 +608,19 @@
                     {{ log.category }}
                 </td>
                 <td>
-                    {{ log.alertShift }}
+                    {{ log.alert_shift }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonNewIssueTimestamp) }}
+                    {{ log.raise_alert | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonAlertTimestamp) }}
+                    {{ log.andon_alerts | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonAcknowledgeTimestamp) }}
+                    {{ log.andon_acknowledge | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <td>
-                    {{ getFormattedTimestamp(log.andonResolvedTimestamp) }}
+                    {{ log.andon_resolved | date: 'dd-MM-yyyy HH:mm:ss' }}
                 </td>
                 <!-- <td>
                     {{ log.counter }}
@@ -596,7 +629,7 @@
                     {{ log.resolution }}
                 </td>
                 <td>
-                    {{ log.counter }}
+                    {{ log.total_time }}
                 </td>
             </tr>
         </ng-template>

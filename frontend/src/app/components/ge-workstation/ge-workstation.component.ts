@@ -1,8 +1,9 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Observable, interval, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { SharedService } from 'src/app/shared.service';
 
 interface TableDataItem {
     serialNo: number;
@@ -41,9 +42,9 @@ export class GeWorkstationComponent implements OnInit {
     productCode: string='';
     search: string='';
 
-    workstationId: string = '';
+    machine: string = '';
 
-    constructor(private route: ActivatedRoute) {}
+    constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef) {}
 
     jcList = [
         { jc: 'JC-1001', serialNo: 'DSFGS454364554', qty: 5  },
@@ -56,7 +57,7 @@ export class GeWorkstationComponent implements OnInit {
     ngOnInit() {
         this.timeFunction();
         this.route.paramMap.subscribe(params => {
-            this.workstationId = params.get('id') || '';
+            this.machine = params.get('id') || '';
         });
 
         // Andon Breakdown Section
@@ -71,6 +72,9 @@ export class GeWorkstationComponent implements OnInit {
         this.updateStaticRowData();
 
         this.generateShopfloorStatusData();
+
+        this.getAndonList();
+        this.getAllAndonList();
     }
 
     selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
@@ -434,6 +438,95 @@ export class GeWorkstationComponent implements OnInit {
         },
     ];
 
+    dummyRowAdded: boolean = true;
+    currentPage: number = 1;
+    andonList: any[] = [];
+    allAndonList: any[] = [];
+    isAndonListEmpty: boolean = false;
+    companyName: string = '';
+    locationName: string = '';
+
+    // getAndonList() {
+    //     const params = {
+    //         page: this.currentPage.toString(),
+    //         page_size: this.rows.toString()
+    //     };
+
+    //     this.service.getAndList(params).subscribe((data: any) => {
+    //         this.andonList =data.results;
+    //         this.totalRecords = data.count;
+    //         this.cdr.detectChanges();
+    //     });
+
+    //     this.getMetricsData();
+    // }
+
+    getCompanyList() {
+        this.service.getCompanyList().subscribe((data: any) => {
+            // Process the data as needed
+            this.companyName = data[0].company_name;
+            console.log('Company List:', data);
+        });
+    }
+
+    getLocationList() {
+        this.service.getLocation().subscribe((data: any) => {
+            // Process the data as needed
+            this.locationName = data[0].plant_name;
+            console.log('Location List:', data);
+        });
+    }
+
+    getAndonList() {
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            andon_resolved_isnull: true,
+            company: 'GE Healthcare'
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.andonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
+            this.isAndonListEmpty = this.andonList.length === 0;
+            this.cdr.detectChanges();
+            console.log('Andon List:', this.andonList);
+        });
+
+        this.getAllAndonList();
+    }
+
+    getAllAndonList() {
+        const params = {
+            page: this.currentPage.toString(),
+            page_size: this.rows.toString(),
+            machineId: `WS-${this.machine.padStart(3, '0')}`,
+            company: 'GE Healthcare'
+        };
+
+        this.service.getAndList(params).subscribe((data: any) => {
+            // Filter the andonList to include only the machineId matching the activated route
+            const routeMachineId = `WS-${this.machine.padStart(3, '0')}`;
+            this.allAndonList = data.results.filter((item: any) => item.machineId === routeMachineId);
+            this.totalRecords = this.andonList.length; // Update totalRecords based on the filtered list
+            this.cdr.detectChanges();
+        });
+
+        this.getMetricsData();
+    }
+
+    metricsData: any[] = [];
+
+    getMetricsData() {
+        this.service.getMetricsData().subscribe((data: any) => {
+            // Process the data as needed
+            this.metricsData = data;
+        });
+    }
+
     login: string = "";
     machineId: string = "";
     ticket: string = "";
@@ -480,12 +573,35 @@ export class GeWorkstationComponent implements OnInit {
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
 
+    machineIds: string[] = ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'];
+
+    // get filteredMachineIds(): string[] {
+    //     return this.machineIds.filter(machineId => {
+    //         const machine = this.andonList.find(item => item.machineId === machineId);
+    //         // If the machine is not present in the andonList or andon_resolved is not null, include it
+    //         return !machine || machine.andon_resolved !== null;
+    //     });
+    // }
+
+    get filteredMachineIds(): string[] {
+        return this.machineIds.filter(machineId => {
+            const machine = this.andonList.find(item => item.machineId === machineId);
+            // If the machine is not present in the andonList or andon_resolved is not null, include it
+            const matchesRoute = machineId === `WS-${this.machine.padStart(3, '0')}`;
+            return (!machine || machine.andon_resolved !== null) && matchesRoute;
+        });
+    }
+
     selectRole(role: string) {
         this.currentUserRole = role;
     }
 
     isVisible(column: any): boolean {
         return column.visibleTo.includes(this.currentUserRole);
+    }
+
+    alertRaiseRow(row: any): boolean {
+        return this.currentUserRole === 'Operator';
     }
 
     isEditable(column: any): boolean {
@@ -551,7 +667,7 @@ export class GeWorkstationComponent implements OnInit {
             shopfloor: 'Workstation',
             assemblyline: 'SSL Main Line',
             machineId: 'WS-001',      // And these
-            category: 'RESETTING',
+            category: '',
 
             andonNewIssueCompleted: false,
             andonNewIssueTimestamp: null,
@@ -573,6 +689,32 @@ export class GeWorkstationComponent implements OnInit {
         this.rows = [...this.rows, newRow];
     }
 
+    selectedMachineId: string = '';
+
+    RaiseNewIssue(row: any) {
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            company: 'GE Healthcare',
+            location: 'Bangalore',
+            shopfloor: 'Workstation',
+            assemblyline: 'Test',
+            machineId: this.selectedMachineId,
+            alert_shift: 'GS',
+            raise_alert: istTime.toISOString(),
+        }
+
+        this.service.createAndonData(row).subscribe((response: any) => {
+            console.log('Andon data created:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+    }
+
     onNewAlert() {
         this.addRow();
     }
@@ -583,31 +725,122 @@ export class GeWorkstationComponent implements OnInit {
         // this.addRow();
         row.alertStartTime = new Date();
         this.startTimer(row);
+
+        this.service.patchAndonData(row.id).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+
+        row.counterDisplay = true;
+
     }
 
     onAndonAlert(row: any) {
-        row.andonAlertCompleted = true;
-        row.andonAlertTimestamp = new Date();
-        // row.alertStartTime = new Date();
-        // this.startTimer(row);
-        // this.startTimer(); // You might need to modify this to work with multiple rows
-        row.acknowledgeButton = true;
-        row.counterDisplay = true;
-        // this.onNewAlert();
+        // row.andonAlertCompleted = true;
+        // row.andonAlertTimestamp = new Date();
+        // row.acknowledgeButton = true;
+        // row.counterDisplay = true;
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_alerts: istTime.toISOString(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonAcknowledge(row: any) {
-        row.andonAcknowledgeCompleted = true;
-        row.andonAcknowledgeTimestamp = new Date();
-        row.resolvedButton = true;
+        // row.andonAcknowledgeCompleted = true;
+        // row.andonAcknowledgeTimestamp = new Date();
+        // row.resolvedButton = true;
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_acknowledge: istTime.toISOString(),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     onAndonResolved(row: any) {
-        row.andonResolvedCompleted = true;
-        row.andonResolvedTimestamp = new Date();
-        this.stopTimer(row);
-        console.log('Resolving:', row);
-        // this.stopTimer(); // You might need to modify this to work with multiple rows
+        // row.andonResolvedCompleted = true;
+        // row.andonResolvedTimestamp = new Date();
+        // this.stopTimer(row);
+        // console.log('Resolving:', row);
+
+        // Get the current date and time in the browser's timezone
+        const now = new Date();
+
+        // Convert the date and time to Indian Standard Time (IST)
+        const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
+
+        row = {
+            id: row.id,
+            andon_resolved: istTime.toISOString(),
+            total_time: this.calculateTimeDifference(row.andon_alerts),
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
+
+    }
+
+    displayAndonAlert: boolean = false;
+
+    onCategoryChange(selectedValue: any, row: any) {
+        // console.log('Category changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            category: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.displayAndonAlert = true;
+            this.cdr.detectChanges();
+        });
+
+    }
+
+    onResolutionChange(selectedValue: any, row: any) {
+        // console.log('Resolution changed:', selectedValue);
+
+        row = {
+            id: row.id,
+            resolution: selectedValue,
+        }
+
+        this.service.patchAndonData(row).subscribe((response: any) => {
+            console.log('Andon data updated:', response);
+            this.getAndonList();
+            this.cdr.detectChanges();
+        });
     }
 
     formatTotalBreakdownTime(time: number): string {
@@ -621,6 +854,25 @@ export class GeWorkstationComponent implements OnInit {
     padZero(num: number): string {
         return num.toString().padStart(2, '0');
     }
+
+    calculateTimeDifference(raiseAlerts: string | Date): string {
+        if (!raiseAlerts) return 'N/A';
+
+        const raiseTime = new Date(raiseAlerts);
+        const currentTime = new Date();
+        const diffInMs = currentTime.getTime() - raiseTime.getTime();
+
+        const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+        const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
+
+        // Pad hours, minutes, and seconds with leading zeros
+        const paddedHours = String(hours).padStart(2, '0');
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
+
+        return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
+      }
 
     //Production Transaction
     shopfloorStatus: any[] = [];
