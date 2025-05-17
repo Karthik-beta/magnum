@@ -323,10 +323,10 @@ def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
                     shift=shift_label,
                     on_time='00:60',
                     idle_time='00:00',
-                    planned=25,
+                    planned=2,
                     actual=0,
                     performance=0,
-                    gap=-25,
+                    gap=-2,
                 )
 
         # Now update the current slot's actual, performance, and gap
@@ -340,7 +340,7 @@ def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
             defaults={
                 'on_time': '00:60',
                 'idle_time': '00:00',
-                'planned': 25,
+                'planned': 2,
                 'actual': 0,
                 'performance': 0,
                 'gap': 0,

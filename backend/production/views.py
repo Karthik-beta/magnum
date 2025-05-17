@@ -29,8 +29,7 @@ import pandas as pd
 from pytz import timezone
 from openpyxl.utils import get_column_letter
 from io import BytesIO
-
-
+from django.utils import timezone
 
 from production import models
 from production import serializers
@@ -2572,14 +2571,20 @@ class ShiftShopfloorExcelView2(APIView):
             raise
 
 class FiltrixListAPIView(generics.ListCreateAPIView):
-    queryset = models.Filtrix.objects.all()
     serializer_class = serializers.FiltrixSerializer
 
+    def get_queryset(self):
+        today = timezone.now().date()
+        return models.Filtrix.objects.filter(created_at__date=today)
+    
 class FiltrixDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Filtrix.objects.all()
     serializer_class = serializers.FiltrixSerializer
     lookup_field = 'id'
 
 class FiltrixListAPIView2(generics.ListCreateAPIView):
-    queryset = models.Filtrix2.objects.all()
     serializer_class = serializers.Filtrix2Serializer
+
+    def get_queryset(self):
+        today = timezone.now().date()
+        return models.Filtrix2.objects.filter(day=today)
