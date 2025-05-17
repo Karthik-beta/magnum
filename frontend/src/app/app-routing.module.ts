@@ -239,7 +239,7 @@ import { LTWorkstationComponent } from './components/lt-workstation/lt-workstati
                     { path: 'line_plan_actual_wipro', component: LinePlanActualWiproComponent },
                     { path: 'line_plan_actual_filtrex/:machine', component: LinePlanActualFiltrexComponent },
 
-                    { path: 'GE_workstation/:id', component: GeWorkstationComponent },
+                    { path: 'GE_workstation/:machine', component: GeWorkstationComponent },
                     { path: 'line_performance_ge', component: LinePerformanceGeComponent },
                     { path: 'line_plan_actual_ge', component: LinePlanActualGeComponent },
 

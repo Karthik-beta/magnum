@@ -11,6 +11,7 @@ class ProductionConfig(AppConfig):
     name = 'production'
 
     def ready(self):
+        import production.signals
         # Prevent the scheduler from starting during migrations
         if 'runserver' in sys.argv or 'uwsgi' in sys.argv:
             from . import scheduler

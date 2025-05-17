@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { SharedService } from 'src/app/shared.service';
+import { MessageService, ConfirmationService } from 'primeng/api';
 
 interface TableDataItem {
     serialNo: number;
@@ -42,7 +43,7 @@ export class FiltrexWorkstationComponent implements OnInit {
     machine: string = '';
     shopfloorID: string = '';
 
-    constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef) {}
+    constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef, private messageService: MessageService) {}
 
     ngOnInit() {
         this.timeFunction();
@@ -59,13 +60,16 @@ export class FiltrexWorkstationComponent implements OnInit {
         this.bar2Chart();
         this.bar4Chart();
         this.qualityChart();
-        this.generateSampleData();
+        // this.generateSampleData();
         this.updateStaticRowData();
 
         this.generateShopfloorStatusData();
 
         this.getAndonList();
         this.getAllAndonList();
+
+        this.getFiltrixList();
+        this.getFiltrix2List();
     }
 
     selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
@@ -129,7 +133,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "08:00 - 09:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: 76.8,
             gap: this.randomInt(-5, 5)
@@ -138,7 +142,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "09:00 - 10:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: 6.8,
             gap: this.randomInt(-5, 5)
@@ -147,7 +151,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "10:00 - 11:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: 76.8,
             gap: this.randomInt(-5, 5)
@@ -156,7 +160,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "11:00 - 12:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             // performance: 76.8,
             performance: this.randomInt(0, 100),
@@ -166,7 +170,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "12:00 - 01:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -175,7 +179,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "01:00 - 02:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -184,7 +188,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "02:00 - 03:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -193,7 +197,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "03:00 - 04:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -202,7 +206,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "04:00 - 05:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -211,7 +215,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             shift: "05:00 - 06:00",
             mcOn: "00:60",
             mcIdle : "00:00",
-            plan: 22,
+            plan: 25,
             actual: 25,
             performance: this.randomInt(0, 100),
             gap: this.randomInt(-5, 5)
@@ -754,7 +758,90 @@ export class FiltrexWorkstationComponent implements OnInit {
         const paddedSeconds = String(seconds).padStart(2, '0');
 
         return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
-      }
+    }
+
+    filtrixList: any[] = [];
+    filtrix2List: any[] = [];
+
+    getFiltrixList() {
+        this.service.getFiltrixList().subscribe({
+            next: (data: any) => {
+                this.filtrixList = data;
+            },
+            error: (error: any) => {
+                console.error('Error fetching Filtrix data:', error);
+            }
+        });
+    }
+
+    getFiltrix2List() {
+        this.service.getFiltrix2List().subscribe({
+            next: (data: any) => {
+                this.filtrix2List = data;
+            },
+            error: (error: any) => {
+                console.error('Error fetching Filtrix2 data:', error);
+            }
+        });
+    }
+
+    product_code: string = '';
+    serial_no: string = '';
+
+    postFiltrix() {
+        if (!this.product_code && !this.serial_no) {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Warning',
+                detail: 'Both Master Production Card and SKU No. fields are empty.'
+            });
+            return;
+        } else if (!this.product_code) {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Warning',
+                detail: 'Master Production Card field is required.'
+            });
+            return;
+        } else if (!this.serial_no) {
+            this.messageService.add({
+                severity: 'warn',
+                summary: 'Warning',
+                detail: 'SKU No. field is required.'
+            });
+            return;
+        }
+        const param = {
+            lot_no: 'WX12345',
+            product_code: this.product_code,
+            serial_no: this.serial_no,
+            actual: '00:15',
+            cycle_time: '07:30',
+        };
+        this.service.postFiltrix(param).subscribe({
+            next: (data: any) => {
+                this.messageService.add({
+                    severity: 'success',
+                    summary: 'Success',
+                    detail: 'Data posted successfully.'
+                });
+
+
+                this.getFiltrixList();
+                this.getFiltrix2List();
+                this.cdr.detectChanges();
+            },
+            error: (error: any) => {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: 'Failed to add data.'
+                });
+                console.error('Error posting Filtrix data:', error);
+            }
+        });
+
+    }
 
     //Production Transaction
     shopfloorStatus: any[] = [];

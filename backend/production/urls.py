@@ -58,6 +58,10 @@ urlpatterns = [
 
     re_path(r'^shopfloorStatus2/$', views.ShiftShopfloorStatus2.as_view()),
     re_path(r'^shopfloorStatus2/export/$', views.ShiftShopfloorExcelView2.as_view()),
-    
 
+    re_path(r'^filtrix/$', views.FiltrixListAPIView.as_view()),
+    re_path(r'^filtrix/(?P<id>\d+)/$', views.FiltrixDetailAPIView.as_view()),
+
+    re_path(r'^filtrix2/$', views.FiltrixListAPIView2.as_view()),
+    # re_path(r'^filtrix2/(?P<id>\d+)/$', views.FiltrixDetailAPIView2.as_view()),
 ]

@@ -2570,3 +2570,16 @@ class ShiftShopfloorExcelView2(APIView):
         except Exception as e:
             # print(f"Error generating report: {str(e)}")  # Debug print
             raise
+
+class FiltrixListAPIView(generics.ListCreateAPIView):
+    queryset = models.Filtrix.objects.all()
+    serializer_class = serializers.FiltrixSerializer
+
+class FiltrixDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Filtrix.objects.all()
+    serializer_class = serializers.FiltrixSerializer
+    lookup_field = 'id'
+
+class FiltrixListAPIView2(generics.ListCreateAPIView):
+    queryset = models.Filtrix2.objects.all()
+    serializer_class = serializers.Filtrix2Serializer

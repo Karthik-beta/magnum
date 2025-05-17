@@ -321,6 +321,31 @@ class spellAssemblyLineData(models.Model):
 
         super(spellAssemblyLineData, self).save(*args, **kwargs)
 
+class Filtrix(models.Model):
+    id = models.AutoField(primary_key=True)
+    lot_no = models.CharField(max_length=255, blank=True, null=True)
+    product_code = models.CharField(max_length=255, blank=True, null=True)
+    serial_no = models.CharField(max_length=255, blank=True, null=True)
+    actual = models.CharField(max_length=255, blank=True, null=True)
+    cycle_time = models.CharField(max_length=255, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        db_table = 'flitrix'
 
+class Filtrix2(models.Model):
+    id = models.AutoField(primary_key=True)
+    day = models.DateField(blank=True, null=True)
+    shift = models.CharField(max_length=255, blank=True, null=True)
+    on_time = models.CharField(max_length=255, blank=True, null=True)
+    idle_time = models.CharField(max_length=255, blank=True, null=True)
+    planned = models.PositiveIntegerField(blank=True, null=True)
+    actual = models.PositiveIntegerField(blank=True, null=True)
+    performance = models.PositiveIntegerField(blank=True, null=True)
+    gap = models.IntegerField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        db_table = 'flitrix2'
+        unique_together = ('day', 'shift')

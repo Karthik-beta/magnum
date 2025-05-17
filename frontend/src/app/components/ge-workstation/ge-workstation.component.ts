@@ -57,7 +57,10 @@ export class GeWorkstationComponent implements OnInit {
     ngOnInit() {
         this.timeFunction();
         this.route.paramMap.subscribe(params => {
-            this.machine = params.get('id') || '';
+        this.machine = params.get('machine') || '';
+
+        // Auto-select the machine based on the route parameter
+        this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
         });
 
         // Andon Breakdown Section

@@ -112,4 +112,12 @@ class ProductionAndonSerializer(serializers.ModelSerializer):
         model = models.ProductionAndon
         fields = '__all__'
 
-
+class FiltrixSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Filtrix
+        fields = '__all__'
+    
+class Filtrix2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Filtrix2
+        fields = '__all__'

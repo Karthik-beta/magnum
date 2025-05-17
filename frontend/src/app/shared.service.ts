@@ -518,4 +518,24 @@ export class SharedService {
     getMachineBreakdownToday():Observable<any[]>{
         return this.http.get<any[]>(this.APIUrl+'/machine_breakdown_today/');
     }
+
+    getFiltrixList():Observable<any[]>{
+        return this.http.get<any[]>(this.APIUrl+'/filtrix/');
+    }
+
+    postFiltrix(val:any){
+        return this.http.post<any[]>(this.APIUrl+'/filtrix/', val);
+    }
+
+    updateFiltrix(val:any){
+        return this.http.put<any[]>(this.APIUrl+'/filtrix/', val);
+    }
+
+    deleteFiltrix(id: number){
+        return this.http.delete<any[]>(this.APIUrl+'/filtrix/'+id);
+    }
+
+    getFiltrix2List():Observable<any[]>{
+        return this.http.get<any[]>(this.APIUrl+'/filtrix2/');
+    }
 }

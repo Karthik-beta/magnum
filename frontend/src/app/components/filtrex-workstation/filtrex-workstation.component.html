@@ -62,28 +62,35 @@
 <!-- Bottom cards (display only the selected one) -->
 <div class="card" *ngIf="selectedCard === 'Daily Plan vs Actual'">
     <div class="grid flex">
-        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
             <span class="p-float-label">
-                <input type="text" id="name" pInputText [(ngModel)]="barCode" class="p-inputtext-sm"/>
+                <input type="text" id="name" pInputText [(ngModel)]="product_code" class="p-inputtext-sm"/>
                 <label for="name">Scan Master Production Card</label>
             </span>
         </div>
 
-        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
             <span class="p-float-label">
-                <input type="text" id="name" pInputText [(ngModel)]="lotNo" class="p-inputtext-sm"/>
+                <input type="text" id="name" pInputText [(ngModel)]="serial_no" class="p-inputtext-sm"/>
                 <label for="name">Scan SKU No</label>
             </span>
         </div>
 
-        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+        <div class="col-12 log:col-1 md:col-1 xl:col-1">
+            <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
+            <span>
+                <p-button label="Submit" icon="pi pi-check" [outlined]="true" size="small" (click)="postFiltrix()" />
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid">
             <!-- <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="productCode" class="p-inputtext-sm"/>
                 <label for="name">Product Code</label>
             </span> -->
         </div>
 
-        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid">
+        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="search" class="p-inputtext-sm"/>
                 <label for="name">Search</label>
@@ -95,7 +102,7 @@
 
     <div class="grid flex justify-content-center">
         <div class="col-6">
-            <p-table #dt1 [value]="tableData" dataKey="id" [scrollable]="true"
+            <p-table #dt1 [value]="filtrixList" dataKey="id" [scrollable]="true"
             [scrollable]="true"
             scrollHeight="400px" [rowHover]="true" [loading]="loading" [rowHover]="false" styleClass="p-datatable-sm" [globalFilterFields]="['id','country.name','representative.name','status']" responsiveLayout="scroll" [tableStyle]="{ 'min-width': 'auto' }">
                 <ng-template pTemplate="header">
@@ -110,12 +117,12 @@
                 </ng-template>
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                     <tr>
-                        <td>{{ item.serialNo }}</td>
-                        <td>{{ item.lotNo }}</td>
-                        <td>{{ item.productCode }}</td>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ item.lot_no }}</td>
+                        <td>{{ item.product_code }}</td>
                         <td>{{ item.serial_no }}</td>
                         <td>{{ item.actual }}</td>
-                        <td>{{ item.cycleTime }}</td>
+                        <td>{{ item.cycle_time }}</td>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="emptymessage">
@@ -132,7 +139,7 @@
         </div>
 
         <div class="col-6">
-            <p-table #dt1 [value]="dummyStaticRow" dataKey="id" [rowHover]="false" styleClass="p-datatable-sm"  [tableStyle]="{ 'min-width': 'auto' }">
+            <p-table #dt1 [value]="filtrix2List" dataKey="id" [rowHover]="false" styleClass="p-datatable-sm"  [tableStyle]="{ 'min-width': 'auto' }">
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Shift</th>
@@ -147,9 +154,9 @@
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                     <tr>
                         <td>{{ item.shift }}</td>
-                        <td>{{ item.mcOn }}</td>
-                        <td>{{ item.mcIdle }}</td>
-                        <td>{{ item.plan }}</td>
+                        <td>{{ item.on_time }}</td>
+                        <td>{{ item.idle_time }}</td>
+                        <td>{{ item.planned }}</td>
                         <td>{{ item.actual }}</td>
                         <td style="min-width: auto; white-space: nowrap;">
                             <p-progressBar [value]="item.performance" [showValue]="true" [style]="{'color': 'green', 'font-size': 'small'}"></p-progressBar>
@@ -225,11 +232,6 @@
                     Test
                 </th>
                 <th>
-                    <!-- <select class="form-control" placeholder="Select Options"
-                            style="font-size: small;" [(ngModel)]="selectedMachineId">
-                            <option value="" disabled selected>-Select-</option>
-                            <option *ngFor="let id of filteredMachineIds" [value]="id">{{ id }}</option>
-                    </select> -->
                     {{ selectedMachineId }}
                 </th>
                 <th>

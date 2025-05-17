@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
-from .models import lineMachineSlotConfig, lineMachineConfig, productionPlanning, assemblyLineWiseData, soloAssemblyLineData, spellAssemblyLineData
+from .models import lineMachineSlotConfig, lineMachineConfig, productionPlanning, assemblyLineWiseData, soloAssemblyLineData, spellAssemblyLineData, Filtrix, Filtrix2
 from django.utils import timezone
 from datetime import datetime, timedelta
 from django.db.models import F, Max
@@ -298,3 +298,65 @@ def update_planned_date(sender, instance, created, **kwargs):
 #             # Handle the case where no matching production planning instance is found.
 #             print(f"Error: No matching production planning instance found for job_id {instance.job_id}")
 
+@receiver(post_save, sender=Filtrix)
+def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
+    if created:
+        now = instance.created_at if instance.created_at else datetime.now()
+        today = now.date()
+
+        # Define the shift slots (08:00 - 09:00 ... 17:00 - 18:00)
+        shift_start_hour = 8
+        shift_end_hour = 18  # last slot is 17:00 - 18:00
+
+        # Current slot hour (e.g., 12 if now is 12:15)
+        current_hour = now.replace(minute=0, second=0, microsecond=0).hour
+
+        # For all slots from 08:00 up to and including the current slot
+        for hour in range(shift_start_hour, current_hour + 1):
+            slot_start = datetime.combine(today, datetime.min.time()).replace(hour=hour)
+            slot_end = slot_start + timedelta(hours=1)
+            shift_label = f"{slot_start.strftime('%H:%M')} - {slot_end.strftime('%H:%M')}"
+            # Only create if not exists for today
+            if not Filtrix2.objects.filter(day=today, shift=shift_label).exists():
+                Filtrix2.objects.create(
+                    day=today,
+                    shift=shift_label,
+                    on_time='00:60',
+                    idle_time='00:00',
+                    planned=25,
+                    actual=0,
+                    performance=0,
+                    gap=-25,
+                )
+
+        # Now update the current slot's actual, performance, and gap
+        shift_start = now.replace(minute=0, second=0, microsecond=0)
+        shift_end = shift_start + timedelta(hours=1)
+        shift_label = f"{shift_start.strftime('%H:%M')} - {shift_end.strftime('%H:%M')}"
+
+        filtrix2_obj, _ = Filtrix2.objects.get_or_create(
+            day=today,
+            shift=shift_label,
+            defaults={
+                'on_time': '00:60',
+                'idle_time': '00:00',
+                'planned': 25,
+                'actual': 0,
+                'performance': 0,
+                'gap': 0,
+            }
+        )
+
+        # Increment 'actual'
+        filtrix2_obj.actual = (filtrix2_obj.actual or 0) + 1
+
+        # Calculate performance and gap
+        planned_val = filtrix2_obj.planned or 0
+        if planned_val > 0:
+            filtrix2_obj.performance = int((filtrix2_obj.actual / planned_val) * 100)
+            filtrix2_obj.gap = filtrix2_obj.actual - planned_val
+        else:
+            filtrix2_obj.performance = 0
+            filtrix2_obj.gap = 0
+
+        filtrix2_obj.save()
