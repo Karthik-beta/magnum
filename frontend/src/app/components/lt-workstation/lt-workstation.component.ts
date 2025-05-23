@@ -353,7 +353,8 @@ export class LTWorkstationComponent implements OnInit {
             page: this.currentPage.toString(),
             page_size: this.rows.toString(),
             machineId: `WS-${this.machine.padStart(3, '0')}`,
-            andon_resolved_isnull: true
+            andon_resolved_isnull: true,
+            company: 'L & T Construction'
         };
 
         this.service.getAndList(params).subscribe((data: any) => {

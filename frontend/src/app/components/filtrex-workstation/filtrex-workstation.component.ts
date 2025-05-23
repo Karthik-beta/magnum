@@ -47,9 +47,23 @@ export class FiltrexWorkstationComponent implements OnInit {
 
     ngOnInit() {
         this.timeFunction();
+        this.getAndonList();
+        this.getAllAndonList();
+
         this.route.paramMap.subscribe(params => {
             this.machine = (params.get('lid') || '').substring(1);
             this.shopfloorID = (params.get('sid') || '').substring(1);
+
+            // Auto-select the machine based on the route parameter
+            this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+
+            // Call getAndonList whenever the route changes
+            this.getAndonList();
+            this.getAllAndonList();
+            this.getCompanyList();
+            this.getLocationList();
+            this.getFiltrixList();
+            this.getFiltrix2List();
         });
 
         // Andon Breakdown Section
@@ -64,12 +78,6 @@ export class FiltrexWorkstationComponent implements OnInit {
         this.updateStaticRowData();
 
         this.generateShopfloorStatusData();
-
-        this.getAndonList();
-        this.getAllAndonList();
-
-        this.getFiltrixList();
-        this.getFiltrix2List();
     }
 
     selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
@@ -283,47 +291,6 @@ export class FiltrexWorkstationComponent implements OnInit {
       }
 
     // Andon Call Help
-    dummyList: any[] = [
-        // {
-        //     company: 'Caterpillar',
-        //     location: 'CHENNAI',
-        //     shopfloor: 'XYZ',
-        //     assemblyline: 'TSE',
-        //     machine_id: 'TSE-001',
-        //     category: 'RESETTING',
-        //     sub_category: '',
-        //     alert_shift: 'A',
-        //     employee: '[EMPNAME, ID]',
-        //     andon_alert: '22-11-2023 14:06',
-        //     andon_acknowledge: '22-11-2023 15:06',
-        //     andon_resolved: '22-11-2023 16:06',
-        //     total_breakdown: '00:02:00'
-        // }
-        {
-            id: 1,
-            company: 'Caterpillar',
-            plant: 'CHENNAI',
-            shopfloor: 'Workstation',
-            assemblyline: 'SSL Main Line',
-            machineId: 'WS-001',
-            category: 'Equipment Down',
-            subCategory: '',
-            alertShift: 'GS',
-            andonAlertCompleted: false,
-            andonAcknowledgeCompleted: false,
-            andonResolvedCompleted: false,
-            andonAlertTimestamp: null,
-            andonAcknowledgeTimestamp: null,
-            andonResolvedTimestamp: null,
-            counter: 0,
-            acknowledgeButton: true,
-            resolvedButton: true,
-            counterDisplay: true,
-            andonNewIssueCompleted: false,
-            resolution: 'ICA (Interim Containment Action)'
-        },
-    ];
-
     dummyRowAdded: boolean = true;
     currentPage: number = 1;
     andonList: any[] = [];
@@ -390,7 +357,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             page: this.currentPage.toString(),
             page_size: this.rows.toString(),
             machineId: `WS-${this.machine.padStart(3, '0')}`,
-            company: 'Filtrex'
+            company: 'Filtrex',
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
@@ -412,6 +379,48 @@ export class FiltrexWorkstationComponent implements OnInit {
             this.metricsData = data;
         });
     }
+
+    // Andon Call Help
+    dummyList: any[] = [
+        // {
+        //     company: 'Caterpillar',
+        //     location: 'CHENNAI',
+        //     shopfloor: 'XYZ',
+        //     assemblyline: 'TSE',
+        //     machine_id: 'TSE-001',
+        //     category: 'RESETTING',
+        //     sub_category: '',
+        //     alert_shift: 'A',
+        //     employee: '[EMPNAME, ID]',
+        //     andon_alert: '22-11-2023 14:06',
+        //     andon_acknowledge: '22-11-2023 15:06',
+        //     andon_resolved: '22-11-2023 16:06',
+        //     total_breakdown: '00:02:00'
+        // }
+        {
+            id: 1,
+            company: 'L & T Construction',
+            plant: 'Puduchery',
+            shopfloor: 'Metal',
+            assemblyline: 'Test',
+            machineId: 'WS-001',
+            category: '',
+            subCategory: '',
+            alertShift: 'GS',
+            andonAlertCompleted: false,
+            andonAcknowledgeCompleted: false,
+            andonResolvedCompleted: false,
+            andonAlertTimestamp: null,
+            andonAcknowledgeTimestamp: null,
+            andonResolvedTimestamp: null,
+            counter: 0,
+            acknowledgeButton: true,
+            resolvedButton: true,
+            counterDisplay: true,
+            andonNewIssueCompleted: false,
+            resolution: 'ICA (Interim Containment Action)'
+        },
+    ];
 
     login: string = "";
     machineId: string = "";
@@ -445,17 +454,17 @@ export class FiltrexWorkstationComponent implements OnInit {
         { header: '#', field: 'id', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'index' },
         { header: 'Start M/C', field: 'startMC', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'icon' },
         { header: 'Company', field: 'company', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
-        { header: 'Plant', field: 'plant', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Plant', field: 'location', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Shopfloor', field: 'shopfloor', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Line', field: 'assemblyline', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
-        { header: 'Alert Shift', field: 'alertShift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Alert Shift', field: 'alert_shift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Breakdown Reason', field: 'category', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'category', options: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'], editableFor: ['Team Leader'] },
-        { header: 'Raise Alert', field: 'raiseAlert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
-        { header: 'Andon Alert', field: 'andonAlert', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
-        { header: 'Andon Acknowledge', field: 'andonAcknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
-        { header: 'Andon Resolved', field: 'andonResolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
+        { header: 'Raise Alert', field: 'raise_alert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
+        { header: 'Andon Alert', field: 'andon_alerts', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
+        { header: 'Andon Acknowledge', field: 'andon_acknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
         { header: 'Resolution', field: 'resolution', visibleTo: ['Resolved'], type: 'resolution', options: ['ICA (Interim Containment Action)', 'PCA (Permanent Corrective Action)'], editableFor: ['Resolved'] },
+        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
 
@@ -585,13 +594,13 @@ export class FiltrexWorkstationComponent implements OnInit {
         const istTime = new Date(now.getTime() + (5 * 60 * 60 * 1000) + (30 * 60 * 1000));
 
         row = {
-            company: 'Filtex',
+            company: 'Filtrex',
             location: 'Bangalore',
-            shopfloor: 'Workstation',
+            shopfloor: `Line ${this.machine}`,
             assemblyline: 'Test',
             machineId: this.selectedMachineId,
             alert_shift: 'GS',
-            raise_alert: istTime.toISOString(),
+            raise_alert: istTime.toISOString() ,
         }
 
         this.service.createAndonData(row).subscribe((response: any) => {

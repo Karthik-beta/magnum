@@ -365,7 +365,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Machine Metal ORT', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/1'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/ORT/2'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual/2'] },
                             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/metalshop'] },
                             { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/metalshop'] },
@@ -378,7 +378,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Machine Steelwaller', icon: 'fa-solid fa-cogs',
                         items: [
-                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/1'] },
+                            { label: 'Asset Performance Vs Breakdown', icon: 'fa-solid fa-cogs', routerLink: ['/lt_workstation/Steelwaler/3'] },
                             { label: 'Shopfloor Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_plan_actual/3'] },
                             { label: 'Line Performance', icon: 'fa-solid fa-cogs', routerLink: ['/line_performance_filtrex/metalshop'] },
                             { label: 'Line Plan Vs Actual', icon: 'fa-solid fa-cogs', routerLink: ['/line_dash2/metalshop'] },

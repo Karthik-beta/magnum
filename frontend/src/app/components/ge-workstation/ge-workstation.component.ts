@@ -56,12 +56,27 @@ export class GeWorkstationComponent implements OnInit {
 
     ngOnInit() {
         this.timeFunction();
-        this.route.paramMap.subscribe(params => {
-        this.machine = params.get('machine') || '';
+        this.getAndonList();
+        this.getAllAndonList();
 
-        // Auto-select the machine based on the route parameter
-        this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+        this.route.paramMap.subscribe(params => {
+            this.machine = params.get('machine') || '';
+
+            // Auto-select the machine based on the route parameter
+            this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+
+            // Call getAndonList whenever the route changes
+            this.getAndonList();
+            this.getAllAndonList();
+            this.getCompanyList();
+            this.getLocationList();
         });
+        // this.route.paramMap.subscribe(params => {
+        // this.machine = params.get('machine') || '';
+
+        // // Auto-select the machine based on the route parameter
+        // this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
+        // });
 
         // Andon Breakdown Section
         this.rows = [...this.dummyList];
@@ -75,9 +90,6 @@ export class GeWorkstationComponent implements OnInit {
         this.updateStaticRowData();
 
         this.generateShopfloorStatusData();
-
-        this.getAndonList();
-        this.getAllAndonList();
     }
 
     selectedCard: string = 'Daily Plan vs Actual'; // Holds the currently selected card
@@ -562,17 +574,17 @@ export class GeWorkstationComponent implements OnInit {
         { header: '#', field: 'id', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'index' },
         { header: 'Start M/C', field: 'startMC', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'icon' },
         { header: 'Company', field: 'company', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
-        { header: 'Plant', field: 'plant', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Plant', field: 'location', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Shopfloor', field: 'shopfloor', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Line', field: 'assemblyline', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Workstation', field: 'machineId', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'machineId', options: ['WS-001', 'WS-002', 'WS-003', 'WS-004', 'WS-005'], editableFor: ['Operator'] },
-        { header: 'Alert Shift', field: 'alertShift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
+        { header: 'Alert Shift', field: 'alert_shift', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'text' },
         { header: 'Breakdown Reason', field: 'category', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'category', options: ['Equipment Down', 'Part Unavailable', 'Missing SWS', 'Fit issue', 'Part Damage', 'Safety issue'], editableFor: ['Team Leader'] },
-        { header: 'Raise Alert', field: 'raiseAlert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
-        { header: 'Andon Alert', field: 'andonAlert', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
-        { header: 'Andon Acknowledge', field: 'andonAcknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
-        { header: 'Andon Resolved', field: 'andonResolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
+        { header: 'Raise Alert', field: 'raise_alert', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'raiseAlert', buttonAction: 'onNewIssue' },
+        { header: 'Andon Alert', field: 'andon_alerts', visibleTo: ['Team Leader', 'Acknowledge', 'Resolved'], type: 'andonAlert', buttonAction: 'onAndonAlert' },
+        { header: 'Andon Acknowledge', field: 'andon_acknowledge', visibleTo: ['Acknowledge', 'Resolved'], type: 'button', buttonAction: 'onAndonAcknowledge' },
         { header: 'Resolution', field: 'resolution', visibleTo: ['Resolved'], type: 'resolution', options: ['ICA (Interim Containment Action)', 'PCA (Permanent Corrective Action)'], editableFor: ['Resolved'] },
+        { header: 'Andon Resolved', field: 'andon_resolved', visibleTo: ['Resolved'], type: 'button', buttonAction: 'onAndonResolved' },
         { header: 'Total Breakdown', field: 'totalBreakdown', visibleTo: ['Operator', 'Team Leader', 'Acknowledge', 'Resolved'], type: 'counter' },
     ];
 
