@@ -56,33 +56,36 @@ def run_my_command():
             logger.error(f"Error executing command {command}: {str(e)}")
 
 def start():
-    scheduler = BackgroundScheduler()
-    scheduler.add_jobstore(DjangoJobStore(), "default")
+    scheduler = get_scheduler()  # Use the global scheduler instance
+    if not scheduler:
+        logger.error("Scheduler instance could not be retrieved. Aborting start.")
+        return
 
-    # Schedule the job with max_instances and misfire_grace_time
-    try:
-        scheduler.add_job(
-            run_my_command,
-            trigger=IntervalTrigger(minutes=1),
-            id="my_job",
-            replace_existing=True,
-            max_instances=1,  # Prevent overlap
-            misfire_grace_time=30  # Allow a grace period of 30 seconds
-        )
-    except JobLookupError:
-        print("Job 'my_job' not found. Adding it again.")
-        scheduler.add_job(
-            run_my_command,
-            trigger=IntervalTrigger(minutes=1),
-            id="my_job",
-            max_instances=1,
-            misfire_grace_time=30
-        )
+    # Check if the job already exists
+    existing_job = scheduler.get_job("my_job")
+    if existing_job:
+        logger.info("Job 'my_job' already exists. Skipping re-creation.")
+    else:
+        try:
+            scheduler.add_job(
+                run_my_command,
+                trigger=IntervalTrigger(minutes=1, timezone=settings.TIME_ZONE),
+                id="my_job",
+                replace_existing=True,
+                max_instances=1,  # Prevent overlap
+                misfire_grace_time=30  # Allow a grace period of 30 seconds
+            )
+            logger.info("Job 'my_job' added successfully.")
+        except Exception as e:
+            logger.error(f"Failed to add job 'my_job': {str(e)}")
 
     # Register the job and events
-    register_events(scheduler)
-    scheduler.start()
-    print("Scheduler started.")
+    try:
+        register_events(scheduler)
+        scheduler.start()
+        logger.info("Scheduler started.")
+    except Exception as e:
+        logger.error(f"Failed to start scheduler: {str(e)}")
 
 def pause_scheduler():
     """Pause all jobs without stopping the scheduler"""

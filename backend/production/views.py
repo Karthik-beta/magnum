@@ -2591,4 +2591,11 @@ class FiltrixListAPIView2(generics.ListCreateAPIView):
 
     def get_queryset(self):
         today = timezone.now().date()
-        return models.Filtrix2.objects.filter(day=today)
+        queryset = models.Filtrix2.objects.filter(day=today)
+
+        # Check if a filter is applied
+        if self.request.query_params.get('line_name'):
+            line_name = self.request.query_params.get('line_name')
+            queryset = queryset.filter(line_name=line_name)
+
+        return queryset

@@ -598,7 +598,7 @@ export class FiltrexWorkstationComponent implements OnInit {
         row = {
             company: 'Filtrex',
             location: 'Bangalore',
-            shopfloor: `Line ${this.machine}`,
+            shopfloor: this.lineName,
             assemblyline: 'Test',
             machineId: this.selectedMachineId,
             alert_shift: 'GS',
@@ -795,6 +795,8 @@ export class FiltrexWorkstationComponent implements OnInit {
         this.service.getFiltrix2List(params).subscribe({
             next: (data: any) => {
                 this.filtrix2List = data;
+                console.log('Posting Filtrix data:', params);
+                console.log('Filtrix2 List:', this.filtrix2List);
             },
             error: (error: any) => {
                 console.error('Error fetching Filtrix2 data:', error);

@@ -311,13 +311,15 @@ def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
         # Current slot hour (e.g., 12 if now is 12:15)
         current_hour = now.replace(minute=0, second=0, microsecond=0).hour
 
+        print(f"Current hour: {current_hour}, Shift start hour: {shift_start_hour}, Today: {today}, Timezone: {timezone.get_current_timezone()}")
+
         # For all slots from 08:00 up to and including the current slot
         for hour in range(shift_start_hour, current_hour + 1):
             slot_start = datetime.combine(today, datetime.min.time()).replace(hour=hour)
             slot_end = slot_start + timedelta(hours=1)
             shift_label = f"{slot_start.strftime('%H:%M')} - {slot_end.strftime('%H:%M')}"
             # Only create if not exists for today
-            if not Filtrix2.objects.filter(day=today, shift=shift_label).exists():
+            if not Filtrix2.objects.filter(day=today, shift=shift_label, line_name=instance.line_name).exists():
                 Filtrix2.objects.create(
                     day=today,
                     shift=shift_label,
