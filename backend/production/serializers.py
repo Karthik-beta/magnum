@@ -117,6 +117,13 @@ class FiltrixSerializer(serializers.ModelSerializer):
         model = models.Filtrix
         fields = '__all__'
     
+    def create(self, validated_data):
+        # Get the first job_id from productionPlanning
+        first_job = models.productionPlanning.objects.first()
+        if first_job:
+            validated_data['jobwork'] = first_job.job_id  # Set default job_id
+        return super().create(validated_data)
+    
 class Filtrix2Serializer(serializers.ModelSerializer):
     class Meta:
         model = models.Filtrix2

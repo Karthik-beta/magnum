@@ -323,9 +323,9 @@ class spellAssemblyLineData(models.Model):
 
 class Filtrix(models.Model):
     id = models.AutoField(primary_key=True)
-    lot_no = models.CharField(max_length=255, blank=True, null=True)
+    jobwork = models.CharField(max_length=255, blank=True, null=True)
     product_code = models.CharField(max_length=255, blank=True, null=True)
-    serial_no = models.CharField(max_length=255, blank=True, null=True)
+    sku_code = models.CharField(max_length=255, blank=True, null=True)
     actual = models.CharField(max_length=255, blank=True, null=True)
     cycle_time = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)

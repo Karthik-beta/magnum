@@ -65,32 +65,38 @@
         <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="product_code" class="p-inputtext-sm"/>
-                <label for="name">Scan Master Production Card</label>
+                <label for="name">Scan Master Production Code</label>
             </span>
         </div>
 
         <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="serial_no" class="p-inputtext-sm"/>
-                <label for="name">Scan SKU No</label>
+                <label for="name">Scan SKU Code</label>
             </span>
-        </div>
-
-        <div class="col-12 log:col-1 md:col-1 xl:col-1">
-            <!-- <p-button icon="pi pi-check" [rounded]="true" [outlined]="true" /> -->
-            <span>
-                <p-button label="Submit" icon="pi pi-check" [outlined]="true" size="small" (click)="postFiltrix()" />
-            </span>
-        </div>
-
-        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid">
-            <!-- <span class="p-float-label">
-                <input type="text" id="name" pInputText [(ngModel)]="productCode" class="p-inputtext-sm"/>
-                <label for="name">Product Code</label>
-            </span> -->
         </div>
 
         <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="lineName" class="p-inputtext-sm"/>
+                <label for="name">Assigned Line</label>
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-1 md:col-1 xl:col-1">
+            <span *ngIf="checkIfSame()">
+                <p-button label="Matched" icon="pi pi-check" [outlined]="true" size="small" (click)="postFiltrix()" />
+            </span>
+        </div>
+
+        <!-- <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid">
+            <span class="p-float-label">
+                <input type="text" id="name" pInputText [(ngModel)]="productCode" class="p-inputtext-sm"/>
+                <label for="name">Product Code</label>
+            </span>
+        </div> -->
+
+        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid mt-1">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="search" class="p-inputtext-sm"/>
                 <label for="name">Search</label>
@@ -108,9 +114,9 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Serial No</th>
-                        <th>Lot No</th>
+                        <th>Jobwork</th>
                         <th>Product Code</th>
-                        <th>Serial Number</th>
+                        <th>SKU Code</th>
                         <th>Actual</th>
                         <th>Cycle-Time</th>
                     </tr>
@@ -118,9 +124,9 @@
                 <ng-template pTemplate="body" let-item let-i="rowIndex">
                     <tr>
                         <td>{{ i + 1 }}</td>
-                        <td>{{ item.lot_no }}</td>
+                        <td>{{ item.jobwork }}</td>
                         <td>{{ item.product_code }}</td>
-                        <td>{{ item.serial_no }}</td>
+                        <td>{{ item.sku_code }}</td>
                         <td>{{ item.actual }}</td>
                         <td>{{ item.cycle_time }}</td>
                     </tr>

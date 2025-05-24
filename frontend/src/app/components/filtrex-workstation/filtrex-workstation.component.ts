@@ -42,6 +42,7 @@ export class FiltrexWorkstationComponent implements OnInit {
 
     machine: string = '';
     shopfloorID: string = '';
+    lineName: string = '';
 
     constructor(private route: ActivatedRoute, private service: SharedService, private cdr: ChangeDetectorRef, private messageService: MessageService) {}
 
@@ -53,6 +54,7 @@ export class FiltrexWorkstationComponent implements OnInit {
         this.route.paramMap.subscribe(params => {
             this.machine = (params.get('lid') || '').substring(1);
             this.shopfloorID = (params.get('sid') || '').substring(1);
+            this.lineName = `Line ${this.machine}`;
 
             // Auto-select the machine based on the route parameter
             this.selectedMachineId = `WS-${this.machine.padStart(3, '0')}`;
@@ -797,6 +799,10 @@ export class FiltrexWorkstationComponent implements OnInit {
     product_code: string = '';
     serial_no: string = '';
 
+    checkIfSame(): boolean {
+        return this.product_code != null && this.product_code !== '' && this.serial_no != null && this.serial_no !== '' && this.product_code === this.serial_no;
+    }
+
     postFiltrix() {
         if (!this.product_code && !this.serial_no) {
             this.messageService.add({
@@ -821,11 +827,10 @@ export class FiltrexWorkstationComponent implements OnInit {
             return;
         }
         const param = {
-            lot_no: 'WX12345',
             product_code: this.product_code,
-            serial_no: this.serial_no,
-            actual: '00:15',
-            cycle_time: '07:30',
+            sku_code: this.serial_no,
+            actual: '00:00:06',
+            cycle_time: '00:00:07',
         };
         this.service.postFiltrix(param).subscribe({
             next: (data: any) => {
