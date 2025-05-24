@@ -2572,6 +2572,8 @@ class ShiftShopfloorExcelView2(APIView):
 
 class FiltrixListAPIView(generics.ListCreateAPIView):
     serializer_class = serializers.FiltrixSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['line_name']
 
     def get_queryset(self):
         today = timezone.now().date()
@@ -2584,6 +2586,8 @@ class FiltrixDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 class FiltrixListAPIView2(generics.ListCreateAPIView):
     serializer_class = serializers.Filtrix2Serializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['line_name']
 
     def get_queryset(self):
         today = timezone.now().date()

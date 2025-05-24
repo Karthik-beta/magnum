@@ -775,7 +775,10 @@ export class FiltrexWorkstationComponent implements OnInit {
     filtrix2List: any[] = [];
 
     getFiltrixList() {
-        this.service.getFiltrixList().subscribe({
+        const params = {
+            line_name: this.lineName,
+        }
+        this.service.getFiltrixList(params).subscribe({
             next: (data: any) => {
                 this.filtrixList = data;
             },
@@ -786,7 +789,10 @@ export class FiltrexWorkstationComponent implements OnInit {
     }
 
     getFiltrix2List() {
-        this.service.getFiltrix2List().subscribe({
+        const params = {
+            line_name: this.lineName,
+        }
+        this.service.getFiltrix2List(params).subscribe({
             next: (data: any) => {
                 this.filtrix2List = data;
             },
@@ -831,6 +837,7 @@ export class FiltrexWorkstationComponent implements OnInit {
             sku_code: this.serial_no,
             actual: '00:00:06',
             cycle_time: '00:00:07',
+            line_name: this.lineName,
         };
         this.service.postFiltrix(param).subscribe({
             next: (data: any) => {

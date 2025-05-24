@@ -328,6 +328,7 @@ class Filtrix(models.Model):
     sku_code = models.CharField(max_length=255, blank=True, null=True)
     actual = models.CharField(max_length=255, blank=True, null=True)
     cycle_time = models.CharField(max_length=255, blank=True, null=True)
+    line_name = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -343,6 +344,7 @@ class Filtrix2(models.Model):
     actual = models.PositiveIntegerField(blank=True, null=True)
     performance = models.PositiveIntegerField(blank=True, null=True)
     gap = models.IntegerField(blank=True, null=True)
+    line_name = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

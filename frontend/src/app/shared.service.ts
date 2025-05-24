@@ -519,8 +519,16 @@ export class SharedService {
         return this.http.get<any[]>(this.APIUrl+'/machine_breakdown_today/');
     }
 
-    getFiltrixList():Observable<any[]>{
-        return this.http.get<any[]>(this.APIUrl+'/filtrix/');
+    getFiltrixList(params:any):Observable<any[]>{
+        let httpParams = new HttpParams();
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                httpParams = httpParams.append(key, params[key]);
+            }
+        }
+
+        return this.http.get<any[]>(this.APIUrl+'/filtrix/', { params: httpParams });
     }
 
     postFiltrix(val:any){
@@ -535,7 +543,15 @@ export class SharedService {
         return this.http.delete<any[]>(this.APIUrl+'/filtrix/'+id);
     }
 
-    getFiltrix2List():Observable<any[]>{
-        return this.http.get<any[]>(this.APIUrl+'/filtrix2/');
+    getFiltrix2List(params:any):Observable<any[]>{
+        let httpParams = new HttpParams();
+
+        for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                httpParams = httpParams.append(key, params[key]);
+            }
+        }
+
+        return this.http.get<any[]>(this.APIUrl+'/filtrix2/', { params: httpParams });
     }
 }

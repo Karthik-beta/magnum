@@ -327,6 +327,7 @@ def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
                     actual=0,
                     performance=0,
                     gap=-2,
+                    line_name=instance.line_name  # Include line_name from the Filtrix instance
                 )
 
         # Now update the current slot's actual, performance, and gap
@@ -344,6 +345,7 @@ def update_filtrix2_on_filtrix_create(sender, instance, created, **kwargs):
                 'actual': 0,
                 'performance': 0,
                 'gap': 0,
+                'line_name': instance.line_name  # Include line_name from the Filtrix instance
             }
         )
 
