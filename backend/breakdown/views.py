@@ -193,7 +193,7 @@ class AndonDataListCreateView(generics.ListCreateAPIView):
     serializer_class = AndonDataSerializer
     pagination_class = AndonDataPagination 
     filter_backends = [DjangoFilterBackend]  # Add this line to include the filter backend
-    filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift', 'andon_resolved', 'company']
+    filterset_fields = ['assemblyline', 'machineId', 'category', 'alert_shift', 'andon_resolved', 'company', 'shopfloor']
 
     def get_queryset(self):
         queryset = super().get_queryset()

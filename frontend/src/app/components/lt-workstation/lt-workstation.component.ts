@@ -354,7 +354,8 @@ export class LTWorkstationComponent implements OnInit {
             page_size: this.rows.toString(),
             machineId: `WS-${this.machine.padStart(3, '0')}`,
             andon_resolved_isnull: true,
-            company: 'L & T Construction'
+            company: 'L & T Construction',
+            shopfloor: this.shopfloor
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
@@ -376,6 +377,7 @@ export class LTWorkstationComponent implements OnInit {
             page_size: this.rows.toString(),
             machineId: `WS-${this.machine.padStart(3, '0')}`,
             company: 'L & T Construction',
+            shopfloor: this.shopfloor
         };
 
         this.service.getAndList(params).subscribe((data: any) => {
@@ -614,7 +616,7 @@ export class LTWorkstationComponent implements OnInit {
         row = {
             company: 'L & T Construction',
             location: 'Bangalore',
-            shopfloor: 'ORT',
+            shopfloor: this.shopfloor,
             assemblyline: 'Test',
             machineId: this.selectedMachineId,
             alert_shift: 'GS',
