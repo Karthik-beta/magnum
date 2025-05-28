@@ -76,16 +76,22 @@
             </span>
         </div>
 
-        <div class="col-12 lg:col-3 md:col-3 xl:col-3 p-fluid mt-1">
+        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid mt-1">
             <span class="p-float-label">
                 <input type="text" id="name" pInputText [(ngModel)]="lineName" class="p-inputtext-sm"/>
                 <label for="name">Assigned Line</label>
             </span>
         </div>
 
-        <div class="col-12 lg:col-1 md:col-1 xl:col-1">
-            <span *ngIf="checkIfSame()">
-                <p-button label="Matched" icon="pi pi-check" [outlined]="true" size="small" (click)="postFiltrix()" />
+        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid"  *ngIf="checkIfSame() == true">
+            <span>
+                <p-button label="Matched" icon="pi pi-check" styleClass="p-button-success" size="small" (click)="postFiltrix()" />
+            </span>
+        </div>
+
+        <div class="col-12 lg:col-2 md:col-2 xl:col-2 p-fluid" *ngIf="checkIfSame() == false && product_code && serial_no && product_code != '' && serial_no != ''">
+            <span>
+                <p-button label="Not Matched" icon="pi pi-times" styleClass="p-button-danger" size="small"/>
             </span>
         </div>
 

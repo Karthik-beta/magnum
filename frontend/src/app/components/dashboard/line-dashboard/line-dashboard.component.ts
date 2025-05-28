@@ -203,6 +203,9 @@ export class LineDashboardComponent implements OnInit {
     this.service.getAndList(params).subscribe((data: any) => {
         this.andonList = data.results;
 
+        // Get unique shopfloors from the data
+        const uniqueShopfloors = [...new Set(this.andonList.map(item => item.shopfloor))];
+
         // Get today's 08:00 and 18:00
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -212,95 +215,135 @@ export class LineDashboardComponent implements OnInit {
         shiftEnd.setHours(18, 0, 0, 0);
         const currentShiftEnd = now < shiftEnd ? now : shiftEnd;
 
-        this.machineList1 = fixedMachines.map(machineId => {
-            // Filter records for this machine and today
-            const records = this.andonList.filter(item =>
-                item.machineId === machineId &&
-                item.raise_alert &&
-                new Date(item.raise_alert).setHours(0,0,0,0) === today.getTime()
-            );
+        // Create combinations of machines and shopfloors
+        this.machineList1 = [];
 
-            // If no records, show only total_on_time, rest as 00:00
-            if (records.length === 0) {
-                const total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000);
+        // Sort machines in order for consistent display
+        const sortedMachines = [...fixedMachines].sort();
+
+        sortedMachines.forEach(machineId => {
+            uniqueShopfloors.forEach(shopfloor => {
+                // Check if this machine-shopfloor combination has any data
+                const hasData = this.andonList.some(item =>
+                    item.machineId === machineId &&
+                    item.shopfloor === shopfloor
+                );
+
+                // Only proceed if this combination exists in the data
+                // if (!hasData) {
+                //     return; // Skip this combination
+                // }
+
+                // Filter records for this machine, shopfloor and today
+                const records = this.andonList.filter(item =>
+                    item.machineId === machineId &&
+                    item.shopfloor === shopfloor &&
+                    item.raise_alert &&
+                    new Date(item.raise_alert).setHours(0,0,0,0) === today.getTime()
+                );
+
+                // If no records for today, show only total_on_time, rest as 00:00
+                if (records.length === 0) {
+                    const total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000);
+                    const formatTime = (sec: number) => {
+                        const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+                        const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+                        const s = Math.floor(sec % 60).toString().padStart(2, '0');
+                        return `${h}:${m}:${s}`;
+                    };
+                    this.machineList1.push({
+                        channel: `${machineId} - ${shopfloor}`,
+                        machine: 'Status',
+                        machineId: machineId,
+                        shopfloor: shopfloor,
+                        status: true,
+                        total_on_time: formatTime(total_on_time_sec),
+                        total_idle_time: '00:00',
+                        breakdown_time: '00:00',
+                        category: 'No Breakdown',
+                        alert: '00:00',
+                        acknowledge: '00:00',
+                    });
+                    return;
+                }
+
+                console.log(`MachineList1 Records for ${machineId} - ${shopfloor}:`, records);
+
+                // Helper functions
+                function timeStringToSeconds(time: string): number {
+                    if (!time) return 0;
+                    const parts = time.split(':').map(Number);
+                    if (parts.length !== 3) return 0;
+                    return parts[0] * 3600 + parts[1] * 60 + parts[2];
+                }
+
+                // Breakdown time: sum of total_time (assume total_time is in seconds)
+                let breakdown_time_sec = records.reduce((sum, rec) => sum + (rec.total_time ? timeStringToSeconds(rec.total_time) : 0), 0);
+
+                // total_on_time: (current time or 18:00) - 08:00 - breakdown_time
+                let total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000) - breakdown_time_sec;
+                if (total_on_time_sec < 0) total_on_time_sec = 0;
+
+                // total_idle_time = breakdown_time
+                let total_idle_time_sec = breakdown_time_sec;
+                if (total_idle_time_sec < 0) total_idle_time_sec = 0;
+
+                // Alert time: sum of (andon_acknowledge - raise_alert) for today
+                let alert_time_sec = records.reduce((sum, rec) => {
+                    if (rec.raise_alert && rec.andon_acknowledge) {
+                        const start = new Date(rec.raise_alert);
+                        const end = new Date(rec.andon_acknowledge);
+                        if (end > start) {
+                            return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
+                        }
+                    }
+                    return sum;
+                }, 0);
+
+                // Acknowledge time: sum of (andon_resolved - andon_acknowledge) for today
+                let acknowledge_time_sec = records.reduce((sum, rec) => {
+                    if (rec.andon_acknowledge && rec.andon_resolved) {
+                        const start = new Date(rec.andon_acknowledge);
+                        const end = new Date(rec.andon_resolved);
+                        if (end > start) {
+                            return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
+                        }
+                    }
+                    return sum;
+                }, 0);
+
                 const formatTime = (sec: number) => {
+                    if (!isFinite(sec) || sec < 0) sec = 0;
                     const h = Math.floor(sec / 3600).toString().padStart(2, '0');
                     const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
                     const s = Math.floor(sec % 60).toString().padStart(2, '0');
                     return `${h}:${m}:${s}`;
                 };
-                return {
-                    channel: machineId,
+
+                let category = records.length > 0 ? records[0].category : '';
+
+                this.machineList1.push({
+                    channel: `${machineId} - ${shopfloor}`,
                     machine: 'Status',
+                    machineId: machineId,
+                    shopfloor: shopfloor,
                     status: true,
                     total_on_time: formatTime(total_on_time_sec),
-                    total_idle_time: '00:00',
-                    breakdown_time: '00:00',
-                    alert: '00:00',
-                    acknowledge: '00:00',
-                };
+                    total_idle_time: formatTime(total_idle_time_sec),
+                    breakdown_time: formatTime(breakdown_time_sec),
+                    category: category || '',
+                    alert: formatTime(alert_time_sec),
+                    acknowledge: formatTime(acknowledge_time_sec),
+                });
+            });
+        });
+
+        // Sort the final list by machineId and then by shopfloor for consistent display
+        this.machineList1.sort((a, b) => {
+            if (a.machineId !== b.machineId) {
+                return a.machineId.localeCompare(b.machineId);
             }
-
-            // Breakdown time: sum of total_time (assume total_time is in seconds)
-            let breakdown_time_sec = records.reduce((sum, rec) => sum + (rec.total_time ? timeStringToSeconds(rec.total_time) : 0), 0);
-
-            // total_on_time: (current time or 18:00) - 08:00 - breakdown_time
-            let total_on_time_sec = Math.floor((currentShiftEnd.getTime() - shiftStart.getTime()) / 1000) - breakdown_time_sec;
-            if (total_on_time_sec < 0) total_on_time_sec = 0;
-
-            // total_idle_time = total_on_time - breakdown_time
-            let total_idle_time_sec = breakdown_time_sec;
-            if (total_idle_time_sec < 0) total_idle_time_sec = 0;
-
-            // Alert time: sum of (andon_acknowledge - raise_alert) for today
-            let alert_time_sec = records.reduce((sum, rec) => {
-                if (rec.raise_alert && rec.andon_acknowledge) {
-                    const start = new Date(rec.raise_alert);
-                    const end = new Date(rec.andon_acknowledge);
-                    if (end > start) {
-                        return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
-                    }
-                }
-                return sum;
-            }, 0);
-
-            // Acknowledge time: sum of (andon_resolved - andon_acknowledge) for today
-            let acknowledge_time_sec = records.reduce((sum, rec) => {
-                if (rec.andon_acknowledge && rec.andon_resolved) {
-                    const start = new Date(rec.andon_acknowledge);
-                    const end = new Date(rec.andon_resolved);
-                    if (end > start) {
-                        return sum + Math.floor((end.getTime() - start.getTime()) / 1000);
-                    }
-                }
-                return sum;
-            }, 0);
-
-            // Helper functions
-            function timeStringToSeconds(time: string): number {
-                if (!time) return 0;
-                const parts = time.split(':').map(Number);
-                if (parts.length !== 3) return 0;
-                return parts[0] * 3600 + parts[1] * 60 + parts[2];
-            }
-            const formatTime = (sec: number) => {
-                if (!isFinite(sec) || sec < 0) sec = 0;
-                const h = Math.floor(sec / 3600).toString().padStart(2, '0');
-                const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
-                const s = Math.floor(sec % 60).toString().padStart(2, '0');
-                return `${h}:${m}:${s}`;
-            };
-
-            return {
-                channel: machineId,
-                machine: 'Status',
-                status: true,
-                total_on_time: formatTime(total_on_time_sec),
-                total_idle_time: formatTime(total_idle_time_sec),
-                breakdown_time: formatTime(breakdown_time_sec),
-                alert: formatTime(alert_time_sec),
-                acknowledge: formatTime(acknowledge_time_sec),
-            };
+            return a.shopfloor.localeCompare(b.shopfloor);
         });
     });
 }
